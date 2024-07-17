@@ -1,0 +1,60 @@
+{
+  "name": "@ihtnc/use-animated-canvas",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "React canvas element with a built-in render loop",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "main": "./dist/use-animated-canvas.umd.cjs",
+  "module": "./dist/use-animated-canvas.js",
+  "exports": {
+    ".": {
+      "import": "./dist/use-animated-canvas.js",
+      "require": "./dist/use-animated-canvas.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "lint:fix": "eslint --fix",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihtnc/use-animated-canvas.git"
+  },
+  "types": "./dist/use-animated-canvas.d.ts",
+  "keywords": [
+    "canvas",
+    "animation",
+    "2d",
+    "react-hook"
+  ],
+  "author": "@ihtnc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ihtnc/use-animated-canvas/issues"
+  },
+  "homepage": "https://github.com/ihtnc/use-animated-canvas#readme",
+  "dependencies": {
+    "react": "^18.3.1",
+    "usehooks-ts": "^3.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "@types/react": "^18.3.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-config-react-app": "^7.0.1",
+    "jsdom": "^24.1.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4",
+    "vite-plugin-checker": "^0.7.2",
+    "vite-plugin-dts": "^4.0.0-beta.1",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.0.3"
+  }
+}
