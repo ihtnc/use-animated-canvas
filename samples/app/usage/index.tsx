@@ -1,6 +1,7 @@
 import Basic from './basic/menu-item'
 import Layers from './layers/menu-item'
 import Filters from './filters/menu-item'
+import Data from './data/menu-item'
 
 export type MenuItem = {
   label: string,
@@ -16,7 +17,7 @@ export type Menu = {
 }
 
 const getMenus = (): Array<MenuItem> => {
-  return [Basic, Layers, Filters]
+  return [Basic, Layers, Filters, Data]
 }
 
 export { getMenus }

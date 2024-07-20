@@ -35,14 +35,12 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   const {
     initialiseData,
     preRenderTransform,
-    preRenderFilter,
     renderBackgroundFilter,
     renderBackground,
     renderFilter,
     render,
     renderForegroundFilter,
     renderForeground,
-    postRenderFilter,
     postRenderTransform,
     onResize,
     options,
@@ -64,15 +62,14 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   let currentFrameData: InferPropsType<typeof props> | null = null
 
   const preDrawHandler: PreDrawHandler = (canvas, data) => {
-    currentFrameData = null
-    if (preRenderTransform === undefined || dataRef.current === null) { return }
+    currentFrameData = dataRef.current !== null ? deepCopy(dataRef.current) : null
 
-    currentFrameData = deepCopy(dataRef.current!)
+    if (preRenderTransform === undefined) { return }
 
     const canvasData: AnimatedCanvasData<InferPropsType<typeof props>> = {
       canvas,
       environment: data,
-      data: currentFrameData
+      data: currentFrameData ?? undefined
     }
 
     const transforms = Array.isArray(preRenderTransform) ? preRenderTransform : [preRenderTransform]
@@ -90,9 +87,6 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
       data: currentFrameData ?? undefined
     }
 
-    const preRenderFilters = preRenderFilter !== undefined ? (Array.isArray(preRenderFilter) ? preRenderFilter : [preRenderFilter]) : []
-    renderPipeline<AnimatedCanvasRenderData<InferPropsType<typeof props>>>([]).run(data.context, renderData, preRenderFilters)
-
     const backgroundFilters = renderBackgroundFilter !== undefined ? (Array.isArray(renderBackgroundFilter) ? renderBackgroundFilter : [renderBackgroundFilter]) : []
     const background = renderBackground !== undefined ? (Array.isArray(renderBackground) ? renderBackground : [renderBackground]) : []
     renderPipeline(background).run(data.context, renderData, backgroundFilters)
@@ -104,9 +98,6 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     const foregroundFilters = renderForegroundFilter !== undefined ? (Array.isArray(renderForegroundFilter) ? renderForegroundFilter : [renderForegroundFilter]) : []
     const foreground = renderForeground !== undefined ? (Array.isArray(renderForeground) ? renderForeground : [renderForeground]) : []
     renderPipeline(foreground).run(data.context, renderData, foregroundFilters)
-
-    const postRenderFilters = postRenderFilter !== undefined ? (Array.isArray(postRenderFilter) ? postRenderFilter : [postRenderFilter]) : []
-    renderPipeline<AnimatedCanvasRenderData<InferPropsType<typeof props>>>([]).run(data.context, renderData, postRenderFilters)
   }
 
   const postDrawHandler: PostDrawHandler = (canvas, data) => {
