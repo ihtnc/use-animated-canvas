@@ -22,9 +22,10 @@ export default function Data() {
   const highlighted = hljs.highlight(`
     export default function Data() {
       const render: AnimatedCanvasRenderFunction<string> = (context, data) => {
-        // render data.data in the center of the canvas
+        // render the data in the center of the canvas
       }
 
+      // pass 'text' as the initial data for use2dAnimatedCanvas
       const { Canvas } = use2dAnimatedCanvas({ render }, 'text')
 
       return <Canvas />
