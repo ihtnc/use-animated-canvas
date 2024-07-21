@@ -1,13 +1,10 @@
 'use client'
 
 import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
-import hljs from 'highlight.js/lib/core'
-import typescript from 'highlight.js/lib/languages/typescript'
+import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 
 export default function Filters() {
-  hljs.registerLanguage('typescript', typescript)
-
   const drawBackgroundTriangle = (context: CanvasRenderingContext2D) => {
     context.save()
     context.fillStyle = '#7B3F00'
@@ -56,7 +53,7 @@ export default function Filters() {
     renderForeground: drawForegroundTriangle
   })
 
-  const highlighted = hljs.highlight(`
+  const code = `
     export default function Filters() {
       const drawBackgroundTriangle = (context: CanvasRenderingContext2D) => {
         // draw a triangle in the background
@@ -102,8 +99,7 @@ export default function Filters() {
 
       return <Canvas />
     }
-  `, { language: 'typescript' })
-
+  `
 
   return (<>
     <h2 className='text-2xl font-semibold mb-4'>{menu.label}</h2>
@@ -111,8 +107,6 @@ export default function Filters() {
       <Canvas className='w-full h-full border border-black' />
     </div>
     <h3 className='text-xl font-semibold'>Code</h3>
-    <pre>
-      <code dangerouslySetInnerHTML={{ __html: highlighted.value }}></code>
-    </pre>
+    <TypeScriptCode code={code} />
   </>)
 }

@@ -1,5 +1,3 @@
-import 'highlight.js/styles/vs.css'
-
 const Template = ({ children }: { children: JSX.Element }) => {
   return (
     <main className="flex min-h-screen flex-col items-center p-24">

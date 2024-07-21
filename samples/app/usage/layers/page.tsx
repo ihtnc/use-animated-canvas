@@ -1,13 +1,10 @@
 'use client'
 
 import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
-import hljs from 'highlight.js/lib/core'
-import typescript from 'highlight.js/lib/languages/typescript'
+import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 
 export default function Layers() {
-  hljs.registerLanguage('typescript', typescript)
-
   const { Canvas } = use2dAnimatedCanvas({
     renderBackground: (context, data) => {
       context.save()
@@ -25,7 +22,7 @@ export default function Layers() {
       const frame = data?.drawData?.frame ?? 0
       context.fillStyle = '#808080'
       context.beginPath()
-      context.arc(50, 50, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)
+      context.arc(context.canvas.width / 2, context.canvas.height / 2, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)
       context.fill()
       context.restore()
     },
@@ -39,7 +36,7 @@ export default function Layers() {
     }
   })
 
-  const highlighted = hljs.highlight(`
+  const code = `
     export default function Layers() {
       const { Canvas } = use2dAnimatedCanvas({
         renderBackground: (context, data) => {
@@ -62,8 +59,7 @@ export default function Layers() {
 
       return <Canvas />
     }
-  `, { language: 'typescript' })
-
+  `
 
   return (<>
     <h2 className='text-2xl font-semibold mb-4'>{menu.label}</h2>
@@ -71,8 +67,6 @@ export default function Layers() {
       <Canvas className='w-full h-full border border-black' />
     </div>
     <h3 className='text-xl font-semibold'>Code</h3>
-    <pre>
-      <code dangerouslySetInnerHTML={{ __html: highlighted.value }}></code>
-    </pre>
+    <TypeScriptCode code={code} />
   </>)
 }

@@ -1,13 +1,10 @@
 'use client'
 
 import { type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
-import hljs from 'highlight.js/lib/core'
-import typescript from 'highlight.js/lib/languages/typescript'
+import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 
 export default function Transform() {
-  hljs.registerLanguage('typescript', typescript)
-
   const render: AnimatedCanvasRenderFunction<number> = (context, data) => {
     const radius = data?.data ?? 0
     context.fillStyle = '#000000'
@@ -36,7 +33,7 @@ export default function Transform() {
     }
   })
 
-  const highlighted = hljs.highlight(`
+  const code = `
     export default function Transform() {
       const render: AnimatedCanvasRenderFunction<number> = (context, data) => {
         // render a circle in the center of the canvas
@@ -57,7 +54,7 @@ export default function Transform() {
           //   in preparation for the rendering functions
 
           // increase data (radius) by 1 every frame
-          // the data returned here will be the new value for the data
+          // the data returned here will be the new value moving forward
           return data
         },
         render,
@@ -68,15 +65,14 @@ export default function Transform() {
           //   in preparation for the next frame
 
           // reset the data (radius) to 0 if it will exceed the bounds of the canvas
-          // the data returned here will be the new value for the data
+          // the data returned here will be the new value moving forward
           return data
         }
       })
 
       return <Canvas />
     }
-  `, { language: 'typescript' })
-
+  `
 
   return (<>
     <h2 className='text-2xl font-semibold mb-4'>{menu.label}</h2>
@@ -84,8 +80,6 @@ export default function Transform() {
       <Canvas className='w-full h-full border border-black' />
     </div>
     <h3 className='text-xl font-semibold'>Code</h3>
-    <pre>
-      <code dangerouslySetInnerHTML={{ __html: highlighted.value }}></code>
-    </pre>
+    <TypeScriptCode code={code} />
   </>)
 }
