@@ -21,7 +21,7 @@ export const deepCopy: <T>(value: T) => T = (value) => {
     for (let prop in value) {
       if (obj.hasOwnProperty(prop)) {
         const propValue = value[prop]
-        objCopy[prop] = deepCopy(propValue) as typeof propValue;
+        objCopy[prop] = deepCopy(propValue) as typeof propValue
       }
     }
     return objCopy

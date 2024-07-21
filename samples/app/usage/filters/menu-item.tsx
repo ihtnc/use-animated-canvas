@@ -5,7 +5,7 @@ const item: MenuItem = {
   href: '/usage/filters',
   description: 'Rendering with filters example',
   category: 'Basic Usage',
-  tags: ['basic', 'render', 'filter']
+  tags: ['filters']
 }
 
 export default item

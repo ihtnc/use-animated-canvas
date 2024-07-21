@@ -5,7 +5,7 @@ const item: MenuItem = {
   href: '/usage/data',
   description: 'Basic rendering with data example',
   category: 'Basic Usage',
-  tags: ['basic', 'render', 'data']
+  tags: ['data']
 }
 
 export default item

@@ -5,7 +5,7 @@ const item: MenuItem = {
   href: '/usage/layers',
   description: 'Layer rendering example',
   category: 'Basic Usage',
-  tags: ['basic', 'render', 'background', 'foreground']
+  tags: ['layers', 'background', 'foreground']
 }
 
 export default item

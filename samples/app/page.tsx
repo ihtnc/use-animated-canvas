@@ -57,7 +57,7 @@ export default function Home() {
         onInput={(event) => setFiltered(filter(event.currentTarget.value))}
       />
       {display.map((group, index) => (
-        <div className="grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left" key={index}>
+        <div className="grid text-center lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left mb-8" key={index}>
           <h3 className="col-span-4 text-xl font-semibold mb-3">{group.category}</h3>
           {group.items.map((item, itemIndex) => (
             <a

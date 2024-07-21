@@ -145,11 +145,11 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({ className, onKeyDown, onKeyUp, ...rest }) => {
     const onKeyDownHandler = onKeyDown ?? (() => {})
     const onKeyUpHandler = onKeyUp ?? (() => {})
-    useEventListener("keydown", onKeyDownHandler)
-    useEventListener("keyup", onKeyUpHandler)
+    useEventListener("keydown", onKeyDownHandler, divRef)
+    useEventListener("keyup", onKeyUpHandler, divRef)
 
     return (
-      <div ref={divRef}
+      <div ref={divRef} tabIndex={0}
         className={className}>
         <canvas
           ref={ref}

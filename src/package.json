@@ -17,11 +17,10 @@
     }
   },
   "scripts": {
-    "prebuild": "eslint",
     "build": "vite build",
     "postbuild": "vitest run",
     "build:dev": "vite build -m development",
-    "lint:fix": "eslint --fix",
+    "lint:fix": "eslint ./lib/**/*.{ts,tsx} --fix",
     "test": "vitest"
   },
   "repository": {

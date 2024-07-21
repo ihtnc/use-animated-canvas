@@ -1,5 +1,5 @@
-import checker from 'vite-plugin-checker'
 import react from '@vitejs/plugin-react'
+import checker from 'vite-plugin-checker'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 import { defineConfig } from "vite"
@@ -25,7 +25,7 @@ export default defineConfig({
     checker({
       typescript: true,
       eslint: {
-        lintCommand: 'eslint --ext .ts,.tsx',
+        lintCommand: 'eslint "./lib/**/*.{ts,tsx}"',
       }
     }),
     dts({ rollupTypes: true })
