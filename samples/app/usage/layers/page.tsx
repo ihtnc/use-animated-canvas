@@ -22,7 +22,7 @@ export default function Layers() {
     },
     render: (context, data) => {
       context.save()
-      const frame = data?.frame ?? 0
+      const frame = data?.drawData?.frame ?? 0
       context.fillStyle = '#808080'
       context.beginPath()
       context.arc(50, 50, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)

@@ -10,7 +10,7 @@ export default function Basic() {
 
   const { Canvas } = use2dAnimatedCanvas({
     render: (context, data) => {
-      const frame = data?.frame ?? 0
+      const frame = data?.drawData?.frame ?? 0
       context.fillStyle = '#000000'
       context.beginPath()
       context.arc(50, 50, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)

@@ -17,21 +17,19 @@ import {
   type JSXElementConstructor
 } from "react"
 
-export type AnimatedCanvasData<T> = {
-  canvas: HTMLCanvasElement,
-  environment: DrawData,
+export type AnimatedCanvasTransformData<T> = {
+  context: CanvasRenderingContext2D,
+  drawData: DrawData,
   data?: T
 }
 
 export type AnimatedCanvasRenderData<T> = {
-  frame: number,
-  fps: number,
-  devicePixelRatio: number,
+  drawData: DrawData,
   data?: T
 }
 
-export interface AnimatedCanvasTransformFunction<T> extends TransformFunction<AnimatedCanvasData<T>> {}
-export interface AnimatedCanvasConditionalTransformObject<T> extends ConditionalTransformObject<AnimatedCanvasData<T>> {}
+export interface AnimatedCanvasTransformFunction<T> extends TransformFunction<AnimatedCanvasTransformData<T>> {}
+export interface AnimatedCanvasConditionalTransformObject<T> extends ConditionalTransformObject<AnimatedCanvasTransformData<T>> {}
 export interface AnimatedCanvasConditionalFilterObject<T> extends ConditionalFilterObject<AnimatedCanvasRenderData<T>> {}
 export interface AnimatedCanvasRenderFunction<T> extends RenderFunction<AnimatedCanvasRenderData<T>> {}
 export interface AnimatedCanvasConditionalRenderObject<T> extends ConditionalRenderObject<AnimatedCanvasRenderData<T>> {}
@@ -57,5 +55,5 @@ export type Use2dAnimatedCanvasResponse = {
   debug: DebugObject
 }
 
-export type InitialiseDataHandler<T> = (canvas: HTMLCanvasElement, environment: InitData) => T
+export type InitialiseDataHandler<T> = (canvas: HTMLCanvasElement, initData: InitData) => T
 

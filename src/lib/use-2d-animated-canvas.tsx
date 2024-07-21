@@ -1,6 +1,6 @@
 import use2DRenderLoop from "@/use-2d-render-loop"
 import type {
-  AnimatedCanvasData,
+  AnimatedCanvasTransformData,
   AnimatedCanvasRenderData,
   Use2dAnimatedCanvasProps,
   Use2dAnimatedCanvasResponse,
@@ -61,14 +61,14 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
 
   let currentFrameData: InferPropsType<typeof props> | null = null
 
-  const preDrawHandler: PreDrawHandler = (canvas, data) => {
+  const preDrawHandler: PreDrawHandler = (context, data) => {
     currentFrameData = dataRef.current !== null ? deepCopy(dataRef.current) : null
 
     if (preRenderTransform === undefined) { return }
 
-    const canvasData: AnimatedCanvasData<InferPropsType<typeof props>> = {
-      canvas,
-      environment: data,
+    const canvasData: AnimatedCanvasTransformData<InferPropsType<typeof props>> = {
+      context,
+      drawData: data,
       data: currentFrameData ?? undefined
     }
 
@@ -79,34 +79,32 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     }
   }
 
-  const drawHandler: DrawHandler = (data) => {
+  const drawHandler: DrawHandler = (context, data) => {
     const renderData: AnimatedCanvasRenderData<InferPropsType<typeof props>> = {
-      frame: data.frame,
-      fps: data.fps,
-      devicePixelRatio: data.devicePixelRatio,
+      drawData: data,
       data: currentFrameData ?? undefined
     }
 
     const backgroundFilters = renderBackgroundFilter !== undefined ? (Array.isArray(renderBackgroundFilter) ? renderBackgroundFilter : [renderBackgroundFilter]) : []
     const background = renderBackground !== undefined ? (Array.isArray(renderBackground) ? renderBackground : [renderBackground]) : []
-    renderPipeline(background).run(data.context, renderData, backgroundFilters)
+    renderPipeline(background).run(context, renderData, backgroundFilters)
 
     const mainFilters = renderFilter !== undefined ? (Array.isArray(renderFilter) ? renderFilter : [renderFilter]) : []
     const main = render !== undefined ? (Array.isArray(render) ? render : [render]) : []
-    renderPipeline(main).run(data.context, renderData, mainFilters)
+    renderPipeline(main).run(context, renderData, mainFilters)
 
     const foregroundFilters = renderForegroundFilter !== undefined ? (Array.isArray(renderForegroundFilter) ? renderForegroundFilter : [renderForegroundFilter]) : []
     const foreground = renderForeground !== undefined ? (Array.isArray(renderForeground) ? renderForeground : [renderForeground]) : []
-    renderPipeline(foreground).run(data.context, renderData, foregroundFilters)
+    renderPipeline(foreground).run(context, renderData, foregroundFilters)
   }
 
-  const postDrawHandler: PostDrawHandler = (canvas, data) => {
-    if (postRenderTransform === undefined || currentFrameData === null) { return }
+  const postDrawHandler: PostDrawHandler = (context, data) => {
+    if (postRenderTransform === undefined) { return }
 
-    const canvasData: AnimatedCanvasData<InferPropsType<typeof props>> = {
-      canvas,
-      environment: data,
-      data: deepCopy(currentFrameData!)
+    const canvasData: AnimatedCanvasTransformData<InferPropsType<typeof props>> = {
+      context,
+      drawData: data,
+      data: currentFrameData !== null ? deepCopy(currentFrameData) : undefined
     }
 
     const transforms = Array.isArray(postRenderTransform) ? postRenderTransform : [postRenderTransform]

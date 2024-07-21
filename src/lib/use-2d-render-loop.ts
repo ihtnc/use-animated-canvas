@@ -122,13 +122,12 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
       clearFrame()
 
       const renderData: DrawData = {
-        context,
         frame: frameCounter.current.frameCount,
         fps: frameCounter.current.fps,
         devicePixelRatio
       }
 
-      if (onPreDraw) { onPreDraw(canvas, renderData) }
+      if (onPreDraw) { onPreDraw(context, renderData) }
 
       if (renderGridLayerHandler) { renderGridLayerHandler(context) }
 
@@ -144,8 +143,8 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
         }, context)
       }
 
-      if (onDraw) { onDraw(renderData) }
-      if (onPostDraw) { onPostDraw(canvas, renderData) }
+      if (onDraw) { onDraw(context, renderData) }
+      if (onPostDraw) { onPostDraw(context, renderData) }
 
       updateFrameCounter()
       animationFrameId = requestAnimationFrame(render)

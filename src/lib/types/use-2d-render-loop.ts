@@ -32,14 +32,13 @@ export type InitData = { devicePixelRatio: number }
 export type InitRenderHandler = (canvas: HTMLCanvasElement, data: InitData) => void
 
 export type DrawData = {
-  context: CanvasRenderingContext2D,
   frame: number,
   fps: number,
   devicePixelRatio: number
 }
-export type DrawHandler = (data: DrawData) => void
-export type PreDrawHandler = (canvas: HTMLCanvasElement, data: DrawData) => void
-export type PostDrawHandler = (canvas: HTMLCanvasElement, data: DrawData) => void
+export type DrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
+export type PreDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
+export type PostDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
 export type RenderGridLayerDrawHandler = (context: CanvasRenderingContext2D) => void
 
 export type RenderGridLayerOptions = {
