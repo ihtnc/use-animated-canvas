@@ -1,10 +1,10 @@
 'use client'
 
-import { AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
+import { type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { MouseEventHandler } from 'react'
+import { type MouseEventHandler } from 'react'
 
 export default function Click() {
   type ClickData = { x: number, y: number, radius: number, opacity: number }

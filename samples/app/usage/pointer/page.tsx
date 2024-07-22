@@ -1,10 +1,10 @@
 'use client'
 
-import { AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
+import { type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { PointerEventHandler } from 'react'
+import { type PointerEventHandler } from 'react'
 
 export default function Pointer() {
   type ClickData = { x: number, y: number, new: boolean }

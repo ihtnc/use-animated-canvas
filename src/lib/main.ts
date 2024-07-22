@@ -1,4 +1,5 @@
 import use2dAnimatedCanvas from '@/use-2d-animated-canvas'
+import type { CanvasResizeHandler } from '@/types'
 import type {
   AnimatedCanvasTransformFunction,
   AnimatedCanvasConditionalTransformObject,
@@ -16,5 +17,6 @@ export type {
   AnimatedCanvasConditionalTransformObject,
   AnimatedCanvasConditionalFilterObject,
   AnimatedCanvasRenderFunction,
-  AnimatedCanvasConditionalRenderObject
+  AnimatedCanvasConditionalRenderObject,
+  CanvasResizeHandler
 }

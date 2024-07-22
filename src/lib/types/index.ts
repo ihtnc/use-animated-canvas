@@ -23,7 +23,7 @@ export type DebugObject = {
   renderStep: RenderDebugHandler
 }
 
-export type OnResizeHandler = (canvas: HTMLCanvasElement, width: number, height: number) => void
+export type CanvasResizeHandler = (width: number, height: number) => void
 
 export type UseAnimatedCanvasOptions = {
   autoStart?: boolean,
@@ -41,6 +41,7 @@ export type AnimatedCanvasProps = {
   onPointerEnter?: PointerEventHandler<HTMLCanvasElement>,
   onKeyDown?: (event: KeyboardEvent) => void,
   onKeyUp?: (event: KeyboardEvent) => void,
+  onCanvasResize?: CanvasResizeHandler
 }
 
 export enum RenderLocation {

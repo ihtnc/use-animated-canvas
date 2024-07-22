@@ -42,7 +42,6 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderForegroundFilter,
     renderForeground,
     postRenderTransform,
-    onResize,
     options,
     renderEnvironmentLayerRenderer,
     renderGridLayerRenderer
@@ -127,26 +126,26 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderGridLayerRenderer
   })
 
-  const resizeCallback: (size: { width?: number, height?: number }) => void = (size) => {
-    const { width, height } = size
-    const { resize } = utilities
-
-    if (ref.current && width && height) {
-      if (onResize) {
-        onResize(ref.current, width, height)
-      }
-
-      resize(width, height)
-    }
-  }
-  const debouncedOnResize = useDebounceCallback(resizeCallback, resizeDelayMs)
-  useResizeObserver({ ref: divRef, onResize: debouncedOnResize })
-
-  const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({ className, onKeyDown, onKeyUp, ...rest }) => {
+  const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({ className, onKeyDown, onKeyUp, onCanvasResize, ...rest }) => {
     const onKeyDownHandler = onKeyDown ?? (() => {})
     const onKeyUpHandler = onKeyUp ?? (() => {})
     useEventListener("keydown", onKeyDownHandler, divRef)
     useEventListener("keyup", onKeyUpHandler, divRef)
+
+    const resizeCallback: (size: { width?: number, height?: number }) => void = (size) => {
+      const { width, height } = size
+      const { resize } = utilities
+
+      if (ref.current && width && height) {
+        if (onCanvasResize) {
+          onCanvasResize(width, height)
+        }
+
+        resize(width, height)
+      }
+    }
+    const debouncedOnResize = useDebounceCallback(resizeCallback, resizeDelayMs)
+    useResizeObserver({ ref: divRef, onResize: debouncedOnResize })
 
     return (
       <div ref={divRef} tabIndex={0}

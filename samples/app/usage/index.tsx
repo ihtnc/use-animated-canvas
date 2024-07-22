@@ -6,6 +6,7 @@ import Transform from './transform/menu-item'
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
 import Pointer from './pointer/menu-item'
+import Resize from './resize/menu-item'
 
 export type MenuItem = {
   label: string,
@@ -30,7 +31,8 @@ const getMenus = (): Array<MenuItem> => {
     Transform,
     Keyboard,
     Click,
-    Pointer
+    Pointer,
+    Resize
   ]
 }
 

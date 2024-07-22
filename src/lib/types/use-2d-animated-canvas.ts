@@ -3,8 +3,7 @@ import type {
   AnimatedCanvasProps,
   DebugObject,
   TransformFunction,
-  ConditionalTransformObject,
-  OnResizeHandler
+  ConditionalTransformObject
 } from "@/types"
 import type {
   RenderEnvironmentLayerRendererValue,
@@ -44,7 +43,6 @@ export type Use2dAnimatedCanvasProps<T> = {
   renderForegroundFilter?: RenderFilterFunction | AnimatedCanvasConditionalFilterObject<T> | Array<RenderFilterFunction | AnimatedCanvasConditionalFilterObject<T>>,
   renderForeground?: AnimatedCanvasRenderFunction<T> | AnimatedCanvasConditionalRenderObject<T> | Array<AnimatedCanvasRenderFunction<T> | AnimatedCanvasConditionalRenderObject<T>>,
   postRenderTransform?: AnimatedCanvasTransformFunction<T> | AnimatedCanvasConditionalTransformObject<T> | Array<AnimatedCanvasTransformFunction<T> | AnimatedCanvasConditionalTransformObject<T>>,
-  onResize?: OnResizeHandler,
   options?: UseAnimatedCanvasOptions,
   renderEnvironmentLayerRenderer?: RenderEnvironmentLayerRendererValue,
   renderGridLayerRenderer?: RenderGridLayerRendererValue
