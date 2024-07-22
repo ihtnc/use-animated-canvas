@@ -3,6 +3,7 @@
 import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
+import SeeAlso from '@/components/see-also'
 
 export default function Filters() {
   const drawBackgroundTriangle = (context: CanvasRenderingContext2D) => {
@@ -106,7 +107,7 @@ export default function Filters() {
     <div className='w-32 h-32 ml-8 mb-8'>
       <Canvas className='w-full h-full border border-black' />
     </div>
-    <h3 className='text-xl font-semibold'>Code</h3>
     <TypeScriptCode code={code} />
+    <SeeAlso references={menu.seeAlso} />
   </>)
 }

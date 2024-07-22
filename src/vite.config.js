@@ -4,13 +4,14 @@ import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 import { defineConfig } from "vite"
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   build: {
     lib: {
       entry: './lib/main.ts',
       name: 'useAnimatedCanvas',
       fileName: 'use-animated-canvas'
     },
+    sourcemap: mode !== 'production',
     rollupOptions: {
       external: ['react'],
       output: {
@@ -35,4 +36,4 @@ export default defineConfig({
       '@': resolve(__dirname, './lib')
     }
   }
-})
+}))

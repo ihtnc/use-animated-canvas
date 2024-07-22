@@ -3,6 +3,7 @@
 import { AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
+import SeeAlso from '@/components/see-also'
 
 export default function BasicEvents() {
   let pressedKey: string
@@ -12,9 +13,9 @@ export default function BasicEvents() {
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
-    context.fillText('Press a key', 0, 0)
-    context.fillText('when component', 0, 20)
-    context.fillText('has focus', 0, 40)
+    context.fillText('Press a key', 5, 5)
+    context.fillText('when component', 5, 25)
+    context.fillText('has focus', 5, 45)
     context.restore()
   }
 
@@ -97,7 +98,7 @@ export default function BasicEvents() {
         onKeyUp={onKeyUpHandler}
       />
     </div>
-    <h3 className='text-xl font-semibold'>Code</h3>
     <TypeScriptCode code={code} />
+    <SeeAlso references={menu.seeAlso} />
   </>)
 }

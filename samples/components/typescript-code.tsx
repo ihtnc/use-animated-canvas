@@ -11,9 +11,10 @@ export default function TypeScriptCode({code}: TypeScriptCodeProps) {
 
   const highlighted = hljs.highlight(code, { language: 'typescript' })
 
-  return (
+  return (<>
+    <h3 className='text-xl font-semibold'>Code</h3>
     <pre>
       <code dangerouslySetInnerHTML={{ __html: highlighted.value }}></code>
     </pre>
-  )
+  </>)
 }

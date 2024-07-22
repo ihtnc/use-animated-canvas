@@ -10,7 +10,8 @@ export type MenuItem = {
   href: string,
   description: string,
   category: string,
-  tags?: Array<string>
+  tags?: Array<string>,
+  seeAlso?: Array<MenuItem>
 }
 
 export type Menu = {
