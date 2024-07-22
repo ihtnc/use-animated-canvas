@@ -4,7 +4,7 @@ import Layers from '@/app/usage/layers/menu-item'
 const item: MenuItem = {
   label: 'Render Filters',
   href: '/usage/filters',
-  description: 'Rendering with filters example',
+  description: 'Rendering with filters',
   category: 'Basic Usage',
   tags: ['filters'],
   seeAlso: [Layers]

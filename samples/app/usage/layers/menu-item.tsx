@@ -3,7 +3,7 @@ import type { MenuItem } from '@/app/usage'
 const item: MenuItem = {
   label: 'Render Layers',
   href: '/usage/layers',
-  description: 'Layer rendering example',
+  description: 'Rendering multiple layers',
   category: 'Basic Usage',
   tags: ['layers', 'background', 'foreground']
 }

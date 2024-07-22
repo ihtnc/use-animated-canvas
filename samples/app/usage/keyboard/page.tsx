@@ -8,6 +8,8 @@ import SeeAlso from '@/components/see-also'
 export default function BasicEvents() {
   let pressedKey: string
 
+  const initialiseData = () => ''
+
   const renderBackground: AnimatedCanvasRenderFunction<string> = (context, data) => {
     context.save()
     context.fillStyle = '#808080'
@@ -32,7 +34,7 @@ export default function BasicEvents() {
   }
 
   const { Canvas } = use2dAnimatedCanvas<string>({
-    initialiseData: () => '',
+    initialiseData,
     preRenderTransform: (data) => {
       data.data = pressedKey
       return data
@@ -54,6 +56,8 @@ export default function BasicEvents() {
       // will store the currently pressed key
       let pressedKey: string
 
+      const initialiseData = () => ''
+
       const renderBackground: AnimatedCanvasRenderFunction<string> = (context, data) => {
         // render instructions in the top left corner
       }
@@ -63,7 +67,7 @@ export default function BasicEvents() {
       }
 
       const { Canvas } = use2dAnimatedCanvas<string>({
-        initialiseData: () => '',
+        initialiseData,
         preRenderTransform: (data) => {
           // update the data with the pressedKey value
           return data

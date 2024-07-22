@@ -6,7 +6,7 @@ import Layers from '@/app/usage/layers/menu-item'
 const item: MenuItem = {
   label: 'Keyboard',
   href: '/usage/keyboard',
-  description: 'Rendering example with keyboard events',
+  description: 'Handle keyboard events while rendering',
   category: 'Events',
   tags: ['keyboard', 'events'],
   seeAlso: [Data, Transform, Layers]
