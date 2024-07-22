@@ -3,11 +3,11 @@ import Transform from '@/app/usage/transform/menu-item'
 import Layers from '@/app/usage/layers/menu-item'
 
 const item: MenuItem = {
-  label: 'Keyboard',
-  href: '/usage/keyboard',
-  description: 'Handle keyboard events while rendering',
+  label: 'Click',
+  href: '/usage/click',
+  description: 'Handle mouse click event',
   category: 'Events',
-  tags: ['keyboard', 'keydown', 'keyup', 'events'],
+  tags: ['mouse', 'click', 'events'],
   seeAlso: [Transform, Layers]
 }
 

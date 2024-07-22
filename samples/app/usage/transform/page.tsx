@@ -39,6 +39,8 @@ export default function Transform() {
       const render: AnimatedCanvasRenderFunction<number> = (context, data) => {
         // render a circle in the center of the canvas
         // the circle has the radius of data
+        // since there are separate functions to update the data,
+        //   the render function can then focus on just rendering the data
       }
 
       const { Canvas } = use2dAnimatedCanvas({
