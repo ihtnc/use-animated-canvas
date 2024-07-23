@@ -35,7 +35,7 @@
     "react-hook"
   ],
   "author": "@ihtnc",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ihtnc/use-animated-canvas/issues"
   },
