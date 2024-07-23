@@ -52,7 +52,7 @@ export default function Home() {
       <h1 className="mb-4 text-3xl font-semibold">use-animated-canvas Examples</h1>
       <input
         type="search"
-        placeholder="Search..."
+        placeholder="Search examples..."
         className="rounded-lg border border-gray-300 px-5 py-4 transition-colors hover:border-gray-400 focus:border-gray-400 focus:outline-none mb-4"
         onInput={(event) => setFiltered(filter(event.currentTarget.value))}
       />
