@@ -1,3 +1,4 @@
+![build](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml/badge.svg)
 ![publish](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/@ihtnc%2Fuse-animated-canvas.svg)](https://badge.fury.io/js/@ihtnc%2Fuse-animated-canvas)
 
@@ -7,7 +8,9 @@ A React hook to create a canvas element with a built-in render loop. Useful for 
 
 #### Installation
 
+```console
 npm install @ihtnc/use-animated-canvas
+```
 
 #### Usage
 

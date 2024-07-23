@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getMenus, type Menu, type MenuItem } from './usage'
+import Link from 'next/link'
 
 export default function Home() {
   const [ menus, setMenus ] = useState<Array<MenuItem>>([])
@@ -49,18 +50,20 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="mb-4 text-3xl font-semibold">use-animated-canvas Examples</h1>
+      <h1 className="mb-4 text-3xl font-semibold">use2dAnimatedCanvas Examples</h1>
+      <span className="mb-4">Package link: <a href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas" className="text-blue-500">@ihtnc/use-animated-canvas</a></span>
       <input
         type="search"
         placeholder="Search examples..."
         className="rounded-lg border border-gray-300 px-5 py-4 transition-colors hover:border-gray-400 focus:border-gray-400 focus:outline-none mb-4"
         onInput={(event) => setFiltered(filter(event.currentTarget.value))}
+        autoFocus
       />
       {display.map((group, index) => (
         <div className="grid text-center lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left mb-8" key={index}>
           <h3 className="col-span-4 text-xl font-semibold mb-3">{group.category}</h3>
           {group.items.map((item, itemIndex) => (
-            <a
+            <Link
               href={item.href}
               className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
               rel="noopener noreferrer"
@@ -75,7 +78,7 @@ export default function Home() {
               <p className="m-0 max-w-[30ch] text-sm opacity-50">
                 {item.description}
               </p>
-            </a>
+            </Link>
           ))}
         </div>
       ))}
