@@ -18,7 +18,7 @@ npm install @ihtnc/use-animated-canvas
 import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 
 const App = () => {
-  const canvasRef = use2dAnimatedCanvas({
+  const { Canvas } = use2dAnimatedCanvas({
     render: (context, data) => {
       // this function gets called every frame
       // use context to draw on the canvas
