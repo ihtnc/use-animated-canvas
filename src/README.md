@@ -31,4 +31,27 @@ const App = () => {
 };
 ```
 
+#### Animation
+The HTML canvas element allows us to render objects (images, lines, shapes, text, etc) through code. Animation in a canvas is achieved by rendering a series of images (frames) in quick succession. This gives the illusion of movement (think zoetrope).
+
+The `@ihtnc/use-animated-canvas` package provides React hooks as a way to create animations by calling various handlers to render a single frame in a canvas HTML element. The hook will then start a loop (render loop) that calls each of these handlers perpetually. The idea is that by adding some logic, the handlers will "slightly modify" the frame rendered to the canvas on each iteration. And since the loop calls these handlers in rapid succession, the image rendered on the canvas will appear to animate.
+
+#### Rendering loop
+Below are handlers exposed by the hook and the order in which they are called in the render loop. Every handler except `initialiseData` is called on each iteration of the render loop.
+|   | Handler                | Purpose               | Notes                                |
+|---|:-----------------------|:----------------------|:-------------------------------------|
+| - | initialiseData         | for initialising data | called before the render loop starts |
+| 1 | preRenderTransform     | for transforming data before any rendering operations |      |
+| 2 | renderBackgroundFilter | for applying filter operations on the background layer |     |
+| 3 | renderBackground       | for rendering elements on the background layer |             |
+| 4 | renderFilter           | for applying filter operations on the main layer | these "layers" are just added for logical grouping as they are essentially the same as their background/foreground counterparts |
+| 5 | render                 | for rendering elements on the main layer | these "layers" are just added for logical grouping as they are essentially the same as their background/foreground counterparts |
+| 6 | renderForegroundFilter | for applying filter operations on the foreground layer |     |
+| 7 | renderForeground       | for rendering elements on the foreground layer |             |
+| 8 | postRenderTransform    | for transforming data before the next frame | ideally for data clean ups |
+
+> [!IMPORTANT]
+> Pay close attention to the order on which you render objects on the canvas. Like drawing on a paper, the last thing you draw would overlap the previous drawings. The rendering handlers are grouped into 3 layers (background, main, and foreground) to help clearly facilitate this order.
+
+#### See it in action
 More usage examples are available in the [docs](https://ihtnc.github.io/use-animated-canvas/).
