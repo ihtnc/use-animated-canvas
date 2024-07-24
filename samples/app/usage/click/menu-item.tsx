@@ -7,7 +7,7 @@ const item: MenuItem = {
   href: '/usage/click',
   description: 'Handle mouse click event',
   category: 'Events',
-  tags: ['mouse', 'click', 'events'],
+  tags: ['mouse', 'click', 'events', 'onClick'],
   seeAlso: [Transform, Layers]
 }
 

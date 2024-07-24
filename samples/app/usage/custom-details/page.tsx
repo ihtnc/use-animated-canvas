@@ -35,7 +35,7 @@ export default function CustomDetails() {
     export default function CustomDetails() {
       const { Canvas } = use2dAnimatedCanvas({
         render: (context, data) => {
-          // draw a circle that grows/shrinks a little bit every frame
+          // render a circle that grows/shrinks a little bit every frame
         },
         renderEnvironmentLayer: (context, data) => {
           // this function replaces the internal environment details layer render function

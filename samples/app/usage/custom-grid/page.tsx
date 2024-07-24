@@ -48,17 +48,17 @@ export default function CustomGrid() {
     export default function CustomGrid() {
       const { Canvas } = use2dAnimatedCanvas({
         renderBackground: (context) => {
-          // draw a gray square that covers the whole canvas
+          // render a gray square that covers the whole canvas
         },
         render: (context, data) => {
-          // draw a circle that grows/shrinks a little bit every frame
+          // render a circle that grows/shrinks a little bit every frame
         },
         renderGridLayer: (context) => {
           // this function replaces the internal grid layer render function
           //   and gets called every frame
           //   after all other rendering functions
           //   but before the environment details layer render function
-          // draw a grid with user-defined divisions
+          // render a grid with user-defined divisions
         }
       })
 

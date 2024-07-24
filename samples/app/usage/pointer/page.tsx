@@ -8,7 +8,7 @@ import { type PointerEventHandler } from 'react'
 import { useDarkMode } from 'usehooks-ts'
 
 export default function Pointer() {
-  type ClickData = { x: number, y: number, new: boolean }
+  type ClickData = { x: number, y: number, new: boolean, display: boolean }
   let current: ClickData | null = null
 
   const { isDarkMode } = useDarkMode()
@@ -22,6 +22,8 @@ export default function Pointer() {
     context.textBaseline = 'top'
     context.fillText('Click to add', 5, 5)
     context.fillText('a point', 5, 25)
+    context.fillText('Drag to view', 5, 45)
+    context.fillText('coordinates', 5, 65)
     context.restore()
   }
 
@@ -53,6 +55,20 @@ export default function Pointer() {
     context.restore()
   }
 
+  const renderForeground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+    if (data?.data === undefined || data.data.length === 0) { return }
+
+    const lastItem = data.data[data.data.length - 1]
+    if (lastItem.new == false || lastItem.display === false) { return }
+
+    context.save()
+    context.fillStyle = '#808080'
+    context.font = '15px Arial'
+    context.textBaseline = 'top'
+    context.fillText(`{x=${lastItem.x}, y=${lastItem.y}}`, 5, context.canvas.height - 20)
+    context.restore()
+  }
+
   const { Canvas } = use2dAnimatedCanvas<Array<ClickData>>({
     initialiseData,
     preRenderTransform: (data) => {
@@ -65,6 +81,7 @@ export default function Pointer() {
     },
     renderBackground,
     render,
+    renderForeground,
     postRenderTransform: (data) => {
       if (data.data !== undefined) {
         data.data = data.data.filter((item) => item.new == false)
@@ -79,19 +96,25 @@ export default function Pointer() {
     const rect = event.currentTarget.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    current = { x, y, new: true }
+    current = { x, y, new: true, display: false }
   }
 
   const onPointerMoveHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
     const rect = event.currentTarget.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    current = { x, y, new: true }
+    current = { x, y, new: true, display: current?.display ?? false }
+  }
+
+  const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+    if (current === null) { return }
+    current.display = true
   }
 
   const onPointerUpHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
     if (current === null) { return }
     current.new = false
+    current.display = false
   }
 
   const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -100,7 +123,7 @@ export default function Pointer() {
 
   const code = `
     export default function Pointer() {
-      type ClickData = { x: number, y: number, new: boolean }
+      type ClickData = { x: number, y: number, new: boolean, display: boolean }
 
       // will store the value for the current mouse position
       let current: ClickData | null = null
@@ -117,6 +140,14 @@ export default function Pointer() {
         //   from the coordinates of previous data in the array
       }
 
+      const renderForeground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+        // get the current value from the array
+        // the data transformation logic ensures that the current value
+        //   will always be the last item in the array
+        // render coordinates of the current value in the bottom left corner
+        //   if it is flagged for display
+      }
+
       // expected data is an array of ClickData
       const { Canvas } = use2dAnimatedCanvas<Array<ClickData>>({
         initialiseData,
@@ -128,6 +159,7 @@ export default function Pointer() {
         },
         renderBackground,
         render,
+        renderForeground,
         postRenderTransform: (data) => {
           // remove any "new" data from the array
           // set the current value as "new"
@@ -140,7 +172,7 @@ export default function Pointer() {
       const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
         // set the current value based on the translated coordinates
         //   since the canvas coordinates are relative to the viewport
-        // flag the current value as "new"
+        // flag the current value as "new" and not for display
       }
 
       const onPointerMoveHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -149,9 +181,18 @@ export default function Pointer() {
         // flag the current value as "new"
       }
 
+      const onPointerDownnHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+        // flag the current value for display
+        // this enables the coordinates of the current value
+        //   to be rendered on the canvas
+      }
+
       const onPointerUpHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
         // flag the current value as not "new"
         // this enables the current value to be added permanently to the data
+        // flag the current value as not for display
+        // this prevents the coordinates of the current value
+        //   from being rendered on the canvas
       }
 
       const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -161,6 +202,7 @@ export default function Pointer() {
       return <Canvas
         onPointerEnter={onPointerEnterHandler}
         onPointerMove={onPointerMoveHandler}
+        onPointerDown={onPointerDownHandler}
         onPointerUp={onPointerUpHandler}
         onPointerOut={onPointerOutHandler}
       />
@@ -173,6 +215,7 @@ export default function Pointer() {
       <Canvas className='w-full h-full border border-black dark:border-gray-300'
         onPointerEnter={onPointerEnterHandler}
         onPointerMove={onPointerMoveHandler}
+        onPointerDown={onPointerDownHandler}
         onPointerUp={onPointerUpHandler}
         onPointerOut={onPointerOutHandler}
       />

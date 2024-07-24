@@ -10,7 +10,8 @@ const item: MenuItem = {
   tags: [
     'mouse', 'pointer', 'events',
     'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mouseout',
-    'pointerup', 'pointerdown', 'pointermove', 'pointerenter', 'pointerout'
+    'pointerup', 'pointerdown', 'pointermove', 'pointerenter', 'pointerout',
+    'onPointerEnterHandler', 'onPointerOutHandler', 'onPointerMoveHandler', 'onPointerDownHandler', 'onPointerUpHandler'
   ],
   seeAlso: [Transform, Layers]
 }

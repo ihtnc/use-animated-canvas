@@ -11,6 +11,8 @@ import Grid from './grid/menu-item'
 import CustomGrid from './custom-grid/menu-item'
 import Details from './details/menu-item'
 import CustomDetails from './custom-details/menu-item'
+import Debug from './debug/menu-item'
+import ConditionalDebug from './conditional-debug/menu-item'
 
 export type MenuItem = {
   label: string,
@@ -40,7 +42,9 @@ const getMenus = (): Array<MenuItem> => {
     Grid,
     CustomGrid,
     Details,
-    CustomDetails
+    CustomDetails,
+    Debug,
+    ConditionalDebug
   ]
 }
 

@@ -57,21 +57,21 @@ export default function Filters() {
   const code = `
     export default function Filters() {
       const drawBackgroundTriangle = (context: CanvasRenderingContext2D) => {
-        // draw a triangle in the background
+        // render a triangle in the background
         // since there is a separate function for applying background filters,
         //   the render function can then focus on just rendering objects in the background layer
         context.fillStyle = '#7B3F00'
       }
 
       const drawTriangle = (context: CanvasRenderingContext2D) => {
-        // draw a triangle
+        // render a triangle
         // since there is a separate function for applying filters,
         //   the render function can then focus on just rendering objects in the main layer
         context.fillStyle = '#7B3F00'
       }
 
       const drawForegroundTriangle = (context: CanvasRenderingContext2D) => {
-        // draw a triangle in the foreground
+        // render a triangle in the foreground
         // since there is a separate function for applying foreground filters,
         //   the render function can then focus on just rendering objects in the foreground layer
         context.fillStyle = '#7B3F00'

@@ -6,7 +6,7 @@ const item: MenuItem = {
   href: '/usage/filters',
   description: 'Rendering with filters',
   category: 'Basic Usage',
-  tags: ['filters'],
+  tags: ['filters', 'renderBackgroundFilter', 'renderFilter', 'renderForegroundFilter'],
   seeAlso: [Layers]
 }
 

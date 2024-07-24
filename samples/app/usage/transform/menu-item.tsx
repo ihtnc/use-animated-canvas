@@ -6,7 +6,7 @@ const item: MenuItem = {
   href: '/usage/transform',
   description: 'Transform custom data before and after rendering',
   category: 'Basic Usage',
-  tags: ['data', 'transform'],
+  tags: ['data', 'transform', 'initialiseData', 'preRenderTransform', 'postRenderTransform'],
   seeAlso: [Data]
 }
 

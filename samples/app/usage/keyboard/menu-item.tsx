@@ -7,7 +7,7 @@ const item: MenuItem = {
   href: '/usage/keyboard',
   description: 'Handle keyboard events while rendering',
   category: 'Events',
-  tags: ['keyboard', 'keydown', 'keyup', 'events'],
+  tags: ['keyboard', 'keydown', 'keyup', 'events', 'onKeyDownHandler', 'onKeyUpHandler'],
   seeAlso: [Transform, Layers]
 }
 

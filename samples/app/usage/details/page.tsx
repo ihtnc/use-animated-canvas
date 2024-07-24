@@ -27,10 +27,10 @@ export default function Details() {
     export default function Details() {
       const { Canvas } = use2dAnimatedCanvas({
         renderBackground: (context) => {
-          // draw a gray square that covers the whole canvas
+          // render a gray square that covers the whole canvas
         },
         render: (context, data) => {
-          // draw a circle that grows/shrinks a little bit every frame
+          // render a circle that grows/shrinks a little bit every frame
         },
 
         // the internal environment details layer render function is called every frame

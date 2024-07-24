@@ -24,7 +24,10 @@ export default function Basic() {
       const { Canvas } = use2dAnimatedCanvas({
         render: (context, data) => {
           // this function gets called every frame
-          // draw a circle that grows/shrinks a little bit every frame
+          // use context to draw on the canvas
+          // use data to access details like frame count, fps, etc
+          // data can also include a user-defined value if supplied
+          // render a circle that grows/shrinks a little bit every frame
         }
       })
 

@@ -33,7 +33,10 @@ export default function Resize() {
       return data
     },
     renderBackground,
-    render
+    render,
+    options: {
+      resizeDelayMs: 200
+    }
   })
 
   const code = `
@@ -57,7 +60,13 @@ export default function Resize() {
           return data
         },
         renderBackground,
-        render
+        render,
+        options: {
+          // this is the default value
+          // the canvas resize event is debounced with this delay
+          //   as the event can fire numerous times in quick succession
+          resizeDelayMs: 200
+        }
       })
 
       const onCanvasResizeHandler: CanvasResizeHandler = (width, height) => {
