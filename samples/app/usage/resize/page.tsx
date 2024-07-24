@@ -80,23 +80,23 @@ export default function Resize() {
     <div className='ml-8 mb-2'>
       Choose one:&nbsp;
       <button
-        className={`${sizeClass === 'size-32' ? 'font-semibold pointer-events-none' : 'hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'} rounded-lg border border-transparent px-2 py-2 transition-colors`}
+        className={`${sizeClass === 'size-32' ? 'font-semibold pointer-events-none dark:text-gray-500' : 'hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'} rounded-lg border border-transparent px-2 py-2 transition-colors`}
         onClick={() => { setSizeClass('size-32') }}>
         128x128
       </button>
       <button
-        className={`${sizeClass === 'size-36' ? 'font-semibold pointer-events-none' : 'hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'} rounded-lg border border-transparent px-2 py-2 transition-colors`}
+        className={`${sizeClass === 'size-36' ? 'font-semibold pointer-events-none dark:text-gray-500' : 'hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'} rounded-lg border border-transparent px-2 py-2 transition-colors`}
         onClick={() => { setSizeClass('size-36') }}>
         144x144
       </button>
       <button
-        className={`${sizeClass === 'size-40' ? 'font-semibold pointer-events-none' : 'hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'} rounded-lg border border-transparent px-2 py-2 transition-colors`}
+        className={`${sizeClass === 'size-40' ? 'font-semibold pointer-events-none dark:text-gray-500' : 'hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'} rounded-lg border border-transparent px-2 py-2 transition-colors`}
         onClick={() => { setSizeClass('size-40') }}>
         160x160
       </button>
     </div>
     <div className={`${sizeClass} ml-8 mb-8`}>
-      <Canvas className='w-full h-full border border-black'
+      <Canvas className='w-full h-full border border-black dark:border-gray-300'
         onCanvasResize={onCanvasResizeHandler}
       />
     </div>

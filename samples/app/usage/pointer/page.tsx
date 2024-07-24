@@ -5,10 +5,13 @@ import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 import { type PointerEventHandler } from 'react'
+import { useDarkMode } from 'usehooks-ts'
 
 export default function Pointer() {
   type ClickData = { x: number, y: number, new: boolean }
   let current: ClickData | null = null
+
+  const { isDarkMode } = useDarkMode()
 
   const initialiseData = () => []
 
@@ -31,13 +34,13 @@ export default function Pointer() {
     let previous: ClickData | null = null
     for(let i = 0; current.length > i; i++) {
       const item = current[i]
-      context.strokeStyle = '#FF0000'
+      context.strokeStyle = isDarkMode ? '#B6391F' : '#FF0000'
       context.beginPath()
       context.arc(item.x, item.y, 3, 0, 2*Math.PI)
       context.stroke()
 
       if (previous !== null) {
-        context.strokeStyle = '#000000'
+        context.strokeStyle = isDarkMode ? '#E5E7EB' : '#000000'
         context.beginPath()
         context.moveTo(previous.x, previous.y)
         context.lineTo(item.x, item.y)
@@ -167,7 +170,7 @@ export default function Pointer() {
   return (<>
     <h2 className='text-2xl font-semibold mb-4'>{menu.label}</h2>
     <div className='w-32 h-32 ml-8 mb-8'>
-      <Canvas className='w-full h-full border border-black'
+      <Canvas className='w-full h-full border border-black dark:border-gray-300'
         onPointerEnter={onPointerEnterHandler}
         onPointerMove={onPointerMoveHandler}
         onPointerUp={onPointerUpHandler}

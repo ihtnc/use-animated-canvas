@@ -1,6 +1,6 @@
 import hljs from 'highlight.js/lib/core'
 import typescript from 'highlight.js/lib/languages/typescript'
-import 'highlight.js/styles/vs.css'
+import 'highlight.js/styles/github.css'
 
 type TypeScriptCodeProps = {
   code: string
