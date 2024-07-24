@@ -5,7 +5,7 @@ import { RenderLocation } from "@/types"
 import type { RenderGridLayerOptions } from "@/types/use-2d-render-loop"
 import { getTextSize } from "@/utilities/2d-drawing-operations"
 import * as misc from "@/utilities/misc-operations"
-import { getRenderEnvironmentLayerRenderer, getRenderGridLayerRenderer } from './layer-renderers'
+import { getRenderEnvironmentLayerHandler, getRenderGridLayerHandler } from './layer-renderers'
 
 vi.mock('@/utilities/2d-drawing-operations', () => ({
   getTextSize: vi.fn()
@@ -16,7 +16,7 @@ describe('canvas layer renderers', () => {
     vi.restoreAllMocks()
   })
 
-  describe('getRenderEnvironmentLayerRenderer function', () => {
+  describe('getRenderEnvironmentLayerHandler function', () => {
     let renderValue: RenderEnvironmentValue
     let context: CanvasRenderingContext2D
     let getTextSizeMock: Mock
@@ -50,7 +50,7 @@ describe('canvas layer renderers', () => {
     })
 
     test('should call deepCopy when called', () => {
-      getRenderEnvironmentLayerRenderer(false)
+      getRenderEnvironmentLayerHandler(false)
       expect(deepCopyMock).toHaveBeenCalledWith(DEFAULT_RENDER_ENVIRONMENT_LAYER_OPTIONS)
     })
 
@@ -58,27 +58,27 @@ describe('canvas layer renderers', () => {
       { value: undefined },
       { value: false }
     ])('should return null when value is $value', ({ value }: { value?: boolean }) => {
-      const result = getRenderEnvironmentLayerRenderer(value)
+      const result = getRenderEnvironmentLayerHandler(value)
       expect(result).toBe(null)
     })
 
     test('should return a function when value is a function', () => {
       const value = vi.fn()
-      const result = getRenderEnvironmentLayerRenderer(value)
+      const result = getRenderEnvironmentLayerHandler(value)
       expect(result).toBe(value)
     })
 
     test('should call supplied function when returned function is called', () => {
       const value = vi.fn()
-      const result = getRenderEnvironmentLayerRenderer(value)!
+      const result = getRenderEnvironmentLayerHandler(value)!
 
-      result(renderValue, context)
+      result(context, renderValue)
 
-      expect(value).toHaveBeenCalledWith(renderValue, context)
+      expect(value).toHaveBeenCalledWith(context, renderValue)
     })
 
     test('should return render function when value is true', () => {
-      const result = getRenderEnvironmentLayerRenderer(true)
+      const result = getRenderEnvironmentLayerHandler(true)
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -93,27 +93,27 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(true)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
 
       expect(getTextSizeMock).toHaveBeenCalledWith(context, expectedText)
     })
 
     test('should call context.save() when render function is called', () => {
-      const result = getRenderEnvironmentLayerRenderer(true)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
       expect(context.save).toHaveBeenCalled()
     })
 
     test('should set context.fillStyle with default value when render function is called', () => {
-      const result = getRenderEnvironmentLayerRenderer(true)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
       expect(context.fillStyle).toBe(DEFAULT_RENDER_ENVIRONMENT_LAYER_OPTIONS.color)
     })
 
     test('should set context.globalAlpha with default value when render function is called', () => {
-      const result = getRenderEnvironmentLayerRenderer(true)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
       expect(context.globalAlpha).toBe(DEFAULT_RENDER_ENVIRONMENT_LAYER_OPTIONS.opacity)
     })
 
@@ -129,15 +129,15 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(true)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, coordinates.x, coordinates.y)
     })
 
     test('should call context.restore() when render function is called', () => {
-      const result = getRenderEnvironmentLayerRenderer(true)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
       expect(context.restore).toHaveBeenCalled()
     })
 
@@ -152,7 +152,7 @@ describe('canvas layer renderers', () => {
       { renderLocation: RenderLocation.BottomCenter, title: RenderLocation[RenderLocation.BottomCenter] },
       { renderLocation: RenderLocation.BottomRight, title: RenderLocation[RenderLocation.BottomRight] }
     ])('should return render function when value is $title', ({ renderLocation }: { renderLocation: RenderLocation }) => {
-      const result = getRenderEnvironmentLayerRenderer(renderLocation)
+      const result = getRenderEnvironmentLayerHandler(renderLocation)
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -161,8 +161,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.TopLeft)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.TopLeft)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -171,8 +171,8 @@ describe('canvas layer renderers', () => {
       const { midX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.TopCenter)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.TopCenter)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -181,8 +181,8 @@ describe('canvas layer renderers', () => {
       const { rightX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.TopRight)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.TopRight)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -191,8 +191,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, midY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.MiddleLeft)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.MiddleLeft)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -201,8 +201,8 @@ describe('canvas layer renderers', () => {
       const { midX: x, midY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.Center)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.Center)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -211,8 +211,8 @@ describe('canvas layer renderers', () => {
       const { rightX: x, midY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.MiddleRight)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.MiddleRight)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -221,8 +221,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, bottomY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.BottomLeft)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.BottomLeft)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -231,8 +231,8 @@ describe('canvas layer renderers', () => {
       const { midX: x, bottomY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.BottomCenter)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.BottomCenter)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -241,8 +241,8 @@ describe('canvas layer renderers', () => {
       const { rightX: x, bottomY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(RenderLocation.BottomRight)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(RenderLocation.BottomRight)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -251,14 +251,14 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const coordinates = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(-1 as RenderLocation)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(-1 as RenderLocation)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
 
     test('should return render function when value is string', () => {
-      const result = getRenderEnvironmentLayerRenderer('blue')
+      const result = getRenderEnvironmentLayerHandler('blue')
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -266,14 +266,14 @@ describe('canvas layer renderers', () => {
     test('should set context.fillStyle when value is string and render function is called', () => {
       const fillStyle = 'blue'
 
-      const result = getRenderEnvironmentLayerRenderer(fillStyle)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(fillStyle)!
+      result(context, renderValue)
 
       expect(context.fillStyle).toBe(fillStyle)
     })
 
     test('should return render function when value is Coordinates', () => {
-      const result = getRenderEnvironmentLayerRenderer({ x: 10, y: 20 })
+      const result = getRenderEnvironmentLayerHandler({ x: 10, y: 20 })
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -281,8 +281,8 @@ describe('canvas layer renderers', () => {
     test('should call context.fillText() with coordinate value when render function is called', () => {
       const coordinates = { x: renderValue.width, y: renderValue.height }
 
-      const result = getRenderEnvironmentLayerRenderer(coordinates)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(coordinates)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -294,8 +294,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const expected = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(coordinates)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(coordinates)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -305,8 +305,8 @@ describe('canvas layer renderers', () => {
       const expected = { x, y }
       const coordinates = { x: renderValue.width + 10, y: 0 }
 
-      const result = getRenderEnvironmentLayerRenderer(coordinates)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(coordinates)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -316,8 +316,8 @@ describe('canvas layer renderers', () => {
       const expected = { x, y }
       const coordinates = { x: 0, y: renderValue.height + 10 }
 
-      const result = getRenderEnvironmentLayerRenderer(coordinates)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(coordinates)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -326,7 +326,7 @@ describe('canvas layer renderers', () => {
       const options: RenderEnvironmentLayerOptions = {
         location: RenderLocation.TopLeft,
       }
-      const result = getRenderEnvironmentLayerRenderer(options)
+      const result = getRenderEnvironmentLayerHandler(options)
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -338,8 +338,8 @@ describe('canvas layer renderers', () => {
       const { midX: x, midY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const expected = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -351,8 +351,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const expected = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -363,8 +363,8 @@ describe('canvas layer renderers', () => {
         location: coordinates
       }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), coordinates.x, coordinates.y)
     })
@@ -379,8 +379,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const expected = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -393,8 +393,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const expected = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -407,8 +407,8 @@ describe('canvas layer renderers', () => {
       const { leftX: x, topY: y } = getPresetCoordinates(renderValue, getTextSizeResponse)
       const expected = { x, y }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expect.any(String), expected.x, expected.y)
     })
@@ -428,8 +428,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expected.x, expected.y)
     })
@@ -440,8 +440,8 @@ describe('canvas layer renderers', () => {
         color: '#ff0000'
       }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillStyle).toBe(options.color)
     })
@@ -452,8 +452,8 @@ describe('canvas layer renderers', () => {
         opacity: 0.45
       }
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.globalAlpha).toBe(options.opacity)
     })
@@ -472,8 +472,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -491,8 +491,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -511,8 +511,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -530,8 +530,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -550,8 +550,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -569,8 +569,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -589,8 +589,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -608,8 +608,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -628,8 +628,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -647,8 +647,8 @@ describe('canvas layer renderers', () => {
       ]
       const expectedText = texts.join(' ')
 
-      const result = getRenderEnvironmentLayerRenderer(options)!
-      result(renderValue, context)
+      const result = getRenderEnvironmentLayerHandler(options)!
+      result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, expect.any(Number), expect.any(Number))
     })
@@ -674,7 +674,7 @@ describe('canvas layer renderers', () => {
     }
   })
 
-  describe('getRenderGridLayerRenderer function', () => {
+  describe('getRenderGridLayerHandler function', () => {
     let context: CanvasRenderingContext2D
     let deepCopyMock: MockInstance
 
@@ -696,7 +696,7 @@ describe('canvas layer renderers', () => {
     })
 
     test('should call deepCopy when called', () => {
-      getRenderGridLayerRenderer(false)
+      getRenderGridLayerHandler(false)
       expect(deepCopyMock).toHaveBeenCalledWith(DEFAULT_RENDER_GRID_LAYER_OPTIONS)
     })
 
@@ -704,19 +704,19 @@ describe('canvas layer renderers', () => {
       { value: undefined },
       { value: false }
     ])('should return null when value is $value', ({ value }: { value?: boolean }) => {
-      const result = getRenderGridLayerRenderer(value)
+      const result = getRenderGridLayerHandler(value)
       expect(result).toBe(null)
     })
 
     test('should return a function when value is a function', () => {
       const value = vi.fn()
-      const result = getRenderGridLayerRenderer(value)
+      const result = getRenderGridLayerHandler(value)
       expect(result).toBe(value)
     })
 
     test('should call supplied function when returned function is called', () => {
       const value = vi.fn()
-      const result = getRenderGridLayerRenderer(value)!
+      const result = getRenderGridLayerHandler(value)!
 
       result(context)
 
@@ -724,43 +724,43 @@ describe('canvas layer renderers', () => {
     })
 
     test('should return render function when value is true', () => {
-      const result = getRenderGridLayerRenderer(true)
+      const result = getRenderGridLayerHandler(true)
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
 
     test('should call context.save() when render function is called', () => {
-      const result = getRenderGridLayerRenderer(true)!
+      const result = getRenderGridLayerHandler(true)!
       result(context)
       expect(context.save).toHaveBeenCalled()
     })
 
     test('should set context.strokeStyle with default value when render function is called', () => {
-      const result = getRenderGridLayerRenderer(true)!
+      const result = getRenderGridLayerHandler(true)!
       result(context)
       expect(context.strokeStyle).toBe(DEFAULT_RENDER_GRID_LAYER_OPTIONS.color)
     })
 
     test('should set context.globalAlpha with default value when render function is called', () => {
-      const result = getRenderGridLayerRenderer(true)!
+      const result = getRenderGridLayerHandler(true)!
       result(context)
       expect(context.globalAlpha).toBe(DEFAULT_RENDER_GRID_LAYER_OPTIONS.opacity)
     })
 
     test('should not call context.setLineDash() when render function is called', () => {
-      const result = getRenderGridLayerRenderer(true)!
+      const result = getRenderGridLayerHandler(true)!
       result(context)
       expect(context.setLineDash).not.toHaveBeenCalled()
     })
 
     test('should call context.restore() when render function is called', () => {
-      const result = getRenderGridLayerRenderer(true)!
+      const result = getRenderGridLayerHandler(true)!
       result(context)
       expect(context.restore).toHaveBeenCalled()
     })
 
     test('should return render function when value is string', () => {
-      const result = getRenderGridLayerRenderer('blue')
+      const result = getRenderGridLayerHandler('blue')
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -768,14 +768,14 @@ describe('canvas layer renderers', () => {
     test('should set context.strokeStyle when value is string and render function is called', () => {
       const strokeStyle = 'blue'
 
-      const result = getRenderGridLayerRenderer(strokeStyle)!
+      const result = getRenderGridLayerHandler(strokeStyle)!
       result(context)
 
       expect(context.strokeStyle).toBe(strokeStyle)
     })
 
     test('should return render function when value is number', () => {
-      const result = getRenderGridLayerRenderer(100)
+      const result = getRenderGridLayerHandler(100)
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -784,7 +784,7 @@ describe('canvas layer renderers', () => {
       const gridSize = 10
       context.canvas.width = 100
 
-      const result = getRenderGridLayerRenderer(gridSize)!
+      const result = getRenderGridLayerHandler(gridSize)!
       result(context)
 
       let callCount = 0
@@ -806,7 +806,7 @@ describe('canvas layer renderers', () => {
       const gridSize = 10
       context.canvas.height = 100
 
-      const result = getRenderGridLayerRenderer(gridSize)!
+      const result = getRenderGridLayerHandler(gridSize)!
       result(context)
 
       let callCount = 0
@@ -827,7 +827,7 @@ describe('canvas layer renderers', () => {
     test('should render horizontal lines at default intervals until width is reached when number value is invalid and function is called', () => {
       context.canvas.width = 100
 
-      const result = getRenderGridLayerRenderer(0)!
+      const result = getRenderGridLayerHandler(0)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -849,7 +849,7 @@ describe('canvas layer renderers', () => {
     test('should render vertical lines at default intervals until height is reached when number value is invalid and function is called', () => {
       context.canvas.height = 100
 
-      const result = getRenderGridLayerRenderer(0)!
+      const result = getRenderGridLayerHandler(0)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -871,7 +871,7 @@ describe('canvas layer renderers', () => {
     test('should render horizontal lines at default intervals until width is reached when number value exceeds width and function is called', () => {
       context.canvas.width = 100
 
-      const result = getRenderGridLayerRenderer(context.canvas.width + 1)!
+      const result = getRenderGridLayerHandler(context.canvas.width + 1)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -893,7 +893,7 @@ describe('canvas layer renderers', () => {
     test('should render vertical lines at default intervals until height is reached when number value exceeds height and function is called', () => {
       context.canvas.height = 100
 
-      const result = getRenderGridLayerRenderer(context.canvas.height + 1)!
+      const result = getRenderGridLayerHandler(context.canvas.height + 1)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -916,7 +916,7 @@ describe('canvas layer renderers', () => {
       const gridSize = { width: 10, height: 20 }
       context.canvas.width = 100
 
-      const result = getRenderGridLayerRenderer(gridSize)!
+      const result = getRenderGridLayerHandler(gridSize)!
       result(context)
 
       let callCount = 0
@@ -938,7 +938,7 @@ describe('canvas layer renderers', () => {
       const gridSize = { width: 10, height: 20 }
       context.canvas.height = 100
 
-      const result = getRenderGridLayerRenderer(gridSize)!
+      const result = getRenderGridLayerHandler(gridSize)!
       result(context)
 
       let callCount = 0
@@ -960,7 +960,7 @@ describe('canvas layer renderers', () => {
       const size = { width: 0, height: 10 }
       context.canvas.width = 100
 
-      const result = getRenderGridLayerRenderer(size)!
+      const result = getRenderGridLayerHandler(size)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -983,7 +983,7 @@ describe('canvas layer renderers', () => {
       const size = { width: 10, height: 0 }
       context.canvas.height = 100
 
-      const result = getRenderGridLayerRenderer(size)!
+      const result = getRenderGridLayerHandler(size)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1006,7 +1006,7 @@ describe('canvas layer renderers', () => {
       context.canvas.width = 100
       const size = { width: context.canvas.width + 1, height: 10 }
 
-      const result = getRenderGridLayerRenderer(size)!
+      const result = getRenderGridLayerHandler(size)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1029,7 +1029,7 @@ describe('canvas layer renderers', () => {
       context.canvas.height = 100
       const size = { width: 10, height: context.canvas.height + 1 }
 
-      const result = getRenderGridLayerRenderer(size)!
+      const result = getRenderGridLayerHandler(size)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1052,7 +1052,7 @@ describe('canvas layer renderers', () => {
       const options: RenderGridLayerOptions = {
         size: 10
       }
-      const result = getRenderGridLayerRenderer(options)
+      const result = getRenderGridLayerHandler(options)
       expect(result).not.toBeNull()
       expect(result).toBeTypeOf('function')
     })
@@ -1062,7 +1062,7 @@ describe('canvas layer renderers', () => {
         size: 10
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.strokeStyle).toBe(DEFAULT_RENDER_GRID_LAYER_OPTIONS.color)
@@ -1073,7 +1073,7 @@ describe('canvas layer renderers', () => {
         size: 10
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.globalAlpha).toBe(DEFAULT_RENDER_GRID_LAYER_OPTIONS.opacity)
@@ -1084,7 +1084,7 @@ describe('canvas layer renderers', () => {
         size: 10
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.setLineDash).not.toHaveBeenCalled()
@@ -1097,7 +1097,7 @@ describe('canvas layer renderers', () => {
         size: gridSize
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       let callCount = 0
@@ -1122,7 +1122,7 @@ describe('canvas layer renderers', () => {
         size: gridSize
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       let callCount = 0
@@ -1146,7 +1146,7 @@ describe('canvas layer renderers', () => {
         size: 0
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1171,7 +1171,7 @@ describe('canvas layer renderers', () => {
         size: 0
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1196,7 +1196,7 @@ describe('canvas layer renderers', () => {
         size: context.canvas.width + 1
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1221,7 +1221,7 @@ describe('canvas layer renderers', () => {
         size: context.canvas.height = 1
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1247,7 +1247,7 @@ describe('canvas layer renderers', () => {
         size: gridSize
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       let callCount = 0
@@ -1272,7 +1272,7 @@ describe('canvas layer renderers', () => {
         size: gridSize
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       let callCount = 0
@@ -1296,7 +1296,7 @@ describe('canvas layer renderers', () => {
         size: { width: 0, height: 10 }
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1321,7 +1321,7 @@ describe('canvas layer renderers', () => {
         size: { width: 10, height: 0 }
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1346,7 +1346,7 @@ describe('canvas layer renderers', () => {
         size: { width: context.canvas.width + 1, height: 10 }
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1371,7 +1371,7 @@ describe('canvas layer renderers', () => {
         size: { width: 10, height: context.canvas.height + 1 }
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       const gridSize = DEFAULT_RENDER_GRID_LAYER_OPTIONS.size as number
@@ -1396,7 +1396,7 @@ describe('canvas layer renderers', () => {
         color: 'blue'
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.strokeStyle).toBe(options.color)
@@ -1408,7 +1408,7 @@ describe('canvas layer renderers', () => {
         opacity: 0.45
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.globalAlpha).toBe(options.opacity)
@@ -1420,7 +1420,7 @@ describe('canvas layer renderers', () => {
         dashLength: 5
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.setLineDash).toHaveBeenCalledWith([options.dashLength])
@@ -1435,7 +1435,7 @@ describe('canvas layer renderers', () => {
         dashLength
       }
 
-      const result = getRenderGridLayerRenderer(options)!
+      const result = getRenderGridLayerHandler(options)!
       result(context)
 
       expect(context.setLineDash).not.toHaveBeenCalled()

@@ -43,8 +43,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderForeground,
     postRenderTransform,
     options,
-    renderEnvironmentLayerRenderer,
-    renderGridLayerRenderer
+    renderEnvironmentLayer,
+    renderGridLayer
   } = props
 
   const canvasOptions = Object.assign({}, DEFAULT_OPTIONS, options)
@@ -122,8 +122,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     onPreDraw: preDrawHandler,
     onDraw: drawHandler,
     onPostDraw: postDrawHandler,
-    renderEnvironmentLayerRenderer,
-    renderGridLayerRenderer
+    renderEnvironmentLayer,
+    renderGridLayer
   })
 
   const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({ className, onKeyDown, onKeyUp, onCanvasResize, ...rest }) => {

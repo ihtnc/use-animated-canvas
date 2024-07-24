@@ -16,8 +16,8 @@ export type Use2DRenderLoopOptions = {
   onDraw?: DrawHandler,
   onPreDraw?: PreDrawHandler,
   onPostDraw?: PostDrawHandler,
-  renderEnvironmentLayerRenderer?: RenderEnvironmentLayerRendererValue,
-  renderGridLayerRenderer?: RenderGridLayerRendererValue,
+  renderEnvironmentLayer?: RenderEnvironmentLayerValue,
+  renderGridLayer?: RenderGridLayerValue,
   maxFrame?: number
 }
 export type Use2DRenderLoopResponse = {
@@ -47,7 +47,7 @@ export type RenderGridLayerOptions = {
   opacity?: number,
   dashLength?: number
 }
-export type RenderGridLayerRendererValue = boolean | string | number | Size | RenderGridLayerOptions | RenderGridLayerDrawHandler
+export type RenderGridLayerValue = boolean | string | number | Size | RenderGridLayerOptions | RenderGridLayerDrawHandler
 
-export type RenderEnvironmentLayerRendererValue = boolean | string | RenderLocation | Coordinates | RenderEnvironmentLayerOptions | RenderEnvironmentLayerDrawHandler
-export type RenderEnvironmentLayerDrawHandler = (value: RenderEnvironmentValue, context: CanvasRenderingContext2D) => void
+export type RenderEnvironmentLayerValue = boolean | string | RenderLocation | Coordinates | RenderEnvironmentLayerOptions | RenderEnvironmentLayerDrawHandler
+export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: RenderEnvironmentValue) => void

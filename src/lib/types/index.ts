@@ -1,6 +1,6 @@
-import {
-  type MouseEventHandler,
-  type PointerEventHandler
+import type {
+  MouseEventHandler,
+  PointerEventHandler
 } from "react"
 import type {
   TransformFunction,

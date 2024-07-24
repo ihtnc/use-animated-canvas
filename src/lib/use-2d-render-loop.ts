@@ -9,7 +9,7 @@ import type {
   RenderDebugHandler,
   RenderDebugConditionalHandler
 } from "@/types"
-import { getRenderEnvironmentLayerRenderer, getRenderGridLayerRenderer } from "@/utilities/layer-renderers"
+import { getRenderEnvironmentLayerHandler, getRenderGridLayerHandler } from "@/utilities/layer-renderers"
 import { cancelAnimationFrame, getDevicePixelRatio, requestAnimationFrame } from "@/utilities/client-operations"
 import { DEFAULT_OPTIONS } from "@/defaults"
 
@@ -17,9 +17,9 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
   options = Object.assign({}, DEFAULT_OPTIONS, options)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const { onInit, onPreDraw, onDraw, onPostDraw, renderEnvironmentLayerRenderer, renderGridLayerRenderer } = options
-  const renderEnvironmentLayerHandler = getRenderEnvironmentLayerRenderer(renderEnvironmentLayerRenderer)
-  const renderGridLayerHandler = getRenderGridLayerRenderer(renderGridLayerRenderer)
+  const { onInit, onPreDraw, onDraw, onPostDraw, renderEnvironmentLayer, renderGridLayer } = options
+  const renderEnvironmentLayerHandler = getRenderEnvironmentLayerHandler(renderEnvironmentLayer)
+  const renderGridLayerHandler = getRenderGridLayerHandler(renderGridLayer)
 
   const frameCounter = useRef<FrameCounter>({
     frameCount: 0,
@@ -135,7 +135,7 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
       if (renderGridLayerHandler) { renderGridLayerHandler(context) }
 
       if (renderEnvironmentLayerHandler) {
-        renderEnvironmentLayerHandler({
+        renderEnvironmentLayerHandler(context, {
           fps: frameCounter.current.fps,
           width: canvas.width,
           height: canvas.height,
@@ -143,7 +143,7 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
           clientHeight: canvas.clientHeight,
           pixelRatio: devicePixelRatio,
           frame: frameCounter.current.frameCount
-        }, context)
+        })
       }
 
       updateFrameCounter()

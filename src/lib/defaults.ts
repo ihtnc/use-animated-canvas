@@ -28,6 +28,7 @@ export const DEFAULT_RENDER_GRID_LAYER_OPTIONS: RenderGridLayerOptions = {
 export const DEFAULT_OPTIONS: Use2DRenderLoopOptions = {
   autoStart: true,
   enableDebug: false,
-  renderEnvironmentLayerRenderer: false,
+  renderEnvironmentLayer: false,
+  renderGridLayer: false,
   maxFrame: Number.MAX_SAFE_INTEGER
 }

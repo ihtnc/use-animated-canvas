@@ -7,6 +7,10 @@ import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
 import Pointer from './pointer/menu-item'
 import Resize from './resize/menu-item'
+import Grid from './grid/menu-item'
+import CustomGrid from './custom-grid/menu-item'
+import Details from './details/menu-item'
+import CustomDetails from './custom-details/menu-item'
 
 export type MenuItem = {
   label: string,
@@ -32,7 +36,11 @@ const getMenus = (): Array<MenuItem> => {
     Keyboard,
     Click,
     Pointer,
-    Resize
+    Resize,
+    Grid,
+    CustomGrid,
+    Details,
+    CustomDetails
   ]
 }
 

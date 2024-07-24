@@ -10,15 +10,15 @@ import {
 } from "@/types"
 import type {
   RenderEnvironmentLayerDrawHandler,
-  RenderEnvironmentLayerRendererValue,
-  RenderGridLayerRendererValue,
+  RenderEnvironmentLayerValue,
+  RenderGridLayerValue,
   RenderGridLayerOptions,
   RenderGridLayerDrawHandler
 } from "@/types/use-2d-render-loop"
 import { getTextSize } from "@/utilities/2d-drawing-operations"
 import { DEFAULT_RENDER_ENVIRONMENT_LAYER_OPTIONS, DEFAULT_RENDER_GRID_LAYER_OPTIONS } from "@/defaults"
 
-export const getRenderEnvironmentLayerRenderer: (value?: RenderEnvironmentLayerRendererValue) => RenderEnvironmentLayerDrawHandler | null = (value) => {
+export const getRenderEnvironmentLayerHandler: (value?: RenderEnvironmentLayerValue) => RenderEnvironmentLayerDrawHandler | null = (value) => {
   let options: RenderEnvironmentLayerOptions
   options = deepCopy(DEFAULT_RENDER_ENVIRONMENT_LAYER_OPTIONS)
 
@@ -125,14 +125,14 @@ export const getRenderEnvironmentLayerRenderer: (value?: RenderEnvironmentLayerR
     return { x, y }
   }
 
-  renderer = (value, context) => {
-    const fpsText = options.renderFps ? `fps: ${value.fps}; ` : ''
-    const sizeText = options.renderSize ? `size: ${value.width}x${value.height}; ` : ''
-    const clientText = options.renderClientSize ? `client: ${value.clientWidth}x${value.clientHeight}; ` : ''
-    const ratioText = options.renderPixelRatio ? `ratio: ${value.pixelRatio}; ` : ''
-    const frameText = options.renderFrameNumber ? `frame: ${value.frame};` : ''
+  renderer = (context, data) => {
+    const fpsText = options.renderFps ? `fps: ${data.fps}; ` : ''
+    const sizeText = options.renderSize ? `size: ${data.width}x${data.height}; ` : ''
+    const clientText = options.renderClientSize ? `client: ${data.clientWidth}x${data.clientHeight}; ` : ''
+    const ratioText = options.renderPixelRatio ? `ratio: ${data.pixelRatio}; ` : ''
+    const frameText = options.renderFrameNumber ? `frame: ${data.frame};` : ''
     const debugText = `${fpsText}${sizeText}${clientText}${ratioText}${frameText}`.trim()
-    const { x, y } = getCoordinates(debugText, value, context)
+    const { x, y } = getCoordinates(debugText, data, context)
     context.save()
     context.fillStyle = options.color!
     context.globalAlpha = options.opacity!
@@ -143,7 +143,7 @@ export const getRenderEnvironmentLayerRenderer: (value?: RenderEnvironmentLayerR
   return renderer
 }
 
-export const getRenderGridLayerRenderer: (value?: RenderGridLayerRendererValue) => RenderGridLayerDrawHandler | null = (value) => {
+export const getRenderGridLayerHandler: (value?: RenderGridLayerValue) => RenderGridLayerDrawHandler | null = (value) => {
   let options: RenderGridLayerOptions
   options = deepCopy(DEFAULT_RENDER_GRID_LAYER_OPTIONS)
 

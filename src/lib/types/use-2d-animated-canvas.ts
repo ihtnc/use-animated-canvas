@@ -6,12 +6,17 @@ import type {
   ConditionalTransformObject
 } from "@/types"
 import type {
-  RenderEnvironmentLayerRendererValue,
-  RenderGridLayerRendererValue,
+  RenderEnvironmentLayerValue,
+  RenderGridLayerValue,
   InitData,
   DrawData
 } from "@/types/use-2d-render-loop"
-import { ConditionalFilterObject, ConditionalRenderObject, RenderFilterFunction, RenderFunction } from "@/utilities/2d-drawing-operations"
+import type {
+  ConditionalFilterObject,
+  ConditionalRenderObject,
+  RenderFilterFunction,
+  RenderFunction
+} from "@/utilities/2d-drawing-operations"
 import {
   type JSXElementConstructor
 } from "react"
@@ -44,8 +49,8 @@ export type Use2dAnimatedCanvasProps<T> = {
   renderForeground?: AnimatedCanvasRenderFunction<T> | AnimatedCanvasConditionalRenderObject<T> | Array<AnimatedCanvasRenderFunction<T> | AnimatedCanvasConditionalRenderObject<T>>,
   postRenderTransform?: AnimatedCanvasTransformFunction<T> | AnimatedCanvasConditionalTransformObject<T> | Array<AnimatedCanvasTransformFunction<T> | AnimatedCanvasConditionalTransformObject<T>>,
   options?: UseAnimatedCanvasOptions,
-  renderEnvironmentLayerRenderer?: RenderEnvironmentLayerRendererValue,
-  renderGridLayerRenderer?: RenderGridLayerRendererValue
+  renderEnvironmentLayer?: RenderEnvironmentLayerValue,
+  renderGridLayer?: RenderGridLayerValue
 }
 
 export type Use2dAnimatedCanvasResponse = {
