@@ -4,14 +4,19 @@ import GlobalFilters from './global-filters/menu-item'
 import Filters from './filters/menu-item'
 import Data from './data/menu-item'
 import Transform from './transform/menu-item'
+
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
 import Pointer from './pointer/menu-item'
 import Resize from './resize/menu-item'
+
 import Grid from './grid/menu-item'
 import CustomGrid from './custom-grid/menu-item'
 import Details from './details/menu-item'
 import CustomDetails from './custom-details/menu-item'
+
+import PersistContext from './persist-context/menu-item'
+
 import Debug from './debug/menu-item'
 import ConditionalDebug from './conditional-debug/menu-item'
 
@@ -37,14 +42,19 @@ const getMenus = (): Array<MenuItem> => {
     Filters,
     Data,
     Transform,
+
     Keyboard,
     Click,
     Pointer,
     Resize,
+
     Grid,
     CustomGrid,
     Details,
     CustomDetails,
+
+    PersistContext,
+
     Debug,
     ConditionalDebug
   ]
