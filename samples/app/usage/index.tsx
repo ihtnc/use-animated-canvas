@@ -18,6 +18,7 @@ import CustomDetails from './custom-details/menu-item'
 import RenderContext from './render-context/menu-item'
 import FilterContext from './filter-context/menu-item'
 import UtilityContext from './utility-context/menu-item'
+import UtilityOrder from './utility-order/menu-item'
 
 import Debug from './debug/menu-item'
 import ConditionalDebug from './conditional-debug/menu-item'
@@ -58,6 +59,7 @@ const getMenus = (): Array<MenuItem> => {
     RenderContext,
     FilterContext,
     UtilityContext,
+    UtilityOrder,
 
     Debug,
     ConditionalDebug
