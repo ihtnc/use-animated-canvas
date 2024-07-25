@@ -10,12 +10,10 @@ export default function Resize() {
   let radius = 0
 
   const renderBackground: AnimatedCanvasRenderFunction<number> = (context, data) => {
-    context.save()
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
     context.fillText('Resize me', 5, 5)
-    context.restore()
   }
 
   const render: AnimatedCanvasRenderFunction<number> = (context, data) => {

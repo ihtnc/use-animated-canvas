@@ -14,26 +14,22 @@ export default function BasicEvents() {
   const initialiseData = () => ''
 
   const renderBackground: AnimatedCanvasRenderFunction<string> = (context, data) => {
-    context.save()
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
     context.fillText('Press a key', 5, 5)
     context.fillText('when component', 5, 25)
     context.fillText('has focus', 5, 45)
-    context.restore()
   }
 
   const render: AnimatedCanvasRenderFunction<string> = (context, data) => {
     const current = data?.data ?? ''
     if (current.trim().length === 0) { return }
 
-    context.save()
     context.fillStyle = isDarkMode ? '#68CDFE' : '#000000'
     context.font = '20px Arial'
     context.textAlign = 'center'
     context.fillText(current, context.canvas.width / 2, context.canvas.height / 2)
-    context.restore()
   }
 
   const { Canvas } = use2dAnimatedCanvas<string>({

@@ -18,14 +18,12 @@ export default function Debugging() {
       context.fill()
     },
     renderForeground: (context) => {
-      context.save()
       context.fillStyle = isDarkMode ? '#7B3F00' : '#000000'
       context.font = '15px Arial'
       context.textBaseline = 'top'
       context.fillText('s = start render', 5, 5)
       context.fillText('p = pause render', 5, 25)
       context.fillText('n = next frame', 5, 45)
-      context.restore()
     },
     options: {
       enableDebug: true

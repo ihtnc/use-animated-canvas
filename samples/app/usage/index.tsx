@@ -1,5 +1,6 @@
 import Basic from './basic/menu-item'
 import Layers from './layers/menu-item'
+import GlobalFilters from './global-filters/menu-item'
 import Filters from './filters/menu-item'
 import Data from './data/menu-item'
 import Transform from './transform/menu-item'
@@ -32,6 +33,7 @@ const getMenus = (): Array<MenuItem> => {
   return [
     Basic,
     Layers,
+    GlobalFilters,
     Filters,
     Data,
     Transform,

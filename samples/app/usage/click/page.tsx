@@ -17,12 +17,10 @@ export default function Click() {
   const initialiseData = () => []
 
   const renderBackground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
-    context.save()
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
     context.fillText('Click me a lot', 5, 5)
-    context.restore()
   }
 
   const render: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {

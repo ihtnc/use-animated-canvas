@@ -8,10 +8,8 @@ import SeeAlso from '@/components/see-also'
 export default function CustomGrid() {
   const { Canvas } = use2dAnimatedCanvas({
     renderBackground: (context) => {
-      context.save()
       context.fillStyle = '#E5E7EB'
       context.fillRect(0, 0, context.canvas.width, context.canvas.height)
-      context.restore()
     },
     render: (context, data) => {
       const frame = data?.drawData?.frame ?? 0
@@ -21,7 +19,6 @@ export default function CustomGrid() {
       context.fill()
     },
     renderGridLayer: (context) => {
-      context.save()
       context.strokeStyle = '#000000'
       context.beginPath()
 
@@ -40,7 +37,6 @@ export default function CustomGrid() {
       }
 
       context.stroke()
-      context.restore()
     }
   })
 

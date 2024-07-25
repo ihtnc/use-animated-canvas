@@ -8,10 +8,8 @@ import SeeAlso from '@/components/see-also'
 export default function Grid() {
   const { Canvas } = use2dAnimatedCanvas({
     renderBackground: (context) => {
-      context.save()
       context.fillStyle = '#E5E7EB'
       context.fillRect(0, 0, context.canvas.width, context.canvas.height)
-      context.restore()
     },
     render: (context, data) => {
       const frame = data?.drawData?.frame ?? 0

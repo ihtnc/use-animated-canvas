@@ -18,7 +18,6 @@ export default function CustomDetails() {
       context.fill()
     },
     renderEnvironmentLayer: (context, data) => {
-      context.save()
       context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
 
       const offset = 5
@@ -26,8 +25,6 @@ export default function CustomDetails() {
       context.fillText(`size: ${data.width}x${data.height}`, offset, data.clientHeight * 0.50)
       context.fillText(`client: ${data.clientWidth}x${data.clientHeight}`, offset, data.clientHeight * 0.75)
       context.fillText(`ratio: ${data.pixelRatio}`, offset, context.canvas.height - offset)
-
-      context.restore()
     }
   })
 

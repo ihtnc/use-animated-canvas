@@ -23,11 +23,9 @@ export default function ConditionalDebug() {
       context.fill()
     },
     renderEnvironmentLayer: (context, data) => {
-      context.save()
       context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
       context.font = '15px Arial'
       context.fillText(`frame: ${data.frame}`, 5, context.canvas.height - 5)
-      context.restore()
     },
     options: {
       autoStart: false,

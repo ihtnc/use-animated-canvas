@@ -16,7 +16,6 @@ export default function Pointer() {
   const initialiseData = () => []
 
   const renderBackground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
-    context.save()
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
@@ -24,14 +23,11 @@ export default function Pointer() {
     context.fillText('a point', 5, 25)
     context.fillText('Drag to view', 5, 45)
     context.fillText('coordinates', 5, 65)
-    context.restore()
   }
 
   const render: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
     const current = data?.data ?? []
     if (current.length === 0) { return }
-
-    context.save()
 
     let previous: ClickData | null = null
     for(let i = 0; current.length > i; i++) {
@@ -51,8 +47,6 @@ export default function Pointer() {
 
       previous = item
     }
-
-    context.restore()
   }
 
   const renderForeground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
@@ -61,12 +55,10 @@ export default function Pointer() {
     const lastItem = data.data[data.data.length - 1]
     if (lastItem.new == false || lastItem.display === false) { return }
 
-    context.save()
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
     context.fillText(`{x=${lastItem.x}, y=${lastItem.y}}`, 5, context.canvas.height - 20)
-    context.restore()
   }
 
   const { Canvas } = use2dAnimatedCanvas<Array<ClickData>>({

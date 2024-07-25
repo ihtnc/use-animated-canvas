@@ -11,7 +11,6 @@ export default function Layers() {
 
   const { Canvas } = use2dAnimatedCanvas({
     renderBackground: (context, data) => {
-      context.save()
       context.strokeStyle = isDarkMode ? '#B6391F' : '#FF0000'
       for(let i = 10; i < context.canvas.height; i += 25) {
         context.beginPath()
@@ -19,24 +18,19 @@ export default function Layers() {
         context.lineTo(context.canvas.width, i)
         context.stroke()
       }
-      context.restore()
     },
     render: (context, data) => {
-      context.save()
       const frame = data?.drawData?.frame ?? 0
       context.fillStyle = '#808080'
       context.beginPath()
       context.arc(context.canvas.width / 2, context.canvas.height / 2, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)
       context.fill()
-      context.restore()
     },
     renderForeground: (context, data) => {
-      context.save()
       context.fillStyle = isDarkMode ? '#68CDFE' : '#0000FF'
       context.font = '20px Arial'
       context.textAlign = 'center'
       context.fillText('Foreground', context.canvas.width / 2, context.canvas.height / 2)
-      context.restore()
     }
   })
 
