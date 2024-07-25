@@ -8,7 +8,7 @@ const item: MenuItem = {
   label: 'Filter Context',
   href: '/usage/filter-context',
   description: 'Understand the behaviour of layer-specific filter functions',
-  category: 'Advanced Concepts',
+  category: 'Additional Concepts',
   tags: ['context', 'filters', 'autoResetContext', 'renderBackgroundFilter', 'renderFilter', 'renderForegroundFilter', 'options'],
   seeAlso: [Layers, GlobalFilters, Filters, RenderContext]
 }

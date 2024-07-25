@@ -7,7 +7,7 @@ const item: MenuItem = {
   label: 'Utility Order',
   href: '/usage/utility-order',
   description: 'Understand the rendering order of the utility layer render functions',
-  category: 'Advanced Concepts',
+  category: 'Additional Concepts',
   tags: ['utility', 'helper', 'custom', 'grid', 'environment', 'details', 'order'],
   seeAlso: [Layers, CustomGrid, CustomDetails]
 }

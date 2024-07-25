@@ -9,7 +9,7 @@ const item: MenuItem = {
   label: 'Utility Context',
   href: '/usage/utility-context',
   description: 'Understand the behaviour of utility layer render functions',
-  category: 'Advanced Concepts',
+  category: 'Additional Concepts',
   tags: ['context', 'utility', 'helper', 'grid', 'custom', 'environment', 'details', 'autoResetContext', 'renderGridLayer', 'renderEnvironmentLayer', 'options'],
   seeAlso: [Layers, GlobalFilters, Grid, CustomDetails, RenderContext]
 }
