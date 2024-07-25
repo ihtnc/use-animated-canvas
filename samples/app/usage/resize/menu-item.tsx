@@ -7,7 +7,7 @@ const item: MenuItem = {
   href: '/usage/resize',
   description: 'Handle canvas resize event',
   category: 'Events',
-  tags: ['resize', 'events', 'debounce', 'resizeDelayMs', 'onCanvasResize'],
+  tags: ['resize', 'events', 'debounce', 'resizeDelayMs', 'onCanvasResize', 'options'],
   seeAlso: [Transform, Layers]
 }
 

@@ -15,8 +15,9 @@ import CustomGrid from './custom-grid/menu-item'
 import Details from './details/menu-item'
 import CustomDetails from './custom-details/menu-item'
 
-import PersistContext from './persist-context/menu-item'
+import RenderContext from './render-context/menu-item'
 import FilterContext from './filter-context/menu-item'
+import UtilityContext from './utility-context/menu-item'
 
 import Debug from './debug/menu-item'
 import ConditionalDebug from './conditional-debug/menu-item'
@@ -54,8 +55,9 @@ const getMenus = (): Array<MenuItem> => {
     Details,
     CustomDetails,
 
-    PersistContext,
+    RenderContext,
     FilterContext,
+    UtilityContext,
 
     Debug,
     ConditionalDebug

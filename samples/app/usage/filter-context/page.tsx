@@ -6,7 +6,7 @@ import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 import { useDarkMode } from 'usehooks-ts'
 
-export default function PersistContext() {
+export default function FilterContext() {
   const { isDarkMode } = useDarkMode()
 
   const globalFilter = (context: CanvasRenderingContext2D) => {
@@ -56,7 +56,7 @@ export default function PersistContext() {
   })
 
   const code = `
-    export default function PersistContext() {
+    export default function FilterContext() {
       const globalFilter = (context: CanvasRenderingContext2D) => {
         // set the line color, fill color, font, and text alignment
         //   for the entire canvas
@@ -109,7 +109,7 @@ export default function PersistContext() {
           // layer-specific filters are applied only to that layer
           //   and are reverted after the render function for that layer is called
           // however, changes to the context from the layer-specific render function
-          //   will persist across succeeding layers if autoResetContext is set to false
+          //   will persist into succeeding layers if autoResetContext is set to false
           autoResetContext: false
         }
       })

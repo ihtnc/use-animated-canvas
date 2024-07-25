@@ -7,7 +7,7 @@ const item: MenuItem = {
   href: '/usage/debug',
   description: 'Step through the rendering loop',
   category: 'Troubleshooting',
-  tags: ['debug', 'troubleshoot', 'dev', 'issue', 'error', 'renderContinue', 'renderBreak', 'renderStep', 'enableDebug'],
+  tags: ['debug', 'troubleshoot', 'dev', 'issue', 'error', 'renderContinue', 'renderBreak', 'renderStep', 'enableDebug', 'options'],
   seeAlso: [Layers, Keyboard]
 }
 

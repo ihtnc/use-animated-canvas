@@ -10,7 +10,7 @@ const item: MenuItem = {
   href: '/usage/conditional-debug',
   description: 'Pause the rendering loop when a condition is met',
   category: 'Troubleshooting',
-  tags: ['debug', 'troubleshoot', 'dev', 'issue', 'error', 'break', 'when', 'condition', 'autoStart', 'renderBreakWhen'],
+  tags: ['debug', 'troubleshoot', 'dev', 'issue', 'error', 'break', 'when', 'condition', 'autoStart', 'renderBreakWhen', 'options'],
   seeAlso: [Basic, Click, Transform, CustomDetails, Debug]
 }
 

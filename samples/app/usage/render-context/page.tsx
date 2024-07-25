@@ -6,7 +6,7 @@ import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 import { useDarkMode } from 'usehooks-ts'
 
-export default function PersistContext() {
+export default function RenderContext() {
   const { isDarkMode } = useDarkMode()
 
   const globalFilter = (context: CanvasRenderingContext2D) => {
@@ -58,7 +58,7 @@ export default function PersistContext() {
   })
 
   const code = `
-    export default function PersistContext() {
+    export default function RenderContext() {
       const globalFilter = (context: CanvasRenderingContext2D) => {
         // set the fill color and opacity for the entire canvas
       }
@@ -91,8 +91,8 @@ export default function PersistContext() {
           // because the main layer has saved the context
           //   prior to making changes to the fill color,
           //   and since it has restored the context at the end,
-          //   the fill color  made from the global filter will be reapplied to this layer
-          // also, the opacity changes made by the main layer will not be reset
+          //   the fill color defined from the global filter will be reapplied to this layer
+          // also, the opacity changes defined by the main layer will not be reset
 
           // increase the opacity of the canvas
           // render a circle in the bottom right of the canvas that grows a little bit every frame
