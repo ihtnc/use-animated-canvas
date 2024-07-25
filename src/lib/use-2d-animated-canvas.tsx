@@ -21,11 +21,12 @@ import {
 } from "react"
 import { useDebounceCallback, useResizeObserver, useEventListener } from "usehooks-ts"
 import { deepCopy, transformPipeline } from "@/utilities/misc-operations"
-import { renderPipeline } from "./utilities/2d-drawing-operations"
+import { filterPipeline, renderPipeline } from "./utilities/2d-drawing-operations"
 
 const DEFAULT_OPTIONS: UseAnimatedCanvasOptions = {
   autoStart: true,
   enableDebug: false,
+  autoResetContext: true,
   resizeDelayMs: 200
 }
 
@@ -35,6 +36,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   const {
     initialiseData,
     preRenderTransform,
+    globalFilter,
     renderBackgroundFilter,
     renderBackground,
     renderFilter,
@@ -48,7 +50,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   } = props
 
   const canvasOptions = Object.assign({}, DEFAULT_OPTIONS, options)
-  const { autoStart, enableDebug, resizeDelayMs } = canvasOptions
+  const { autoStart, enableDebug, autoResetContext, resizeDelayMs } = canvasOptions
 
   const dataRef = useRef<InferPropsType<typeof props> | null>(initialData ?? null)
   const divRef = useRef<HTMLDivElement>(null)
@@ -84,17 +86,33 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
       data: currentFrameData ?? undefined
     }
 
+    const globalFilters = globalFilter !== undefined ? (Array.isArray(globalFilter) ? globalFilter : [globalFilter]) : []
+    if (globalFilters.length > 0) {
+      context.save()
+      filterPipeline(globalFilters).run(context, renderData)
+    }
+
+    if (autoResetContext) { context.save() }
     const backgroundFilters = renderBackgroundFilter !== undefined ? (Array.isArray(renderBackgroundFilter) ? renderBackgroundFilter : [renderBackgroundFilter]) : []
     const background = renderBackground !== undefined ? (Array.isArray(renderBackground) ? renderBackground : [renderBackground]) : []
     renderPipeline(background).run(context, renderData, backgroundFilters)
+    if (autoResetContext) { context.restore() }
 
+    if (autoResetContext) { context.save() }
     const mainFilters = renderFilter !== undefined ? (Array.isArray(renderFilter) ? renderFilter : [renderFilter]) : []
     const main = render !== undefined ? (Array.isArray(render) ? render : [render]) : []
     renderPipeline(main).run(context, renderData, mainFilters)
+    if (autoResetContext) { context.restore() }
 
+    if (autoResetContext) { context.save() }
     const foregroundFilters = renderForegroundFilter !== undefined ? (Array.isArray(renderForegroundFilter) ? renderForegroundFilter : [renderForegroundFilter]) : []
     const foreground = renderForeground !== undefined ? (Array.isArray(renderForeground) ? renderForeground : [renderForeground]) : []
     renderPipeline(foreground).run(context, renderData, foregroundFilters)
+    if (autoResetContext) { context.restore() }
+
+    if (globalFilters.length > 0) {
+      context.restore()
+    }
   }
 
   const postDrawHandler: PostDrawHandler = (context, data) => {

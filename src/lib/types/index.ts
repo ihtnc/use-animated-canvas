@@ -28,6 +28,7 @@ export type CanvasResizeHandler = (width: number, height: number) => void
 export type UseAnimatedCanvasOptions = {
   autoStart?: boolean,
   enableDebug?: boolean,
+  autoResetContext?: boolean,
   resizeDelayMs?: number
 }
 

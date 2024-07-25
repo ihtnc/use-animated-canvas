@@ -9,6 +9,7 @@ export const getTextSize = (context: CanvasRenderingContext2D, text: string): Si
 
 export type RenderFunction<T> = (context: CanvasRenderingContext2D, data?: T) => void;
 export type RenderPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data?: T, filters?: Array<RenderFilterFunction | ConditionalFilterObject<T>>) => void;
+export type FilterPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data?: T) => void;
 export type ConditionalFunction<T> = (data?: T) => boolean;
 export type ConditionalRenderObject<T> = {
   condition: ConditionalFunction<T> | Array<ConditionalFunction<T>>,
@@ -27,10 +28,7 @@ export const renderPipeline:RenderPipelinFunction = (pipeline) => {
       const filterFns = filters ?? []
       if (filterFns.length > 0) { context.save() }
 
-      for (let i = 0; i < filterFns.length; i++) {
-        const filter = filterFns[i]
-        runFilter(context, filter, data)
-      }
+      filterPipeline(filterFns).run(context, data)
 
       for (let i = 0; i < pipeline.length; i++) {
         const item = pipeline[i]
@@ -38,6 +36,20 @@ export const renderPipeline:RenderPipelinFunction = (pipeline) => {
       }
 
       if (filterFns.length > 0) { context.restore() }
+    }
+  }
+}
+
+type FilterPipelinFunction = <T>(pipeline: Array<RenderFilterFunction | ConditionalFilterObject<T>>) => { run: FilterPipelineRunFunction<T> };
+export const filterPipeline:FilterPipelinFunction = (pipeline) => {
+  return {
+    run: (context, data) => {
+      const filterFns = pipeline ?? []
+
+      for (let i = 0; i < filterFns.length; i++) {
+        const filter = filterFns[i]
+        runFilter(context, filter, data)
+      }
     }
   }
 }

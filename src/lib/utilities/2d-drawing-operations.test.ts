@@ -1,6 +1,7 @@
 import { Mock, afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 import {
   renderPipeline,
+  filterPipeline,
   getTextSize
 } from "./2d-drawing-operations"
 
@@ -371,6 +372,173 @@ describe('2d drawing operations', () => {
       const obj = { condition: vi.fn().mockReturnValue(true), filter: [fn1, fn2, fn3] }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
+
+      expect(fn1).toHaveBeenCalledWith(context)
+      expect(fn2).toHaveBeenCalledWith(context)
+      expect(fn3).toHaveBeenCalledWith(context)
+    })
+  })
+
+  describe('filterPipeline function', () => {
+    let data: number
+    let context: CanvasRenderingContext2D
+    let contextMock: { save: Mock, restore: Mock }
+
+    beforeEach(() => {
+      data = 1
+      contextMock = {
+        save: vi.fn(),
+        restore: vi.fn()
+      }
+      context = contextMock as unknown as CanvasRenderingContext2D
+    })
+
+    afterEach(() => {
+      vi.resetAllMocks()
+    })
+
+    test('should not immediately call functions', () => {
+      const fn1 = vi.fn()
+      const fn2 = vi.fn()
+      const fn3 = vi.fn()
+
+      filterPipeline([
+        fn1,
+        fn2,
+        fn3
+      ])
+
+      expect(fn1).not.toHaveBeenCalled()
+      expect(fn2).not.toHaveBeenCalled()
+      expect(fn3).not.toHaveBeenCalled()
+    })
+
+    test('should call functions sequentially when run is called', () => {
+      let callCount = 0
+      const fn1 = vi.fn(() => expect(++callCount).toBe(1))
+      const fn2 = vi.fn(() => expect(++callCount).toBe(2))
+      const fn3 = vi.fn(() => expect(++callCount).toBe(3))
+
+      filterPipeline([
+        fn1,
+        fn2,
+        fn3
+      ]).run(context, data)
+
+      expect(fn1).toHaveBeenCalledWith(context)
+      expect(fn2).toHaveBeenCalledWith(context)
+      expect(fn3).toHaveBeenCalledWith(context)
+    })
+
+    test('should not immediately call object functions', () => {
+      const obj1 = { condition: vi.fn(), filter: vi.fn() }
+      const obj2 = { condition: vi.fn(), filter: vi.fn() }
+      const obj3 = { condition: vi.fn(), filter: vi.fn() }
+
+      filterPipeline([
+        obj1,
+        obj2,
+        obj3
+      ])
+
+      expect(obj1.condition).not.toHaveBeenCalled()
+      expect(obj1.filter).not.toHaveBeenCalled()
+      expect(obj2.condition).not.toHaveBeenCalled()
+      expect(obj2.filter).not.toHaveBeenCalled()
+      expect(obj3.condition).not.toHaveBeenCalled()
+      expect(obj3.filter).not.toHaveBeenCalled()
+    })
+
+    test('should call object condition function when run is called', () => {
+      const obj = { condition: vi.fn(), filter: vi.fn() }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.condition).toHaveBeenCalledWith(data)
+    })
+
+    test('should not call object filter function when condition returns false', () => {
+      const obj = { condition: vi.fn().mockReturnValue(false), filter: vi.fn() }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).not.toHaveBeenCalled()
+    })
+
+    test('should call object filter function when condition returns true', () => {
+      const obj = { condition: vi.fn().mockReturnValue(true), filter: vi.fn() }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).toHaveBeenCalledWith(context)
+    })
+
+    test('should call object functions sequentially when run is called', () => {
+      let callCount = 0
+      const fn1 = vi.fn(() => expect(++callCount).toBe(1))
+      const fn2 = vi.fn(() => expect(++callCount).toBe(2))
+      const fn3 = vi.fn(() => expect(++callCount).toBe(3))
+
+      const obj1 = { condition: vi.fn().mockReturnValue(true), filter: fn1 }
+      const obj2 = { condition: vi.fn().mockReturnValue(true), filter: fn2 }
+      const obj3 = { condition: vi.fn().mockReturnValue(true), filter: fn3 }
+
+      filterPipeline([
+        obj1,
+        obj2,
+        obj3
+      ]).run(context, data)
+
+      expect(obj1.condition).toHaveBeenCalledWith(data)
+      expect(obj1.filter).toHaveBeenCalledWith(context)
+      expect(obj2.condition).toHaveBeenCalledWith(data)
+      expect(obj2.filter).toHaveBeenCalledWith(context)
+      expect(obj3.condition).toHaveBeenCalledWith(data)
+      expect(obj3.filter).toHaveBeenCalledWith(context)
+    })
+
+    test('should not call object filter function when one condition returns false', () => {
+      const condition1 = vi.fn().mockReturnValue(true)
+      const condition2 = vi.fn().mockReturnValue(false)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).not.toHaveBeenCalled()
+    })
+
+    test('should call object filter function when all conditions return true', () => {
+      const condition1 = vi.fn().mockReturnValue(true)
+      const condition2 = vi.fn().mockReturnValue(true)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).toHaveBeenCalled()
+    })
+
+    test('should not call next condition when condition returns false', () => {
+      const condition1 = vi.fn().mockReturnValue(false)
+      const condition2 = vi.fn().mockReturnValue(true)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(condition2).not.toHaveBeenCalled()
+    })
+
+    test('should call functions sequentially when an array is supplied in object', () => {
+      let callCount = 0
+      const fn1 = vi.fn(() => expect(++callCount).toBe(1))
+      const fn2 = vi.fn(() => expect(++callCount).toBe(2))
+      const fn3 = vi.fn(() => expect(++callCount).toBe(3))
+
+      const obj = { condition: vi.fn().mockReturnValue(true), filter: [fn1, fn2, fn3] }
+
+      filterPipeline([obj]).run(context, data)
 
       expect(fn1).toHaveBeenCalledWith(context)
       expect(fn2).toHaveBeenCalledWith(context)

@@ -132,9 +132,14 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
       if (onDraw) { onDraw(context, renderData) }
       if (onPostDraw) { onPostDraw(context, renderData) }
 
-      if (renderGridLayerHandler) { renderGridLayerHandler(context) }
+      if (renderGridLayerHandler) {
+        context.save()
+        renderGridLayerHandler(context)
+        context.restore()
+      }
 
       if (renderEnvironmentLayerHandler) {
+        context.save()
         renderEnvironmentLayerHandler(context, {
           fps: frameCounter.current.fps,
           width: canvas.width,
@@ -144,6 +149,7 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
           pixelRatio: devicePixelRatio,
           frame: frameCounter.current.frameCount
         })
+        context.restore()
       }
 
       updateFrameCounter()
