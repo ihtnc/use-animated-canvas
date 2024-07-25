@@ -16,6 +16,7 @@ import Details from './details/menu-item'
 import CustomDetails from './custom-details/menu-item'
 
 import PersistContext from './persist-context/menu-item'
+import FilterContext from './filter-context/menu-item'
 
 import Debug from './debug/menu-item'
 import ConditionalDebug from './conditional-debug/menu-item'
@@ -54,6 +55,7 @@ const getMenus = (): Array<MenuItem> => {
     CustomDetails,
 
     PersistContext,
+    FilterContext,
 
     Debug,
     ConditionalDebug
