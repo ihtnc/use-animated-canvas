@@ -133,11 +133,9 @@ export const getRenderEnvironmentLayerHandler: (value?: RenderEnvironmentLayerVa
     const frameText = options.renderFrameNumber ? `frame: ${data.frame};` : ''
     const debugText = `${fpsText}${sizeText}${clientText}${ratioText}${frameText}`.trim()
     const { x, y } = getCoordinates(debugText, data, context)
-    context.save()
     context.fillStyle = options.color!
     context.globalAlpha = options.opacity!
     context.fillText(debugText, x, y)
-    context.restore()
   }
 
   return renderer
@@ -185,7 +183,6 @@ export const getRenderGridLayerHandler: (value?: RenderGridLayerValue) => Render
   }
 
   renderer = (context) => {
-    context.save()
     context.strokeStyle = options.color!
     context.globalAlpha = options.opacity!
     if ((options.dashLength ?? 0) > 0) { context.setLineDash([options.dashLength!]) }
@@ -220,8 +217,6 @@ export const getRenderGridLayerHandler: (value?: RenderGridLayerValue) => Render
       context.stroke()
       currentGrid += gridHeight
     }
-
-    context.restore()
   }
 
   return renderer

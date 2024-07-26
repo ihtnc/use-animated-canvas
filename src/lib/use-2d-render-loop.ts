@@ -85,6 +85,8 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
 
     const { width, height } = canvas
     const context = canvas.getContext('2d')
+    context?.beginPath()
+    context?.resetTransform()
     context?.clearRect(0, 0, width, height)
   }
 
@@ -128,7 +130,6 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
       }
 
       if (onPreDraw) { onPreDraw(context, renderData) }
-
       if (onDraw) { onDraw(context, renderData) }
       if (onPostDraw) { onPostDraw(context, renderData) }
 

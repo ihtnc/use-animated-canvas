@@ -99,12 +99,6 @@ describe('canvas layer renderers', () => {
       expect(getTextSizeMock).toHaveBeenCalledWith(context, expectedText)
     })
 
-    test('should call context.save() when render function is called', () => {
-      const result = getRenderEnvironmentLayerHandler(true)!
-      result(context, renderValue)
-      expect(context.save).toHaveBeenCalled()
-    })
-
     test('should set context.fillStyle with default value when render function is called', () => {
       const result = getRenderEnvironmentLayerHandler(true)!
       result(context, renderValue)
@@ -133,12 +127,6 @@ describe('canvas layer renderers', () => {
       result(context, renderValue)
 
       expect(context.fillText).toHaveBeenCalledWith(expectedText, coordinates.x, coordinates.y)
-    })
-
-    test('should call context.restore() when render function is called', () => {
-      const result = getRenderEnvironmentLayerHandler(true)!
-      result(context, renderValue)
-      expect(context.restore).toHaveBeenCalled()
     })
 
     test.each([
@@ -729,12 +717,6 @@ describe('canvas layer renderers', () => {
       expect(result).toBeTypeOf('function')
     })
 
-    test('should call context.save() when render function is called', () => {
-      const result = getRenderGridLayerHandler(true)!
-      result(context)
-      expect(context.save).toHaveBeenCalled()
-    })
-
     test('should set context.strokeStyle with default value when render function is called', () => {
       const result = getRenderGridLayerHandler(true)!
       result(context)
@@ -751,12 +733,6 @@ describe('canvas layer renderers', () => {
       const result = getRenderGridLayerHandler(true)!
       result(context)
       expect(context.setLineDash).not.toHaveBeenCalled()
-    })
-
-    test('should call context.restore() when render function is called', () => {
-      const result = getRenderGridLayerHandler(true)!
-      result(context)
-      expect(context.restore).toHaveBeenCalled()
     })
 
     test('should return render function when value is string', () => {

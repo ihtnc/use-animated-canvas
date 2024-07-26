@@ -1,4 +1,5 @@
 import use2dAnimatedCanvas from '@/use-2d-animated-canvas'
+import { renderWhen, filterWhen } from './utilities/2d-drawing-operations'
 import type {
   CanvasResizeHandler,
   Size,
@@ -22,7 +23,9 @@ import type {
 } from '@/types/use-2d-render-loop'
 
 export {
-  use2dAnimatedCanvas
+  use2dAnimatedCanvas,
+  renderWhen,
+  filterWhen
 }
 
 export type {
