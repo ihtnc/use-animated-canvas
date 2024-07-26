@@ -51,7 +51,7 @@ export default function MultiRender() {
     context.restore()
   }
 
-  const renderHourHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+  const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
     context.translate(context.canvas.width / 2, context.canvas.height / 2)
@@ -64,7 +64,7 @@ export default function MultiRender() {
     context.restore()
   }
 
-  const renderMinuteHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+  const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
     context.translate(context.canvas.width / 2, context.canvas.height / 2)
@@ -80,7 +80,7 @@ export default function MultiRender() {
     context.restore()
   }
 
-  const renderSecondHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+  const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
     context.translate(context.canvas.width / 2, context.canvas.height / 2)
@@ -138,19 +138,19 @@ export default function MultiRender() {
         // render the base of the clock
       }
 
-      const renderHourHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // since an array of render functions can be used instead of a single render function,
         //   the render function can then focus on just rendering a specific object in that layer
         // render the hour hand of the clock
       }
 
-      const renderMinuteHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // since an array of render functions can be used instead of a single render function,
         //   the render function can then focus on just rendering a specific object in that layer
         // render the minute hand of the clock
       }
 
-      const renderSecondHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // since an array of render functions can be used instead of a single render function,
         //   the render function can then focus on just rendering a specific object in that layer
         // render the second hand of the clock

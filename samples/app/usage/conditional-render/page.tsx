@@ -44,7 +44,7 @@ export default function ConditionalRender() {
     context.restore()
   }
 
-  const renderHourHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+  const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
     context.translate(context.canvas.width / 2, context.canvas.height / 2)
@@ -57,7 +57,7 @@ export default function ConditionalRender() {
     context.restore()
   }
 
-  const renderMinuteHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+  const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
     context.translate(context.canvas.width / 2, context.canvas.height / 2)
@@ -73,7 +73,7 @@ export default function ConditionalRender() {
     context.restore()
   }
 
-  const renderSecondHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+  const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
     context.translate(context.canvas.width / 2, context.canvas.height / 2)
@@ -129,15 +129,15 @@ export default function ConditionalRender() {
         // render the base of the clock
       }
 
-      const renderHourHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render the hour hand of the clock
       }
 
-      const renderMinuteHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render the minute hand of the clock
       }
 
-      const renderSecondHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render the second hand of the clock
       }
 

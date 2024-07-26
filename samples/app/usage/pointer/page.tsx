@@ -173,7 +173,7 @@ export default function Pointer() {
         // flag the current value as "new"
       }
 
-      const onPointerDownnHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
         // flag the current value for display
         // this enables the coordinates of the current value
         //   to be rendered on the canvas

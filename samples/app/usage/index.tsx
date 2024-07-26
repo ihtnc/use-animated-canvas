@@ -7,6 +7,7 @@ import Transform from './transform/menu-item'
 
 import MultiRender from './multi-render/menu-item'
 import ConditionalRender from './conditional-render/menu-item'
+import MultiConditionalRender from './multi-conditional-render/menu-item'
 
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
@@ -51,6 +52,7 @@ const getMenus = (): Array<MenuItem> => {
 
     MultiRender,
     ConditionalRender,
+    MultiConditionalRender,
 
     Keyboard,
     Click,
