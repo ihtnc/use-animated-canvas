@@ -5,6 +5,8 @@ import Filters from './filters/menu-item'
 import Data from './data/menu-item'
 import Transform from './transform/menu-item'
 
+import MultiRender from './multi-render/menu-item'
+
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
 import Pointer from './pointer/menu-item'
@@ -45,6 +47,8 @@ const getMenus = (): Array<MenuItem> => {
     Filters,
     Data,
     Transform,
+
+    MultiRender,
 
     Keyboard,
     Click,
