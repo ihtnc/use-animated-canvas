@@ -1,5 +1,8 @@
 import use2dAnimatedCanvas from '@/use-2d-animated-canvas'
-import { renderWhen, filterWhen } from './utilities/2d-drawing-operations'
+import {
+  renderWhen,
+  filterWhen
+} from './utilities/2d-drawing-operations'
 import type {
   CanvasResizeHandler,
   Size,
@@ -8,11 +11,15 @@ import type {
   RenderEnvironmentLayerOptions
 } from '@/types'
 import type {
-  AnimatedCanvasTransformFunction,
-  AnimatedCanvasConditionalTransformObject,
-  AnimatedCanvasConditionalFilterObject,
+  AnimatedCanvasConditionalRenderFunction,
   AnimatedCanvasRenderFunction,
-  AnimatedCanvasConditionalRenderObject
+  AnimatedCanvasConditionalRenderObject,
+  AnimatedCanvasRenderFilterFunction,
+  AnimatedCanvasConditionalFilterObject,
+
+  AnimatedCanvasTransformFunction,
+  AnimatedCanvasConditionalTransformFunction,
+  AnimatedCanvasConditionalTransformObject,
 } from '@/types/use-2d-animated-canvas'
 import type {
   RenderGridLayerValue,
@@ -29,21 +36,25 @@ export {
 }
 
 export type {
-  AnimatedCanvasTransformFunction,
-  AnimatedCanvasConditionalTransformObject,
-  AnimatedCanvasConditionalFilterObject,
+  AnimatedCanvasConditionalRenderFunction,
   AnimatedCanvasRenderFunction,
   AnimatedCanvasConditionalRenderObject,
+  AnimatedCanvasRenderFilterFunction,
+  AnimatedCanvasConditionalFilterObject,
+
+  AnimatedCanvasTransformFunction,
+  AnimatedCanvasConditionalTransformFunction,
+  AnimatedCanvasConditionalTransformObject,
 
   CanvasResizeHandler,
   Size,
   Coordinates,
   RenderLocation,
-  RenderEnvironmentLayerOptions,
 
   RenderGridLayerValue,
   RenderGridLayerOptions,
   RenderGridLayerDrawHandler,
   RenderEnvironmentLayerValue,
+  RenderEnvironmentLayerOptions,
   RenderEnvironmentLayerDrawHandler
 }

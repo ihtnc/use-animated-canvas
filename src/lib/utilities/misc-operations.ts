@@ -91,10 +91,13 @@ const runTransform: RunTransformFunction = <T>(data: T, fn: TransformFunction<T>
   return data
 }
 
-type WhenTransformFunction = <T>(condition: ((data: T) => boolean) | Array<(data: T) => boolean>, transform: ((data: T) => T) | (Array<(data: T) => T>)) => ConditionalTransformObject<T>;
-export const when: WhenTransformFunction = <T>(condition: ((data: T) => boolean) | Array<(data: T) => boolean>, transform: ((data: T) => T) | (Array<(data: T) => T>)) => {
+type WhenTransformFunction = <T>(
+  condition: ConditionalTransformFunction<T> | Array<ConditionalTransformFunction<T>>,
+  transform: TransformFunction<T> | (Array<TransformFunction<T>>)
+) => ConditionalTransformObject<T>;
+export const when: WhenTransformFunction = (condition, transform) => {
   return {
-    condition: condition as ConditionalTransformFunction<T> | Array<ConditionalTransformFunction<T>>,
-    transform: transform as TransformFunction<T> | Array<TransformFunction<T>>
+    condition,
+    transform
   }
 }

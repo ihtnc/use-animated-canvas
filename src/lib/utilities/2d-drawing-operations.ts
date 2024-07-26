@@ -10,19 +10,19 @@ export const getTextSize = (context: CanvasRenderingContext2D, text: string): Si
 export type RenderFunction<T> = (context: CanvasRenderingContext2D, data?: T) => void;
 export type RenderPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data?: T, filters?: Array<RenderFilterFunction | ConditionalFilterObject<T>>) => void;
 export type FilterPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data?: T) => void;
-export type ConditionalFunction<T> = (data?: T) => boolean;
+export type ConditionalRenderFunction<T> = (data?: T) => boolean;
 export type ConditionalRenderObject<T> = {
-  condition: ConditionalFunction<T> | Array<ConditionalFunction<T>>,
+  condition: ConditionalRenderFunction<T> | Array<ConditionalRenderFunction<T>>,
   render: RenderFunction<T> | Array<RenderFunction<T>>
 };
 export type RenderFilterFunction = (context: CanvasRenderingContext2D) => void;
 export type ConditionalFilterObject<T> = {
-  condition: ConditionalFunction<T> | Array<ConditionalFunction<T>>,
+  condition: ConditionalRenderFunction<T> | Array<ConditionalRenderFunction<T>>,
   filter: RenderFilterFunction | Array<RenderFilterFunction>
 };
 
-type RenderPipelinFunction = <T>(pipeline: Array<RenderFunction<T> | ConditionalRenderObject<T>>) => { run: RenderPipelineRunFunction<T> };
-export const renderPipeline:RenderPipelinFunction = (pipeline) => {
+type RenderPipelineFunction = <T>(pipeline: Array<RenderFunction<T> | ConditionalRenderObject<T>>) => { run: RenderPipelineRunFunction<T> };
+export const renderPipeline:RenderPipelineFunction = (pipeline) => {
   return {
     run: (context, data, filters) => {
       const filterFns = filters ?? []
@@ -66,12 +66,12 @@ const runFilter: RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: 
     const conditionalFilter = fn as ConditionalFilterObject<T>
 
     if (typeof conditionalFilter.condition === 'function') {
-      let conditionalFn = conditionalFilter.condition as ConditionalFunction<T>
+      let conditionalFn = conditionalFilter.condition as ConditionalRenderFunction<T>
       if (conditionalFn(data) === false) { return }
     }
 
     if (Array.isArray(conditionalFilter.condition)) {
-      let conditionalFns = conditionalFilter.condition as Array<ConditionalFunction<T>>
+      let conditionalFns = conditionalFilter.condition as Array<ConditionalRenderFunction<T>>
       if (conditionalFns.some((fn) => fn(data) === false)) { return }
     }
 
@@ -101,12 +101,12 @@ const runRender: RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: 
     const conditionalRender = fn as ConditionalRenderObject<T>
 
     if (typeof conditionalRender.condition === 'function') {
-      const conditionalFn = conditionalRender.condition as ConditionalFunction<T>
+      const conditionalFn = conditionalRender.condition as ConditionalRenderFunction<T>
       if (conditionalFn(data) === false) { return }
     }
 
     if (Array.isArray(conditionalRender.condition)) {
-      let conditionalFns = conditionalRender.condition as Array<ConditionalFunction<T>>
+      let conditionalFns = conditionalRender.condition as Array<ConditionalRenderFunction<T>>
       if (conditionalFns.some((fn) => fn(data) === false)) { return }
     }
 
@@ -124,18 +124,24 @@ const runRender: RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: 
   }
 }
 
-type ConditionalRenderFunction = <T>(condition: ((data?: T) => boolean) | (Array<(data?: T) => boolean>), render: (context: CanvasRenderingContext2D, data?: T) => void) => ConditionalRenderObject<T>;
-export const renderWhen:ConditionalRenderFunction = <T>(condition: ((data?: T) => boolean) | (Array<(data?: T) => boolean>), render: (context: CanvasRenderingContext2D, data?: T) => void) => {
+type RenderWhenFunction = <T>(
+  condition: ConditionalRenderFunction<T> | Array<ConditionalRenderFunction<T>>,
+  render: RenderFunction<T> | Array<RenderFunction<T>>
+) => ConditionalRenderObject<T>;
+export const renderWhen: RenderWhenFunction = (condition, render) => {
   return {
-    condition: condition as ConditionalFunction<T>,
-    render: render as RenderFunction<T>
+    condition,
+    render
   }
 }
 
-type ConditionalFilterFunction = <T>(condition: ((data?: T) => boolean) | (Array<(data?: T) => boolean>), filter: (context: CanvasRenderingContext2D) => void) => ConditionalFilterObject<T>;
-export const filterWhen:ConditionalFilterFunction = <T>(condition: ((data?: T) => boolean) | (Array<(data?: T) => boolean>), filter: (context: CanvasRenderingContext2D) => void) => {
+type FilterWhenFunction = <T>(
+  condition: ConditionalRenderFunction<T> | (Array<ConditionalRenderFunction<T>>),
+  filter: RenderFilterFunction | Array<RenderFilterFunction>
+) => ConditionalFilterObject<T>;
+export const filterWhen: FilterWhenFunction = (condition, filter) => {
   return {
-    condition: condition as ConditionalFunction<T>,
-    filter: filter as RenderFilterFunction
+    condition,
+    filter
   }
 }

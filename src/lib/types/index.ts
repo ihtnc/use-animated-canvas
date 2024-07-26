@@ -2,10 +2,6 @@ import type {
   MouseEventHandler,
   PointerEventHandler
 } from "react"
-import type {
-  TransformFunction,
-  ConditionalTransformObject
-} from "@/utilities/misc-operations"
 
 export type Coordinates = { x: number, y: number }
 export type Size = { width: number, height: number }
@@ -69,5 +65,3 @@ export type RenderEnvironmentValue = {
   pixelRatio: number,
   frame: number
 }
-
-export type { TransformFunction, ConditionalTransformObject }
