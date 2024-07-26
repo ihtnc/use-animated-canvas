@@ -3,7 +3,11 @@ import Link from "next/link"
 const Template = ({ children }: { children: JSX.Element }) => {
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="mb-4 text-3xl font-semibold">use-animated-canvas Examples</h1>
+      <h1 className="mb-4 text-3xl font-semibold">use2dAnimatedCanvas Examples</h1>
+      <span className="mb-4">
+        [<a href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas" className="text-blue-500">package</a>]
+        [<a href="https://github.com/ihtnc/use-animated-canvas" className="text-blue-500">repo</a>]
+      </span>
       <div className="grid place-self-start">
         <Link
           href="../"

@@ -11,7 +11,7 @@
     "test:once": "vitest run"
   },
   "dependencies": {
-    "@ihtnc/use-animated-canvas": "^1.0.4",
+    "@ihtnc/use-animated-canvas": "^1.0.5",
     "highlight.js": "^11.10.0",
     "next": "14.2.5",
     "react": "^18",

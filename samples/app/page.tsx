@@ -51,7 +51,10 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1 className="mb-4 text-3xl font-semibold">use2dAnimatedCanvas Examples</h1>
-      <span className="mb-4">Package link: <a href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas" className="text-blue-500">@ihtnc/use-animated-canvas</a></span>
+      <span className="mb-4">
+        [<a href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas" className="text-blue-500">package</a>]
+        [<a href="https://github.com/ihtnc/use-animated-canvas" className="text-blue-500">repo</a>]
+      </span>
       <input
         type="search"
         placeholder="Search examples..."
