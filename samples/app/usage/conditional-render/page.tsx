@@ -1,6 +1,11 @@
 'use client'
 
-import { type AnimatedCanvasRenderFunction, renderWhen, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
+import {
+  type AnimatedCanvasRenderData,
+  type AnimatedCanvasRenderFunction,
+  renderWhen,
+  use2dAnimatedCanvas
+} from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
@@ -28,6 +33,10 @@ const getDate = (date?: Date) => {
 
 export default function ConditionalRender() {
   const { isDarkMode } = useDarkMode()
+
+  const has5SecondsElapsed = (data?: AnimatedCanvasRenderData<Date>) => {
+    return (data?.data?.getSeconds() ?? 0) % 10 < 5
+  }
 
   const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.fillStyle = '#808080'
@@ -100,10 +109,6 @@ export default function ConditionalRender() {
     context.restore()
   }
 
-  const check5SecondInterval: (date?: Date) => boolean = (date) => {
-    return (date?.getSeconds() ?? 0) % 10 < 5
-  }
-
   const { Canvas } = use2dAnimatedCanvas<Date>({
     preRenderTransform: (data) => {
       data.data = new Date()
@@ -114,13 +119,17 @@ export default function ConditionalRender() {
       renderClockBase,
       renderHourHand,
       renderMinuteHand,
-      renderWhen((data) => check5SecondInterval(data?.data), renderSecondHand)
+      renderWhen(has5SecondsElapsed, renderSecondHand)
     ],
-    renderForeground: [renderWhen((data) => check5SecondInterval(data?.data), renderDate)]
+    renderForeground: [renderWhen(has5SecondsElapsed, renderDate)]
   })
 
   const code = `
     export default function ConditionalRender() {
+      const has5SecondsElapsed = (data?: AnimatedCanvasRenderData<Date>) => {
+        // return true if 5 seconds has elapsed
+      }
+
       const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render instructions
       }
@@ -143,10 +152,6 @@ export default function ConditionalRender() {
 
       const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render the date
-      }
-
-      const check5SecondInterval: (date?: Date) => boolean = (date) => {
-        // check if 5 seconds has elapsed
       }
 
       const { Canvas } = use2dAnimatedCanvas<Date>({
@@ -172,12 +177,12 @@ export default function ConditionalRender() {
           renderClockBase,
           renderHourHand,
           renderMinuteHand,
-          renderWhen((data) => check5SecondInterval(data?.data), renderSecondHand)
+          renderWhen(has5SecondsElapsed, renderSecondHand)
         ],
 
         // this is essentially the same as
-        //   "renderForeground: renderWhen((data) => check5SecondInterval(data?.data), renderDate)"
-        renderForeground: [renderWhen((data) => check5SecondInterval(data?.data), renderDate)]
+        //   "renderForeground: renderWhen(has5SecondsElapsed, renderDate)"
+        renderForeground: [renderWhen(has5SecondsElapsed, renderDate)]
 
       return <Canvas />
     }

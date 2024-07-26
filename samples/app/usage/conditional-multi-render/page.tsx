@@ -1,8 +1,9 @@
 'use client'
 
 import {
-  type AnimatedCanvasRenderData,
+  type AnimatedCanvasConditionalRenderFunction,
   type AnimatedCanvasRenderFunction,
+  filterWhen,
   renderWhen,
   use2dAnimatedCanvas
 } from '@ihtnc/use-animated-canvas'
@@ -32,28 +33,23 @@ const getDate = (date?: Date) => {
   }
 }
 
-export default function MultiConditionalRender() {
+export default function ConditionalMultiRender() {
   const { isDarkMode } = useDarkMode()
 
   type PageData = {
     isClicked: boolean,
-    isWithinBounds: boolean,
     date: Date
   }
   let clicked: boolean
-  let withinBounds: boolean
-  let buttonWidth = 20
 
-  const isClicked = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isClicked ?? false
-  const isWithinBounds = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isWithinBounds ?? false
+  const isClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked ?? false
+  const isNotClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked === false ?? true
 
   const renderBackground: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.fillStyle = '#808080'
     context.font = '15px Arial'
     context.textBaseline = 'top'
-    context.fillRect(0, 0, buttonWidth, buttonWidth)
-    context.fillText('Click and hold', buttonWidth + 5, 5)
-    context.fillText('the gray box', buttonWidth + 5, context.canvas.height - 20)
+    context.fillText('Click and hold', 5, 5)
   }
 
   const renderClockBase: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
@@ -111,6 +107,16 @@ export default function MultiConditionalRender() {
     context.restore()
   }
 
+  const renderDigitalClock: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
+    context.save()
+    const time = data?.data?.date.toLocaleTimeString() ?? 'Time'
+    context.fillStyle = '#FFBF00'
+    context.font = '16px Arial'
+    context.textAlign = 'center'
+    context.fillText(time, context.canvas.width / 2, context.canvas.height / 2)
+    context.restore
+  }
+
   const renderDate: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.save()
     const day = getDate(data?.data?.date)
@@ -126,8 +132,7 @@ export default function MultiConditionalRender() {
     preRenderTransform: (data) => {
       data.data = {
         date: new Date(),
-        isClicked: clicked,
-        isWithinBounds: withinBounds
+        isClicked: clicked
       }
 
       return data
@@ -135,22 +140,14 @@ export default function MultiConditionalRender() {
     renderBackground,
     render: [
       renderClockBase,
-      renderHourHand,
-      renderMinuteHand,
-      renderWhen([isClicked, isWithinBounds], renderSecondHand)
+      renderWhen(isNotClicked, [renderDigitalClock]),
+      renderWhen(isClicked, [renderHourHand, renderMinuteHand, renderSecondHand])
     ],
-    renderForeground: [renderWhen([isClicked, isWithinBounds], renderDate)]
+    renderForeground: [renderWhen(isClicked, renderDate)]
   })
 
   const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
     clicked = false
-  }
-
-  const onPointerMoveHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
-    withinBounds = x >= 0 && x <= buttonWidth && y >= 0 && y <= buttonWidth
   }
 
   const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -163,19 +160,17 @@ export default function MultiConditionalRender() {
 
   const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
     clicked = false
-    withinBounds = false
   }
 
   const code = `
-    export default function MultiConditionalRender() {
-      type PageData = { isClicked: boolean, isWithinBounds: boolean, date: Date }
+    export default function ConditionalMultiRender() {
+      type PageData = { isClicked: boolean, date: Date }
 
       // will store the value for the current mouse position and click status
       let clicked: boolean
-      let withinBounds: boolean
 
-      const isClicked = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isClicked ?? false
-      const isWithinBounds = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isWithinBounds ?? false
+      const isClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked ?? false
+      const isNotClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked === false ?? true
 
       const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render instructions
@@ -197,47 +192,48 @@ export default function MultiConditionalRender() {
         // render the second hand of the clock
       }
 
+      const renderDigitalClock: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+        // render the time in digital format
+      }
+
       const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render the date
       }
 
       const { Canvas } = use2dAnimatedCanvas<Date>({
         preRenderTransform: (data) => {
-          // set the data to the current date, clicked, and withinBounds values
+          // set the data to the current date, and clicked values
           return data
         },
 
-        // renderBackground also supports renderWhen functions with multiple conditions
+        // renderBackground also supports renderWhen functions with multiple render functions
         renderBackground,
 
-        // notice that an array of condition functions can be specified
+        // notice that an array of render functions can be specified
         //   on the renderWhen function instead of a single one
-        // condition functions are evaluated in the order that they appear in the array
-        // the associated render function will only be called if all condition functions return true
-        // the idea of multiple conditions in the renderWhen function is to further separate the rendering logic
-        //   this makes it easier to manage complex rules
+        // render functions functions are called in the order that they appear in the array
+        // these render functions will only be called if the condition function returns true
+        // the idea of multiple render functions in the renderWhen function is to further separate the actual rendering operation
+        //   this makes it easier to manage rendering complex objects
         render: [
           renderClockBase,
-          renderHourHand,
-          renderMinuteHand,
-          renderWhen([isClicked, isWithinBounds], renderSecondHand)
+
+          // renderWhen functions can accept a single condition function or an array of condition functions
+          //   as well as a single render function or an array of render functions
+          renderWhen([isNotClicked], [renderDigitalClock]),
+
+          renderWhen(isClicked, [renderHourHand, renderMinuteHand, renderSecondHand])
         ],
 
         // this is essentially the same as
-        //   renderForeground: renderWhen([isClicked, isWithinBounds], renderDate)
+        //   renderForeground: renderWhen(isClicked, [renderDate])
         renderForeground: [
-          renderWhen([isClicked, isWithinBounds], renderDate)
+          renderWhen(isClicked, [renderDate])
         ]
       })
 
       const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
         // set clicked to false
-      }
-
-      const onPointerMoveHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
-        // get the x and y values based on the translated pointer coordinates
-        //   since the canvas coordinates are relative to the viewport
-        // set withinBounds to true if the pointer is within the bounds of the gray box
       }
 
       const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -249,7 +245,7 @@ export default function MultiConditionalRender() {
       }
 
       const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
-        // set clicked and withinBounds to false
+        // set clicked to false
       }
 
       return <Canvas
@@ -268,7 +264,6 @@ export default function MultiConditionalRender() {
       <Canvas
         className='w-full h-full border border-black dark:border-gray-300'
         onPointerEnter={onPointerEnterHandler}
-        onPointerMove={onPointerMoveHandler}
         onPointerDown={onPointerDownHandler}
         onPointerUp={onPointerUpHandler}
         onPointerOut={onPointerOutHandler}
