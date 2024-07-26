@@ -1,6 +1,6 @@
 'use client'
 
-import { type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
+import { type AnimatedCanvasRenderFunction, renderWhen, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
@@ -26,22 +26,15 @@ const getDate = (date?: Date) => {
   }
 }
 
-const getWeekday = (date?: Date) => {
-  const day = date?.getDay() ?? -1
-  switch (day) {
-    case 0: return 'Sunday'
-    case 1: return 'Monday'
-    case 2: return 'Tuesday'
-    case 3: return 'Wednesday'
-    case 4: return 'Thursday'
-    case 5: return 'Friday'
-    case 6: return 'Saturday'
-    default: return 'Weekday'
-  }
-}
-
-export default function MultiRender() {
+export default function ConditionalRender() {
   const { isDarkMode } = useDarkMode()
+
+  const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+    context.fillStyle = '#808080'
+    context.font = '15px Arial'
+    context.textBaseline = 'top'
+    context.fillText('Wait for 5 secs', 5, 5)
+  }
 
   const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
@@ -96,23 +89,19 @@ export default function MultiRender() {
     context.restore()
   }
 
-  const renderWeekday: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-    const day = getWeekday(data?.data)
-
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
-    context.font = '16px Arial'
-    context.textAlign = 'center'
-    context.textBaseline = 'top'
-    context.fillText(day, context.canvas.width / 2, 5)
-  }
-
   const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+    context.save()
     const day = getDate(data?.data)
 
     context.fillStyle = '#FFBF00'
     context.font = '16px Arial'
     context.textAlign = 'center'
     context.fillText(day, context.canvas.width / 2, context.canvas.height * 0.75)
+    context.restore()
+  }
+
+  const check5SecondInterval: (date?: Date) => boolean = (date) => {
+    return (date?.getSeconds() ?? 0) % 10 < 5
   }
 
   const { Canvas } = use2dAnimatedCanvas<Date>({
@@ -120,48 +109,44 @@ export default function MultiRender() {
       data.data = new Date()
       return data
     },
-    renderBackground: renderWeekday,
+    renderBackground,
     render: [
       renderClockBase,
       renderHourHand,
       renderMinuteHand,
-      renderSecondHand
+      renderWhen((data) => check5SecondInterval(data?.data), renderSecondHand)
     ],
-    renderForeground: [renderDate]
+    renderForeground: [renderWhen((data) => check5SecondInterval(data?.data), renderDate)]
   })
 
   const code = `
-    export default function MultiRender() {
+    export default function ConditionalRender() {
+      const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+        // render instructions
+      }
+
       const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
         // render the base of the clock
       }
 
       const renderHourHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
         // render the hour hand of the clock
       }
 
       const renderMinuteHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
         // render the minute hand of the clock
       }
 
       const renderSecondHand:  AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
         // render the second hand of the clock
-      }
-
-      const renderWeekday: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // render the day of the week
       }
 
       const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
         // render the date
+      }
+
+      const check5SecondInterval: (date?: Date) => boolean = (date) => {
+        // check if 5 seconds has elapsed
       }
 
       const { Canvas } = use2dAnimatedCanvas<Date>({
@@ -170,29 +155,29 @@ export default function MultiRender() {
           return data
         },
 
-        // renderBackground can also be an array of render functions
-        renderBackground: renderWeekday,
+        // renderBackground can also be an array of render or conditional render functions
+        renderBackground,
 
-        // notice that an array of render functions can be specified instead of a single one
-        // the order in which they are specified in the array is the order in which they will be called
-        // the idea here is to separate the rendering of different objects in the same layer
-        //   this makes it easier to manage the rendering of different objects
-        //   and also makes the rendering logic more modular and more straightforward
-        // context is persisted across all render functions in the same layer
-        //   as this is like calling all these render functions from one big render function
-        // nevertheless, each render function can opt to save and restore the context
-        //   to prevent the changes it made from persisting to succeeding functions
+        // notice that render functions or conditional render functions can be specified in the array
+        // conditional render functions are nothing but functions
+        //   that returns an object with a render function and a condition function
+        // the render function in the object will only be called if the corresponding condition function returns true
+        //   and similar to render functions, the condition function will also be passed the same data
+        // the idea of the conditional render function is to separate the rendering logic from the actual rendering code
+        //   this makes it easier to manage the rendering of objects with specific rules
+        // the library exposes the renderWhen conditional render function
+        //   which accepts the condition function and the actual render function
+        //   to help facilitate the creation of the object
         render: [
           renderClockBase,
           renderHourHand,
           renderMinuteHand,
-          renderSecondHand
+          renderWhen((data) => check5SecondInterval(data?.data), renderSecondHand)
         ],
 
         // this is essentially the same as
-        //   "renderForeground: renderDate"
-        renderForeground: [renderDate]
-      })
+        //   "renderForeground: renderWhen((data) => check5SecondInterval(data?.data), renderDate)"
+        renderForeground: [renderWhen((data) => check5SecondInterval(data?.data), renderDate)]
 
       return <Canvas />
     }
