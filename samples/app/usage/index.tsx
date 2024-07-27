@@ -10,6 +10,7 @@ import ConditionalRender from './conditional-render/menu-item'
 import MultiConditionalRender from './multi-conditional-render/menu-item'
 import ConditionalMultiRender from './conditional-multi-render/menu-item'
 import MultiFilter from './multi-filter/menu-item'
+import ConditionalFilter from './conditional-filter/menu-item'
 
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
@@ -57,6 +58,7 @@ const getMenus = (): Array<MenuItem> => {
     MultiConditionalRender,
     ConditionalMultiRender,
     MultiFilter,
+    ConditionalFilter,
 
     Keyboard,
     Click,
