@@ -40,17 +40,20 @@ export default function Layers() {
         renderBackground: (context, data) => {
           // this function gets called every frame
           //   and is called before the render function
+
           // render lines in the background
         },
         render: (context, data) => {
           // this function gets called every frame
           //   and is called after the renderBackground function
           //   but before the renderForeground function
+
           // render a circle that grows/shrinks a little bit every frame
         },
         renderForeground: (context, data) => {
           // this function gets called every frame
           //   and is called after the render function
+
           // render text in the foreground
         }
       })

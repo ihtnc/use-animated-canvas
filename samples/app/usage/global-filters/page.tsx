@@ -49,21 +49,19 @@ export default function GlobalFilters() {
           // ideally, this function should be used to make global changes to the context
           //   which will persist when succeeding functions are called
           // the context will be reset after all other render or filter function calls
+
           // set line color for the entire canvas
         },
+
+        // since there is a separate function for applying global filters,
+        //   render functions can then focus on just rendering objects in a their respective layers
         renderBackground: (context, data) => {
-          // since there is a separate function for applying global filters,
-          //   the render function can then focus on just rendering objects in the background layer
           // render a circle in the top left of the canvas that grows a little bit every frame
         },
         render: (context, data) => {
-          // since there is a separate function for applying global filters,
-          //   the render function can then focus on just rendering objects in the main layer
           // render a circle in the middle of the canvas that grows a little bit every frame
         },
         renderForeground: (context, data) => {
-          // since there is a separate function for applying global filters,
-          //   the render function can then focus on just rendering objects in the foreground layer
           // render a circle in the bottom right of the canvas that grows a little bit every frame
         }
       })

@@ -47,7 +47,7 @@ export default function Debugging() {
         }
       })
 
-      const onKeyUpHandler = (event: KeyboardEvent) => {
+      const onKeyUpHandler = (event) => {
         // check the pressed key and call the appropriate function from the debug object
         // call debug.renderContinue() to continue rendering
         // call debug.renderBreak() to pause rendering of the next frame

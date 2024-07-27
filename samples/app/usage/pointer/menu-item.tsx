@@ -1,6 +1,7 @@
 import type { MenuItem } from '@/app/usage'
 import Transform from '@/app/usage/transform/menu-item'
 import Layers from '@/app/usage/layers/menu-item'
+import Keyboard from '@/app/usage/keyboard/menu-item'
 
 const item: MenuItem = {
   label: 'Pointer',
@@ -13,7 +14,7 @@ const item: MenuItem = {
     'pointerup', 'pointerdown', 'pointermove', 'pointerenter', 'pointerout',
     'onPointerEnterHandler', 'onPointerOutHandler', 'onPointerMoveHandler', 'onPointerDownHandler', 'onPointerUpHandler'
   ],
-  seeAlso: [Transform, Layers]
+  seeAlso: [Transform, Layers, Keyboard]
 }
 
 export default item

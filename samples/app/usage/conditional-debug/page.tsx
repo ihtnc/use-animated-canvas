@@ -54,7 +54,7 @@ export default function ConditionalDebug() {
         }
       })
 
-      const onClickHandler: MouseEventHandler = (event) => {
+      const onClickHandler = (event) => {
         debug.renderContinue()
       }
 

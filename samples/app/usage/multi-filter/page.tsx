@@ -17,12 +17,12 @@ export default function MultiFilter() {
     context.fillStyle = '#68CDFE'
   }
 
-  const redStroke: AnimatedCanvasRenderFilterFunction = (context) => {
+  const redLine: AnimatedCanvasRenderFilterFunction = (context) => {
     context.strokeStyle = isDarkMode ? '#B6391F' : '#FF0000'
     context.lineWidth = 3
   }
 
-  const brownStroke: AnimatedCanvasRenderFilterFunction = (context) => {
+  const brownLine: AnimatedCanvasRenderFilterFunction = (context) => {
     context.strokeStyle = '#7B3F00'
     context.lineWidth = 3
   }
@@ -66,10 +66,10 @@ export default function MultiFilter() {
   }
 
   const { Canvas } = use2dAnimatedCanvas({
-    globalFilter: [brownFill, redStroke],
+    globalFilter: [brownFill, redLine],
     renderBackgroundFilter: opacity25,
     renderBackground: drawBackgroundTriangle,
-    renderFilter: [blueFill, brownStroke, opacity50],
+    renderFilter: [blueFill, brownLine, opacity50],
     render: drawTriangle,
     renderForegroundFilter: [blueFill],
     renderForeground: drawForegroundTriangle
@@ -82,38 +82,31 @@ export default function MultiFilter() {
       // this makes the filters more modular and more straightforward
 
       const brownFill = (context) => {
-        // set the fill style to brown
+        // set the fill color to brown
       }
-
-      const blueFill: AnimatedCanvasRenderFilterFunction = (context) => {
-        // set the fill style to blue
+      const blueFill = (context) => {
+        // set the fill color to blue
       }
-
-      const redStroke: AnimatedCanvasRenderFilterFunction = (context) => {
-        // set the stroke style to red
+      const redStroke = (context) => {
+        // set the line color to red
       }
-
-      const brownStroke: AnimatedCanvasRenderFilterFunction = (context) => {
-        // set the stroke style to brown
+      const brownStroke = (context) => {
+        // set the line color to brown
       }
-
-      const opacity50: AnimatedCanvasRenderFilterFunction = (context) => {
+      const opacity50 = (context) => {
         // set the opacity to 0.5
       }
-
-      const opacity25: AnimatedCanvasRenderFilterFunction = (context) => {
+      const opacity25 = (context) => {
         // set the opacity to 0.25
       }
 
-      const drawBackgroundTriangle = (context: CanvasRenderingContext2D) => {
+      const drawBackgroundTriangle = (context) => {
         // render a triangle in the background
       }
-
-      const drawTriangle = (context: CanvasRenderingContext2D) => {
+      const drawTriangle = (context) => {
         // render a triangle
       }
-
-      const drawForegroundTriangle = (context: CanvasRenderingContext2D) => {
+      const drawForegroundTriangle = (context) => {
         // render a triangle in the foreground
       }
 

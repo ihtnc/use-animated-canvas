@@ -57,7 +57,7 @@ export default function FilterContext() {
 
   const code = `
     export default function FilterContext() {
-      const globalFilter = (context: CanvasRenderingContext2D) => {
+      const globalFilter = (context) => {
         // set the line color, fill color, font, and text alignment
         //   for the entire canvas
       }
@@ -67,40 +67,46 @@ export default function FilterContext() {
         renderBackgroundFilter: (context) => {
           // regardless of the autoResetContext value,
           //   changes to the context here will only apply to the background layer
+
           // rotate the background layer 90 degrees clockwise
         },
         renderBackground: (context, data) => {
-          // render text in the canvas
           // notice that the line color, fill color, font, and text alignment
           //   defined from the global filter are applied here
           //   as well as the rotation defined in the corresponding layer filter
+
+          // render text in the canvas
         },
         renderFilter: (context) => {
           // regardless of the autoResetContext value,
           //   changes to the context here will only apply to the main layer
+
           // set opacity for the main layer
         },
         render: (context, data) => {
-          // render text in the canvas
           // notice that the line color, fill color, font, and text alignment
           //   defined from the global filter are applied here
           //   as well as the opacity defined in the corresponding layer filter
           // however, the rotation defined in the previous layer filter
           //   did not persist to this layer
+
+          // render text in the canvas
         },
         renderForegroundFilter: (context) => {
           // regardless of the autoResetContext value,
           //   changes to the context here will only apply to the foreground layer
+
           // set the fill color for the foreground layer
         },
         renderForeground: (context, data) => {
-          // render a circle in the bottom right of the canvas that grows a little bit every frame
           // notice that the line color, font, and text alignment
           //   defined from the global filter are applied here
           // however, the fill color defined in the global filter was
           //   replaced with the fill color defined in the corresponding layer filter
           // moreover, the rotation or opacity defined in previous layer filters
           //   did not persist to this layer
+
+          // render a circle in the bottom right of the canvas that grows a little bit every frame
         },
         options: {
           // notice that even if we set autoResetContext to false,

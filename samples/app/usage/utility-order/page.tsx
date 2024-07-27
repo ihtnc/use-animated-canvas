@@ -45,7 +45,7 @@ export default function UtilityOrder() {
           // render a square
           // notice that the grid layer is rendered after the renderForeground layer
         },
-        renderEnvironmentLayer: (context: CanvasRenderingContext2D) => {
+        renderEnvironmentLayer: (context) => {
           // render a circle
           // notice that the environment details layer is rendered after the grid layer
         }

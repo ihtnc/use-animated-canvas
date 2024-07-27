@@ -122,20 +122,19 @@ export default function Pointer() {
 
       const initialiseData = () => []
 
-      const renderBackground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+      const renderBackground = (context, data) => {
         // render instructions in the top left corner
       }
-
-      const render: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+      const render = (context, data) => {
         // for each click data in the array, render a small circle
         //   then connect each circle with a line
         //   from the coordinates of previous data in the array
       }
-
-      const renderForeground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+      const renderForeground = (context, data) => {
         // get the current value from the array
         // the data transformation logic ensures that the current value
         //   will always be the last item in the array
+
         // render coordinates of the current value in the bottom left corner
         //   if it is flagged for display
       }
@@ -145,6 +144,7 @@ export default function Pointer() {
         initialiseData,
         preRenderTransform: (data) => {
           // add the current value to the array
+
           // this is to ensure that the current value
           //   will be included in rendering
           return data
@@ -155,39 +155,47 @@ export default function Pointer() {
         postRenderTransform: (data) => {
           // remove any "new" data from the array
           // set the current value as "new"
+
           // this ensures that the current value is added permanently
           //   to the array only once and only on pointer click
           return data
         }
       })
 
-      const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      // the idea here is to let the render functions
+      //   focus on rendering objects on the canvas based on a set of data
+      // external factors (like pointer events), can then update the data
+      // these changes on the data are fed back to the render functions
+      //   via the transform functions
+      // this makes the responsibilities of both the render functions and the event handlers
+      //   more defined and straightforward
+      const onPointerEnterHandler = (event) => {
         // set the current value based on the translated coordinates
         //   since the canvas coordinates are relative to the viewport
+
         // flag the current value as "new" and not for display
       }
-
-      const onPointerMoveHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerMoveHandler = (event) => {
         // set the current value based on the translated coordinates
         //   since the canvas coordinates are relative to the viewport
+
         // flag the current value as "new"
       }
-
-      const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerDownHandler = (event) => {
         // flag the current value for display
+
         // this enables the coordinates of the current value
         //   to be rendered on the canvas
       }
-
-      const onPointerUpHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerUpHandler = (event) => {
         // flag the current value as not "new"
+
         // this enables the current value to be added permanently to the data
         // flag the current value as not for display
         // this prevents the coordinates of the current value
         //   from being rendered on the canvas
       }
-
-      const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerOutHandler = (event) => {
         // clear the data
       }
 

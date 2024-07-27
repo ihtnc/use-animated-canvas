@@ -27,6 +27,7 @@ export default function Basic() {
           // use context to draw on the canvas
           // use data to access details like frame count, fps, etc
           // data can also include a user-defined value if supplied
+
           // render a circle that grows/shrinks a little bit every frame
         }
       })

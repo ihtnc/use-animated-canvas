@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  type AnimatedCanvasRenderData,
+  type AnimatedCanvasConditionalRenderFunction,
   type AnimatedCanvasRenderFunction,
   renderWhen,
   use2dAnimatedCanvas
@@ -34,7 +34,7 @@ const getDate = (date?: Date) => {
 export default function ConditionalRender() {
   const { isDarkMode } = useDarkMode()
 
-  const has5SecondsElapsed = (data?: AnimatedCanvasRenderData<Date>) => {
+  const has5SecondsElapsed: AnimatedCanvasConditionalRenderFunction<Date> = (data) => {
     return (data?.data?.getSeconds() ?? 0) % 10 < 5
   }
 
@@ -126,31 +126,26 @@ export default function ConditionalRender() {
 
   const code = `
     export default function ConditionalRender() {
-      const has5SecondsElapsed = (data?: AnimatedCanvasRenderData<Date>) => {
+      const has5SecondsElapsed = (data) => {
         // return true if 5 seconds has elapsed
       }
 
-      const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderBackground = (context, data) => {
         // render instructions
       }
-
-      const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderClockBase = (context, data) => {
         // render the base of the clock
       }
-
-      const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderHourHand = (context, data) => {
         // render the hour hand of the clock
       }
-
-      const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderMinuteHand = (context, data) => {
         // render the minute hand of the clock
       }
-
-      const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderSecondHand = (context, data) => {
         // render the second hand of the clock
       }
-
-      const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderDate = (context, data) => {
         // render the date
       }
 
@@ -183,6 +178,7 @@ export default function ConditionalRender() {
         // this is essentially the same as
         //   "renderForeground: renderWhen(has5SecondsElapsed, renderDate)"
         renderForeground: [renderWhen(has5SecondsElapsed, renderDate)]
+      })
 
       return <Canvas />
     }

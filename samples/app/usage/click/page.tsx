@@ -82,11 +82,10 @@ export default function Click() {
 
       const initialiseData = () => []
 
-      const renderBackground: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+      const renderBackground = (context, data) => {
         // render instructions in the top left corner
       }
-
-      const render: AnimatedCanvasRenderFunction<Array<ClickData>> = (context, data) => {
+      const render = (context, data) => {
         // for each click data in the array, render a circle
         //   with the coordinate, radius, and opacity
         //   as specified in the data
@@ -111,7 +110,14 @@ export default function Click() {
         }
       })
 
-      const onClickHandler: MouseEventHandler = (event) => {
+      // the idea here is to let the render functions
+      //   focus on rendering objects on the canvas based on a set of data
+      // external factors (like click events), can then update the data
+      // these changes on the data are fed back to the render functions
+      //   via the transform functions
+      // this makes the responsibilities of both the render functions and the event handlers
+      //   more defined and straightforward
+      const onClickHandler = (event) => {
         // set the initial data value based on the translated coordinates
         //   since the canvas coordinates are relative to the viewport
       }

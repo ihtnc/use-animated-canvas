@@ -52,55 +52,55 @@ export default function Filters() {
 
   const code = `
     export default function Filters() {
-      const globalFilter = (context: CanvasRenderingContext2D) => {
+      const globalFilter = (context) => {
         // set the fill style for the entire canvas
       }
 
-      const drawBackgroundTriangle = (context: CanvasRenderingContext2D) => {
-        // since there is a separate function for applying background filters,
-        //   the render function can then focus on just rendering objects in the background layer
+      // since there is a separate function for applying layer-specific filters,
+      //   render functions can then focus on just rendering objects in their respective layers
+      const drawBackgroundTriangle = (context) => {
         // render a triangle in the background
       }
-
-      const drawTriangle = (context: CanvasRenderingContext2D) => {
-        // since there is a separate function for applying filters,
-        //   the render function can then focus on just rendering objects in the main layer
+      const drawTriangle = (context) => {
         // render a triangle
       }
-
-      const drawForegroundTriangle = (context: CanvasRenderingContext2D) => {
-        // since there is a separate function for applying foreground filters,
-        //   the render function can then focus on just rendering objects in the foreground layer
+      const drawForegroundTriangle = (context) => {
         // render a triangle in the foreground
       }
 
       const { Canvas } = use2dAnimatedCanvas({
         globalFilter,
+
         renderBackgroundFilter: (context) => {
           // this function gets called before the renderBackground function
           // ideally, this function should be used to make global changes to the context
           //   which will persist when the renderBackground function is called
           // the context will be reset after the renderBackground function call
           //   however, the changes made on the globalFilter function will persist
-          context.globalAlpha = 0.25
+
+          // set the opacity of the background layer
         },
         renderBackground: drawBackgroundTriangle,
+
         renderFilter: (context) => {
           // this function gets called before the render function
           // ideally, this function should be used to make global changes to the context
           //   which will persist when the render function is called
           // the context will be reset after the render function call
           //   however, the changes made on the globalFilter function will persist
-          context.globalAlpha = 0.5
+
+          // set the opacity of the background layer
         },
         render: drawTriangle,
+
         renderForegroundFilter: (context) => {
           // this function gets called before the renderForeground function
           // ideally, this function should be used to make global changes to the context
           //   which will persist when the renderForeground function is called
           // the context will be reset after the renderForeground function call
           //   however, the changes made on the globalFilter function will persist
-          context.globalAlpha = 0.75
+
+          // set the opacity of the background layer
         },
         renderForeground: drawForegroundTriangle
       })

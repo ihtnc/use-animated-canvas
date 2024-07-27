@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  type AnimatedCanvasRenderData,
+  type AnimatedCanvasConditionalRenderFunction,
   type AnimatedCanvasRenderFunction,
   renderWhen,
   use2dAnimatedCanvas
@@ -44,8 +44,8 @@ export default function MultiConditionalRender() {
   let withinBounds: boolean
   let buttonWidth = 20
 
-  const isClicked = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isClicked ?? false
-  const isWithinBounds = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isWithinBounds ?? false
+  const isClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked ?? false
+  const isWithinBounds: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isWithinBounds ?? false
 
   const renderBackground: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.fillStyle = '#808080'
@@ -174,30 +174,25 @@ export default function MultiConditionalRender() {
       let clicked: boolean
       let withinBounds: boolean
 
-      const isClicked = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isClicked ?? false
-      const isWithinBounds = (data?: AnimatedCanvasRenderData<PageData>) => data?.data?.isWithinBounds ?? false
+      const isClicked = (data) => data?.data?.isClicked ?? false
+      const isWithinBounds = (data) => data?.data?.isWithinBounds ?? false
 
-      const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderBackground = (context, data) => {
         // render instructions
       }
-
-      const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderClockBase = (context, data) => {
         // render the base of the clock
       }
-
-      const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderHourHand = (context, data) => {
         // render the hour hand of the clock
       }
-
-      const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderMinuteHand = (context, data) => {
         // render the minute hand of the clock
       }
-
-      const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderSecondHand = (context, data) => {
         // render the second hand of the clock
       }
-
-      const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderDate = (context, data) => {
         // render the date
       }
 
@@ -230,25 +225,21 @@ export default function MultiConditionalRender() {
         ]
       })
 
-      const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerEnterHandler = (event) => {
         // set clicked to false
       }
-
-      const onPointerMoveHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerMoveHandler = (event) => {
         // get the x and y values based on the translated pointer coordinates
         //   since the canvas coordinates are relative to the viewport
         // set withinBounds to true if the pointer is within the bounds of the gray box
       }
-
-      const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerDownHandler = (event) => {
         // set clicked to true
       }
-
-      const onPointerUpHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerUpHandler = (event) => {
         // set clicked to false
       }
-
-      const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerOutHandler = (event) => {
         // set clicked and withinBounds to false
       }
 

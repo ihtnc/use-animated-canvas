@@ -59,7 +59,7 @@ export default function RenderContext() {
 
   const code = `
     export default function RenderContext() {
-      const globalFilter = (context: CanvasRenderingContext2D) => {
+      const globalFilter = (context) => {
         // set the fill color and opacity for the entire canvas
       }
 

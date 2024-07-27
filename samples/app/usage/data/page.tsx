@@ -22,7 +22,7 @@ export default function Data() {
 
   const code = `
     export default function Data() {
-      const render: AnimatedCanvasRenderFunction<string> = (context, data) => {
+      const render = (context, data) => {
         // render the data in the center of the canvas
       }
 

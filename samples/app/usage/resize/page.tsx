@@ -42,11 +42,10 @@ export default function Resize() {
       // will store 1/3 the value of the current width of the canvas
       let radius = 0
 
-      const renderBackground: AnimatedCanvasRenderFunction<number> = (context, data) => {
+      const renderBackground = (context, data) => {
         // render instructions in the top left corner
       }
-
-      const render: AnimatedCanvasRenderFunction<number> = (context, data) => {
+      const render = (context, data) => {
         // render a circle in the center of the canvas
         //   with the radius as specified in the data
       }
@@ -67,7 +66,14 @@ export default function Resize() {
         }
       })
 
-      const onCanvasResizeHandler: CanvasResizeHandler = (width, height) => {
+      // the idea here is to let the render functions
+      //   focus on rendering objects on the canvas based on a set of data
+      // external factors (like resize events), can then update the data
+      // these changes on the data, are fed back to the render functions
+      //   via the transform functions
+      // this makes the responsibilities of both the render functions and the event handlers
+      //   more defined and straightforward
+      const onCanvasResizeHandler = (width, height) => {
         // set the radius to 1/3 the width of the canvas
       }
 

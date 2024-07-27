@@ -46,7 +46,7 @@ export default function UtilityContext() {
 
   const code = `
     export default function UtilityContext() {
-      const globalFilter = (context: CanvasRenderingContext2D) => {
+      const globalFilter = (context) => {
         // set the fill color and line color for the entire canvas
       }
 

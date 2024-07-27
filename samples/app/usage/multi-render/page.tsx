@@ -132,35 +132,24 @@ export default function MultiRender() {
 
   const code = `
     export default function MultiRender() {
-      const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
+      // since an array of render functions can be used instead of a single render function,
+      //   render functions can then focus on just rendering a specific object in their respective layers
+      const renderClockBase = (context, data) => {
         // render the base of the clock
       }
-
-      const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
+      const renderHourHand = (context, data) => {
         // render the hour hand of the clock
       }
-
-      const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
+      const renderMinuteHand = (context, data) => {
         // render the minute hand of the clock
       }
-
-      const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
-        // since an array of render functions can be used instead of a single render function,
-        //   the render function can then focus on just rendering a specific object in that layer
+      const renderSecondHand = (context, data) => {
         // render the second hand of the clock
       }
-
-      const renderWeekday: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderWeekday = (context, data) => {
         // render the day of the week
       }
-
-      const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderDate = (context, data) => {
         // render the date
       }
 

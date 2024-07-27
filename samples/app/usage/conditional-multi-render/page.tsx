@@ -3,7 +3,6 @@
 import {
   type AnimatedCanvasConditionalRenderFunction,
   type AnimatedCanvasRenderFunction,
-  filterWhen,
   renderWhen,
   use2dAnimatedCanvas
 } from '@ihtnc/use-animated-canvas'
@@ -169,34 +168,28 @@ export default function ConditionalMultiRender() {
       // will store the value for the current mouse position and click status
       let clicked: boolean
 
-      const isClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked ?? false
-      const isNotClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked === false ?? true
+      const isClicked = (data) => data?.data?.isClicked ?? false
+      const isNotClicked = (data) => data?.data?.isClicked === false ?? true
 
-      const renderBackground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderBackground = (context, data) => {
         // render instructions
       }
-
-      const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderClockBase = (context, data) => {
         // render the base of the clock
       }
-
-      const renderHourHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderHourHand = (context, data) => {
         // render the hour hand of the clock
       }
-
-      const renderMinuteHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderMinuteHand = (context, data) => {
         // render the minute hand of the clock
       }
-
-      const renderSecondHand: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderSecondHand = (context, data) => {
         // render the second hand of the clock
       }
-
-      const renderDigitalClock: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderDigitalClock = (context, data) => {
         // render the time in digital format
       }
-
-      const renderDate: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+      const renderDate = (context, data) => {
         // render the date
       }
 
@@ -232,19 +225,16 @@ export default function ConditionalMultiRender() {
         ]
       })
 
-      const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerEnterHandler = (event) => {
         // set clicked to false
       }
-
-      const onPointerDownHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerDownHandler = (event) => {
         // set clicked to true
       }
-
-      const onPointerUpHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerUpHandler = (event) => {
         // set clicked to false
       }
-
-      const onPointerOutHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
+      const onPointerOutHandler = (event) => {
         // set clicked to false
       }
 
