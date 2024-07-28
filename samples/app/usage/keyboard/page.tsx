@@ -79,8 +79,8 @@ export default function BasicEvents() {
       // external factors (like keypress events), can then update the data
       // these changes on the data are fed back to the render functions
       //   via the transform functions
-      // this makes the responsibilities of both the render functions and the event handlers
-      //   more defined and straightforward
+      // this makes the responsibilities of both the render functions
+      //   and the event handlers more defined and straightforward
       const onKeyDownHandler = (event) => {
         // update the pressedKey value on key press while component has focus
         pressedKey = event.key

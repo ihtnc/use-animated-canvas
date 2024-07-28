@@ -48,7 +48,8 @@ export default function ConditionalDebug() {
           // render frame count in the bottom left corner
         },
         options: {
-          // setting autoStart to false will prevent the animation from starting automatically
+          // setting autoStart to false will prevent the animation
+          //   from starting automatically
           autoStart: false,
           enableDebug: true
         }

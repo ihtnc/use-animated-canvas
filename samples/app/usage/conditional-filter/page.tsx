@@ -113,9 +113,11 @@ export default function ConditionalFilter() {
         // notice that filter functions or conditional filter functions can be used
         // conditional filter functions are nothing but functions
         //   that returns an object with a filter function and a condition function
-        // the filter function in the object will only be called if the corresponding condition function returns true
+        // the filter function in the object will only be called
+        //   if the corresponding condition function returns true
         //   the condition function will be passed the same data used by render functions
-        // the idea of the conditional filter function is to apply logic when rendering filters
+        // the idea of the conditional filter function
+        //   is to apply logic when rendering filters
         //   this makes filters more flexible
         // the library exposes the filterWhen conditional filter function
         //   which accepts the condition function and the actual filter function

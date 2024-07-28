@@ -54,15 +54,19 @@ export default function GlobalFilters() {
         },
 
         // since there is a separate function for applying global filters,
-        //   render functions can then focus on just rendering objects in a their respective layers
+        //   render functions can then focus on just rendering objects
+        //   in a their respective layers
         renderBackground: (context, data) => {
-          // render a circle in the top left of the canvas that grows a little bit every frame
+          // render a circle in the top left of the canvas
+          //   that grows a little bit every frame
         },
         render: (context, data) => {
-          // render a circle in the middle of the canvas that grows a little bit every frame
+          // render a circle in the middle of the canvas
+          //   that grows a little bit every frame
         },
         renderForeground: (context, data) => {
-          // render a circle in the bottom right of the canvas that grows a little bit every frame
+          // render a circle in the bottom right of the canvas
+          //   that grows a little bit every frame
         }
       })
 

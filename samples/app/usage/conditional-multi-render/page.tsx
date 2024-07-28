@@ -206,12 +206,14 @@ export default function ConditionalMultiRender() {
         //   on the renderWhen function instead of a single one
         // render functions functions are called in the order that they appear in the array
         // these render functions will only be called if the condition function returns true
-        // the idea of multiple render functions in the renderWhen function is to further separate the actual rendering operation
+        // the idea of multiple render functions in the renderWhen function
+        //   is to further separate the actual rendering operation
         //   this makes it easier to manage rendering complex objects
         render: [
           renderClockBase,
 
-          // renderWhen functions can accept a single condition function or an array of condition functions
+          // renderWhen functions can accept a single condition function
+          //   or an array of condition functions
           //   as well as a single render function or an array of render functions
           renderWhen([isNotClicked], [renderDigitalClock]),
 

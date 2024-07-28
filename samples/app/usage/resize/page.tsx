@@ -71,8 +71,8 @@ export default function Resize() {
       // external factors (like resize events), can then update the data
       // these changes on the data, are fed back to the render functions
       //   via the transform functions
-      // this makes the responsibilities of both the render functions and the event handlers
-      //   more defined and straightforward
+      // this makes the responsibilities of both the render functions
+      //   and the event handlers more defined and straightforward
       const onCanvasResizeHandler = (width, height) => {
         // set the radius to 1/3 the width of the canvas
       }

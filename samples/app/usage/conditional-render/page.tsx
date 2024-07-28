@@ -158,12 +158,16 @@ export default function ConditionalRender() {
         // renderBackground can also be an array of render or conditional render functions
         renderBackground,
 
-        // notice that render functions or conditional render functions can be specified in the array
+        // notice that render functions or conditional render functions
+        //   can be specified in the array
         // conditional render functions are nothing but functions
         //   that returns an object with a render function and a condition function
-        // the render function in the object will only be called if the corresponding condition function returns true
-        //   and similar to render functions, the condition function will also be passed the same data
-        // the idea of the conditional render function is to separate the rendering logic from the actual rendering code
+        // the render function in the object will only be called
+        //   if the corresponding condition function returns true
+        //   and similar to render functions, the condition function
+        //   will also be passed the same data
+        // the idea of the conditional render function
+        //   is to separate the rendering logic from the actual rendering code
         //   this makes it easier to manage the rendering of objects with specific rules
         // the library exposes the renderWhen conditional render function
         //   which accepts the condition function and the actual render function

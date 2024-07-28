@@ -67,7 +67,8 @@ export default function RenderContext() {
         globalFilter,
         renderBackground: (context, data) => {
           // increase the opacity of the canvas
-          // render a circle in the top left of the canvas that grows a little bit every frame
+          // render a circle in the top left of the canvas
+          //   that grows a little bit every frame
         },
         render: (context, data) => {
           // increase the opacity of the canvas
@@ -82,7 +83,8 @@ export default function RenderContext() {
           context.save()
 
           // set the fill color for this layer
-          // render a circle in the middle of the canvas that grows a little bit every frame
+          // render a circle in the middle of the canvas
+          //   that grows a little bit every frame
 
           // revert any changes made since the last context save call
           context.restore()
@@ -91,11 +93,13 @@ export default function RenderContext() {
           // because the main layer has saved the context
           //   prior to making changes to the fill color,
           //   and since it has restored the context at the end,
-          //   the fill color defined from the global filter will be reapplied to this layer
+          //   the fill color defined from the global filter
+          //   will be reapplied to this layer
           // also, the opacity changes defined by the main layer will not be reset
 
           // increase the opacity of the canvas
-          // render a circle in the bottom right of the canvas that grows a little bit every frame
+          // render a circle in the bottom right of the canvas
+          //   that grows a little bit every frame
         },
         options: {
           // by default, the context is reset after each layer is rendered

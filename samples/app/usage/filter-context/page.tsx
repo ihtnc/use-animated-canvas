@@ -106,7 +106,8 @@ export default function FilterContext() {
           // moreover, the rotation or opacity defined in previous layer filters
           //   did not persist to this layer
 
-          // render a circle in the bottom right of the canvas that grows a little bit every frame
+          // render a circle in the bottom right of the canvas
+          //   that grows a little bit every frame
         },
         options: {
           // notice that even if we set autoResetContext to false,

@@ -57,7 +57,8 @@ export default function Filters() {
       }
 
       // since there is a separate function for applying layer-specific filters,
-      //   render functions can then focus on just rendering objects in their respective layers
+      //   render functions can then focus on just rendering objects
+      //   in their respective layers
       const drawBackgroundTriangle = (context) => {
         // render a triangle in the background
       }

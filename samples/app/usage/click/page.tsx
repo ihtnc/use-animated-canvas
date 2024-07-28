@@ -115,8 +115,8 @@ export default function Click() {
       // external factors (like click events), can then update the data
       // these changes on the data are fed back to the render functions
       //   via the transform functions
-      // this makes the responsibilities of both the render functions and the event handlers
-      //   more defined and straightforward
+      // this makes the responsibilities of both the render functions
+      //   and the event handlers more defined and straightforward
       const onClickHandler = (event) => {
         // set the initial data value based on the translated coordinates
         //   since the canvas coordinates are relative to the viewport

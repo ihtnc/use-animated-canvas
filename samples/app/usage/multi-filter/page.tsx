@@ -111,20 +111,26 @@ export default function MultiFilter() {
       }
 
       const { Canvas } = use2dAnimatedCanvas<Date>({
-        // notice that an array of filter functions can be specified instead of a single one
-        // the order in which they are specified in the array is the order in which they will be called
-        // the idea here is to separate the usage of different context settings in the same layer
-        //   this makes it easier to manage complex filtering requirements
+        // notice that an array of filter functions can be specified
+        //   instead of a single one
+        // the order in which they are specified in the array
+        //   is the order in which they will be called
+        // the idea here is to separate the usage of different context settings
+        //   in the same layer
+        // this makes it easier to manage complex filtering requirements
         //   and also makes the filtering logic more modular and more straightforward
-        // like single filter functions, the context is handled the same with an array of filter functions
-        //   as this is like calling all these filter functions from one big filter function
+        // like single filter functions, the context is handled the same
+        //   with an array of filter functions
+        //   as this is like calling all these filter functions
+        //   from one big filter function
         globalFilter: [brownFill, redStroke],
 
         // renderBackgroundFilter can also be an array of filter functions
         renderBackgroundFilter: opacity25,
         renderBackground: drawBackgroundTriangle,
 
-        // global and layer-specific filter functions both can accept an array of filter function or a single one
+        // global and layer-specific filter functions
+        //   both can accept an array of filter function or a single one
         renderFilter: [blueFill, brownStroke, opacity50],
         render: drawTriangle,
 

@@ -208,8 +208,10 @@ export default function MultiConditionalRender() {
         // notice that an array of condition functions can be specified
         //   on the renderWhen function instead of a single one
         // condition functions are evaluated in the order that they appear in the array
-        // the associated render function will only be called if all condition functions return true
-        // the idea of multiple conditions in the renderWhen function is to further separate the rendering logic
+        // the associated render function will only be called
+        //   if all condition functions return true
+        // the idea of multiple conditions in the renderWhen function
+        //   is to further separate the rendering logic
         //   this makes it easier to manage complex rules
         render: [
           renderClockBase,

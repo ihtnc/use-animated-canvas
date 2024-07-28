@@ -162,8 +162,10 @@ export default function MultiRender() {
         // renderBackground can also be an array of render functions
         renderBackground: renderWeekday,
 
-        // notice that an array of render functions can be specified instead of a single one
-        // the order in which they are specified in the array is the order in which they will be called
+        // notice that an array of render functions can be specified
+        //   instead of a single one
+        // the order in which they are specified in the array
+        //   is the order in which they will be called
         // the idea here is to separate the rendering of different objects in the same layer
         //   this makes it easier to manage the rendering of different objects
         //   and also makes the rendering logic more modular and more straightforward
