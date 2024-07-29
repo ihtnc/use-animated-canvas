@@ -56,7 +56,7 @@ export type RenderEnvironmentLayerOptions = {
   renderPixelRatio?: boolean,
   renderFrameNumber?: boolean
 }
-export type RenderEnvironmentValue = {
+export type DrawData = {
   fps: number,
   width: number,
   height: number,

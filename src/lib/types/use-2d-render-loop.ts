@@ -6,7 +6,7 @@ import type {
   DebugObject,
   RenderLocation,
   RenderEnvironmentLayerOptions,
-  RenderEnvironmentValue
+  DrawData
 } from "@/types"
 
 export type Use2DRenderLoopOptions = {
@@ -31,11 +31,6 @@ export type FrameCounter = { frameCount: number, fps: number, lastRender: number
 export type InitData = { devicePixelRatio: number }
 export type InitRenderHandler = (canvas: HTMLCanvasElement, data: InitData) => void
 
-export type DrawData = {
-  frame: number,
-  fps: number,
-  devicePixelRatio: number
-}
 export type DrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
 export type PreDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
 export type PostDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
@@ -50,4 +45,4 @@ export type RenderGridLayerOptions = {
 export type RenderGridLayerValue = boolean | string | number | Size | RenderGridLayerOptions | RenderGridLayerDrawHandler
 
 export type RenderEnvironmentLayerValue = boolean | string | RenderLocation | Coordinates | RenderEnvironmentLayerOptions | RenderEnvironmentLayerDrawHandler
-export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: RenderEnvironmentValue) => void
+export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void

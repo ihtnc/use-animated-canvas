@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from "vitest"
-import { deepCopy, transformPipeline } from "./misc-operations"
+import { ConditionalEvaluationType, deepCopy, transformPipeline } from "./misc-operations"
 
 describe('misc operations', () => {
 
@@ -126,9 +126,9 @@ describe('misc operations', () => {
     })
 
     test('should not immediately call object functions', () => {
-      const obj1 = { condition: vi.fn(), transform: vi.fn() }
-      const obj2 = { condition: vi.fn(), transform: vi.fn() }
-      const obj3 = { condition: vi.fn(), transform: vi.fn() }
+      const obj1 = { condition: vi.fn(), transform: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn(), transform: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn(), transform: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       transformPipeline([
         obj1,
@@ -147,24 +147,32 @@ describe('misc operations', () => {
     test('should call object condition function when run is called', () => {
       const initialValue: number = 1
 
-      const obj = { condition: vi.fn(), transform: vi.fn() }
+      const obj = { condition: vi.fn(), transform: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       transformPipeline([obj]).run(initialValue)
 
       expect(obj.condition).toHaveBeenCalledWith(initialValue)
     })
 
-    test('should not call object transform function when condition returns false', () => {
-      const obj = { condition: vi.fn().mockReturnValue(false), transform: vi.fn() }
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false,evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object transform function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), transform: vi.fn(), evaluation }
 
       transformPipeline([obj]).run(1)
 
       expect(obj.transform).not.toHaveBeenCalled()
     })
 
-    test('should call object transform function when condition returns true', () => {
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object transform function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
       const initialValue: number = 1
-      const obj = { condition: vi.fn().mockReturnValue(true), transform: vi.fn() }
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), transform: vi.fn(), evaluation }
 
       transformPipeline([obj]).run(initialValue)
 
@@ -177,9 +185,9 @@ describe('misc operations', () => {
       const fn2Return: number = 3
       const fn3Return: number = 4
 
-      const obj1 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn1Return) }
-      const obj2 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn2Return) }
-      const obj3 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn3Return) }
+      const obj1 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn1Return), evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn2Return), evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn3Return), evaluation: ConditionalEvaluationType.All }
 
       transformPipeline([
         obj1,
@@ -198,9 +206,9 @@ describe('misc operations', () => {
     test('should return response from last object transform', () => {
       const fn3Return: number = 4
 
-      const obj1 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn() }
-      const obj2 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn() }
-      const obj3 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn3Return) }
+      const obj1 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn().mockReturnValue(true), transform: vi.fn().mockReturnValue(fn3Return), evaluation: ConditionalEvaluationType.All }
 
       const finalValue = transformPipeline([
         obj1,
@@ -211,33 +219,80 @@ describe('misc operations', () => {
       expect(finalValue).toBe(fn3Return)
     })
 
-    test('should not call object transform function when one condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
-      const condition2 = vi.fn().mockReturnValue(false)
+    test.each([
+      { firstReturnValue: true, returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { firstReturnValue: false, returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object transform function when one condition returns $returnValue and condition evaluation is $evaluation', ({ firstReturnValue, returnValue, evaluation }: { firstReturnValue: boolean, returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(firstReturnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], transform: vi.fn() }
+      const obj = { condition: [condition1, condition2], transform: vi.fn(), evaluation }
 
       transformPipeline([obj]).run(1)
 
       expect(obj.transform).not.toHaveBeenCalled()
     })
 
-    test('should not call object transform function when all conditions return true', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
+    test('should call object transform function when one condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(false)
       const condition2 = vi.fn().mockReturnValue(true)
 
-      const obj = { condition: [condition1, condition2], transform: vi.fn() }
+      const obj = { condition: [condition1, condition2], transform: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       transformPipeline([obj]).run(1)
 
       expect(obj.transform).toHaveBeenCalled()
     })
 
-    test('should not call next condition when condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(false)
-      const condition2 = vi.fn().mockReturnValue(true)
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object transform function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], transform: vi.fn() }
+      const obj = { condition: [condition1, condition2], transform: vi.fn(), evaluation }
+
+      transformPipeline([obj]).run(1)
+
+      expect(obj.transform).toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object transform function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
+
+      const obj = { condition: [condition1, condition2], transform: vi.fn(), evaluation }
+
+      transformPipeline([obj]).run(1)
+
+      expect(obj.transform).not.toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call next condition when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(!returnValue)
+
+      const obj = { condition: [condition1, condition2], transform: vi.fn(), evaluation }
+
+      transformPipeline([obj]).run(1)
+
+      expect(condition2).not.toHaveBeenCalled()
+    })
+
+    test('should not call next condition anymore when condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(true)
+      const condition2 = vi.fn().mockReturnValue(false)
+
+      const obj = { condition: [condition1, condition2], transform: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       transformPipeline([obj]).run(1)
 
@@ -254,7 +309,7 @@ describe('misc operations', () => {
       const fn2 = vi.fn().mockReturnValue(fn2Return)
       const fn3 = vi.fn().mockReturnValue(fn3Return)
 
-      const obj = { condition: vi.fn().mockReturnValue(true), transform: [fn1, fn2, fn3] }
+      const obj = { condition: vi.fn().mockReturnValue(true), transform: [fn1, fn2, fn3], evaluation: ConditionalEvaluationType.All }
 
       transformPipeline([obj]).run(initialValue)
 
@@ -270,7 +325,7 @@ describe('misc operations', () => {
       const fn2 = vi.fn()
       const fn3 = vi.fn().mockReturnValue(fn3Return)
 
-      const obj = { condition: vi.fn().mockReturnValue(true), transform: [fn1, fn2, fn3] }
+      const obj = { condition: vi.fn().mockReturnValue(true), transform: [fn1, fn2, fn3], evaluation: ConditionalEvaluationType.All }
 
       const finalValue = transformPipeline([obj]).run([])
 

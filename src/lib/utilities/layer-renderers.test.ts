@@ -1,6 +1,6 @@
 import { type Mock, type MockInstance, afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 import { DEFAULT_RENDER_ENVIRONMENT_LAYER_OPTIONS, DEFAULT_RENDER_GRID_LAYER_OPTIONS } from '@/defaults'
-import type { RenderEnvironmentValue, RenderEnvironmentLayerOptions, Size } from "@/types"
+import type { DrawData, RenderEnvironmentLayerOptions, Size } from "@/types"
 import { RenderLocation } from "@/types"
 import type { RenderGridLayerOptions } from "@/types/use-2d-render-loop"
 import { getTextSize } from "@/utilities/2d-drawing-operations"
@@ -17,7 +17,7 @@ describe('canvas layer renderers', () => {
   })
 
   describe('getRenderEnvironmentLayerHandler function', () => {
-    let renderValue: RenderEnvironmentValue
+    let renderValue: DrawData
     let context: CanvasRenderingContext2D
     let getTextSizeMock: Mock
     let getTextSizeResponse: Size
@@ -645,7 +645,7 @@ describe('canvas layer renderers', () => {
       leftX: number, midX: number, rightX: number,
       topY: number, midY: number, bottomY: number
     }
-    const getPresetCoordinates = (renderValue: RenderEnvironmentValue, textSize: Size): PresetCoordinates => {
+    const getPresetCoordinates = (renderValue: DrawData, textSize: Size): PresetCoordinates => {
       const offSet = 10
       const { width, height } = textSize
       const leftX = 0 + offSet

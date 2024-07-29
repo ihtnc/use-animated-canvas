@@ -1,9 +1,10 @@
 import use2DRenderLoop from "@/use-2d-render-loop"
 import type {
-  AnimatedCanvasTransformData,
-  AnimatedCanvasRenderData,
+  AnimatedCanvasData,
   Use2dAnimatedCanvasProps,
   Use2dAnimatedCanvasResponse,
+  AnimatedCanvasTransformFunction,
+  AnimatedCanvasConditionalTransformObject,
 } from "@/types/use-2d-animated-canvas"
 import type {
   DrawHandler,
@@ -30,7 +31,7 @@ const DEFAULT_OPTIONS: UseAnimatedCanvasOptions = {
   resizeDelayMs: 200
 }
 
-type InferPropsType<C extends Use2dAnimatedCanvasProps<any>> = C extends Use2dAnimatedCanvasProps<infer T> ? T : unknown;
+type InferPropsType<C extends Use2dAnimatedCanvasProps<any>> = C extends Use2dAnimatedCanvasProps<infer T> ? T : unknown
 
 const use2dAnimatedCanvas: <T extends string | number | boolean | object | undefined>(props: Use2dAnimatedCanvasProps<T>, initialData?: T) => Use2dAnimatedCanvasResponse = (props, initialData) => {
   const {
@@ -67,8 +68,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
 
     if (preRenderTransform === undefined) { return }
 
-    const canvasData: AnimatedCanvasTransformData<InferPropsType<typeof props>> = {
-      context,
+    const canvasData: AnimatedCanvasData<InferPropsType<typeof props>> = {
       drawData: data,
       data: currentFrameData ?? undefined
     }
@@ -81,7 +81,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   }
 
   const drawHandler: DrawHandler = (context, data) => {
-    const renderData: AnimatedCanvasRenderData<InferPropsType<typeof props>> = {
+    const renderData: AnimatedCanvasData<InferPropsType<typeof props>> = {
       drawData: data,
       data: currentFrameData ?? undefined
     }
@@ -116,15 +116,19 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   }
 
   const postDrawHandler: PostDrawHandler = (context, data) => {
-    if (postRenderTransform === undefined) { return }
-
-    const canvasData: AnimatedCanvasTransformData<InferPropsType<typeof props>> = {
-      context,
+    const canvasData: AnimatedCanvasData<InferPropsType<typeof props>> = {
       drawData: data,
       data: currentFrameData !== null ? deepCopy(currentFrameData) : undefined
     }
 
-    const transforms = Array.isArray(postRenderTransform) ? postRenderTransform : [postRenderTransform]
+    let transforms: Array<AnimatedCanvasTransformFunction<InferPropsType<typeof props>> | AnimatedCanvasConditionalTransformObject<InferPropsType<typeof props>>> = []
+    if (postRenderTransform === undefined) {
+      transforms = []
+    }
+    else {
+      transforms = Array.isArray(postRenderTransform) ? postRenderTransform : [postRenderTransform]
+    }
+
     const { data: transformed } = transformPipeline(transforms).run(canvasData)
     if (transformed !== undefined) {
       currentFrameData = transformed

@@ -3,7 +3,7 @@ import type {
   RenderEnvironmentLayerOptions,
   Coordinates,
   Size,
-  RenderEnvironmentValue
+  DrawData
 } from "@/types"
 import {
   RenderLocation
@@ -67,7 +67,7 @@ export const getRenderEnvironmentLayerHandler: (value?: RenderEnvironmentLayerVa
     return renderer
   }
 
-  const getCoordinates: (value: string, debugValue: RenderEnvironmentValue, context: CanvasRenderingContext2D) => Coordinates = (value, debugValue, context) => {
+  const getCoordinates: (value: string, debugValue: DrawData, context: CanvasRenderingContext2D) => Coordinates = (value, debugValue, context) => {
     let { x, y } = options.location as Coordinates
     if (x !== undefined && y !== undefined
       && x >= 0 && x <= debugValue.width

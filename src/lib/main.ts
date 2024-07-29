@@ -1,7 +1,11 @@
 import use2dAnimatedCanvas from '@/use-2d-animated-canvas'
 import {
   renderWhen,
-  filterWhen
+  renderWhenAny,
+  renderWhenNot,
+  filterWhen,
+  filterWhenAny,
+  filterWhenNot
 } from './utilities/2d-drawing-operations'
 import type {
   CanvasResizeHandler,
@@ -11,14 +15,12 @@ import type {
   RenderEnvironmentLayerOptions
 } from '@/types'
 import type {
-  AnimatedCanvasConditionalRenderFunction,
+  AnimatedCanvasConditionalFunction,
   AnimatedCanvasRenderFunction,
   AnimatedCanvasConditionalRenderObject,
   AnimatedCanvasRenderFilterFunction,
   AnimatedCanvasConditionalFilterObject,
-
   AnimatedCanvasTransformFunction,
-  AnimatedCanvasConditionalTransformFunction,
   AnimatedCanvasConditionalTransformObject,
 } from '@/types/use-2d-animated-canvas'
 import type {
@@ -28,28 +30,39 @@ import type {
   RenderEnvironmentLayerValue,
   RenderEnvironmentLayerDrawHandler
 } from '@/types/use-2d-render-loop'
+import {
+  type ConditionalEvaluationType,
+  when, whenAny, whenNot
+} from './utilities/misc-operations'
 
 export {
   use2dAnimatedCanvas,
   renderWhen,
-  filterWhen
+  renderWhenAny,
+  renderWhenNot,
+  filterWhen,
+  filterWhenAny,
+  filterWhenNot,
+  when,
+  whenAny,
+  whenNot
 }
 
 export type {
-  AnimatedCanvasConditionalRenderFunction,
+  AnimatedCanvasConditionalFunction,
   AnimatedCanvasRenderFunction,
   AnimatedCanvasConditionalRenderObject,
   AnimatedCanvasRenderFilterFunction,
   AnimatedCanvasConditionalFilterObject,
-
   AnimatedCanvasTransformFunction,
-  AnimatedCanvasConditionalTransformFunction,
   AnimatedCanvasConditionalTransformObject,
 
   CanvasResizeHandler,
   Size,
   Coordinates,
   RenderLocation,
+
+  ConditionalEvaluationType,
 
   RenderGridLayerValue,
   RenderGridLayerOptions,

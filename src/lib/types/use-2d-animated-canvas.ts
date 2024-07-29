@@ -1,23 +1,22 @@
 import type {
   UseAnimatedCanvasOptions,
   AnimatedCanvasProps,
-  DebugObject
+  DebugObject,
+  DrawData
 } from "@/types"
 import type {
   RenderEnvironmentLayerValue,
   RenderGridLayerValue,
-  InitData,
-  DrawData
+  InitData
 } from "@/types/use-2d-render-loop"
 import type {
   ConditionalFilterObject,
-  ConditionalRenderFunction,
   ConditionalRenderObject,
   RenderFilterFunction,
   RenderFunction
 } from "@/utilities/2d-drawing-operations"
 import type {
-  ConditionalTransformFunction,
+  ConditionalFunction,
   ConditionalTransformObject,
   TransformFunction
 } from "@/utilities/misc-operations"
@@ -25,26 +24,18 @@ import {
   type JSXElementConstructor
 } from "react"
 
-export type AnimatedCanvasTransformData<T> = {
-  context: CanvasRenderingContext2D,
+export type AnimatedCanvasData<T> = {
   drawData: DrawData,
   data?: T
 }
 
-export type AnimatedCanvasRenderData<T> = {
-  drawData: DrawData,
-  data?: T
-}
-
-export interface AnimatedCanvasTransformFunction<T> extends TransformFunction<AnimatedCanvasTransformData<T>> {}
-export interface AnimatedCanvasConditionalTransformFunction<T> extends ConditionalTransformFunction<AnimatedCanvasTransformData<T>> {}
-export interface AnimatedCanvasConditionalTransformObject<T> extends ConditionalTransformObject<AnimatedCanvasTransformData<T>> {}
-
-export interface AnimatedCanvasConditionalRenderFunction<T> extends ConditionalRenderFunction<AnimatedCanvasRenderData<T>> {}
-export interface AnimatedCanvasRenderFunction<T> extends RenderFunction<AnimatedCanvasRenderData<T>> {}
-export interface AnimatedCanvasConditionalRenderObject<T> extends ConditionalRenderObject<AnimatedCanvasRenderData<T>> {}
+export interface AnimatedCanvasConditionalFunction<T> extends ConditionalFunction<AnimatedCanvasData<T>> {}
+export interface AnimatedCanvasTransformFunction<T> extends TransformFunction<AnimatedCanvasData<T>> {}
+export interface AnimatedCanvasConditionalTransformObject<T> extends ConditionalTransformObject<AnimatedCanvasData<T>> {}
+export interface AnimatedCanvasRenderFunction<T> extends RenderFunction<AnimatedCanvasData<T>> {}
+export interface AnimatedCanvasConditionalRenderObject<T> extends ConditionalRenderObject<AnimatedCanvasData<T>> {}
 export interface AnimatedCanvasRenderFilterFunction extends RenderFilterFunction {}
-export interface AnimatedCanvasConditionalFilterObject<T> extends ConditionalFilterObject<AnimatedCanvasRenderData<T>> {}
+export interface AnimatedCanvasConditionalFilterObject<T> extends ConditionalFilterObject<AnimatedCanvasData<T>> {}
 
 export type Use2dAnimatedCanvasProps<T> = {
   initialiseData?: InitialiseDataHandler<T>,

@@ -30,12 +30,19 @@ export const deepCopy: <T>(value: T) => T = (value) => {
   return value
 }
 
-export type TransformFunction<T> = (data: T) => T;
-export type ConditionalTransformFunction<T> = (data: T) => boolean;
+export type TransformFunction<T> = (data: T) => T
+export type ConditionalFunction<T> = (data: T) => boolean
+
+export enum ConditionalEvaluationType {
+  All = 'all',
+  Any = 'any',
+  None = 'none'
+}
 export type ConditionalTransformObject<T> = {
-  condition: ConditionalTransformFunction<T> | Array<ConditionalTransformFunction<T>>,
+  condition: ConditionalFunction<T> | Array<ConditionalFunction<T>>,
+  evaluation: ConditionalEvaluationType,
   transform: TransformFunction<T> | Array<TransformFunction<T>>
-};
+}
 
 type TransformPipelineFunction = <T>(operations: Array<TransformFunction<T> | ConditionalTransformObject<T>>) => { run: TransformFunction<T> }
 export const transformPipeline: TransformPipelineFunction = (operations) => {
@@ -52,24 +59,38 @@ export const transformPipeline: TransformPipelineFunction = (operations) => {
   }
 }
 
-type RunTransformFunction = <T>(data: T, fn: TransformFunction<T> | ConditionalTransformObject<T>) => T;
+type RunTransformFunction = <T>(data: T, fn: TransformFunction<T> | ConditionalTransformObject<T>) => T
 const runTransform: RunTransformFunction = <T>(data: T, fn: TransformFunction<T> | ConditionalTransformObject<T>) => {
   if (typeof fn === 'function') {
     const run = fn as TransformFunction<T>
     return run(data)
   }
 
-  if (typeof fn === 'object' && 'transform' in fn && 'condition' in fn) {
+  if (typeof fn === 'object' && 'transform' in fn && 'condition' in fn && 'evaluation' in fn) {
     const conditionalOperation = fn as ConditionalTransformObject<T>
+    const { evaluation } = conditionalOperation
 
     if (typeof conditionalOperation.condition === 'function') {
-      const conditionalFn = conditionalOperation.condition as ConditionalTransformFunction<T>
-      if (conditionalFn(data) === false) { return data }
+      const conditionalFn = conditionalOperation.condition as ConditionalFunction<T>
+      const conditionToContinue = evaluation === ConditionalEvaluationType.None ? false : true
+      if (conditionalFn(data) !== conditionToContinue) { return data }
     }
 
     if (Array.isArray(conditionalOperation.condition)) {
-      let conditionalFns = conditionalOperation.condition as Array<ConditionalTransformFunction<T>>
-      if (conditionalFns.some((fn) => fn(data) === false)) { return data }
+      let conditionalFns = conditionalOperation.condition as Array<ConditionalFunction<T>>
+      switch (evaluation) {
+        case ConditionalEvaluationType.All:
+          if (conditionalFns.some((fn) => fn(data) === false)) { return data }
+          break
+
+        case ConditionalEvaluationType.Any:
+          if (conditionalFns.every((fn) => fn(data) === false)) { return data }
+          break
+
+        case ConditionalEvaluationType.None:
+          if (conditionalFns.some((fn) => fn(data) === true)) { return data }
+          break
+      }
     }
 
     if (typeof conditionalOperation.transform === 'function') {
@@ -92,12 +113,27 @@ const runTransform: RunTransformFunction = <T>(data: T, fn: TransformFunction<T>
 }
 
 type WhenTransformFunction = <T>(
-  condition: ConditionalTransformFunction<T> | Array<ConditionalTransformFunction<T>>,
+  condition: ConditionalFunction<T> | Array<ConditionalFunction<T>>,
   transform: TransformFunction<T> | (Array<TransformFunction<T>>)
-) => ConditionalTransformObject<T>;
+) => ConditionalTransformObject<T>
 export const when: WhenTransformFunction = (condition, transform) => {
   return {
     condition,
+    evaluation: ConditionalEvaluationType.All,
+    transform
+  }
+}
+export const whenAny: WhenTransformFunction = (condition, transform) => {
+  return {
+    condition,
+    evaluation: ConditionalEvaluationType.Any,
+    transform
+  }
+}
+export const whenNot: WhenTransformFunction = (condition, transform) => {
+  return {
+    condition,
+    evaluation: ConditionalEvaluationType.None,
     transform
   }
 }

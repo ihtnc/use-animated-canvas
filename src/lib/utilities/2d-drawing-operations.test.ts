@@ -4,6 +4,7 @@ import {
   filterPipeline,
   getTextSize
 } from "./2d-drawing-operations"
+import { ConditionalEvaluationType } from "./misc-operations"
 
 describe('2d drawing operations', () => {
 
@@ -172,9 +173,9 @@ describe('2d drawing operations', () => {
     })
 
     test('should not immediately call object functions', () => {
-      const obj1 = { condition: vi.fn(), render: vi.fn() }
-      const obj2 = { condition: vi.fn(), render: vi.fn() }
-      const obj3 = { condition: vi.fn(), render: vi.fn() }
+      const obj1 = { condition: vi.fn(), render: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn(), render: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn(), render: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([
         obj1,
@@ -191,23 +192,31 @@ describe('2d drawing operations', () => {
     })
 
     test('should call object condition function when run is called', () => {
-      const obj = { condition: vi.fn(), render: vi.fn() }
+      const obj = { condition: vi.fn(), render: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([obj]).run(context, data)
 
       expect(obj.condition).toHaveBeenCalledWith(data)
     })
 
-    test('should not call object render function when condition returns false', () => {
-      const obj = { condition: vi.fn().mockReturnValue(false), render: vi.fn() }
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false,evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object render function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), render: vi.fn(), evaluation }
 
       renderPipeline([obj]).run(context, data)
 
       expect(obj.render).not.toHaveBeenCalled()
     })
 
-    test('should call object render function when condition returns true', () => {
-      const obj = { condition: vi.fn().mockReturnValue(true), render: vi.fn() }
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object render function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), render: vi.fn(), evaluation }
 
       renderPipeline([obj]).run(context, data)
 
@@ -220,9 +229,9 @@ describe('2d drawing operations', () => {
       const fn2 = vi.fn(() => expect(++callCount).toBe(2))
       const fn3 = vi.fn(() => expect(++callCount).toBe(3))
 
-      const obj1 = { condition: vi.fn().mockReturnValue(true), render: fn1 }
-      const obj2 = { condition: vi.fn().mockReturnValue(true), render: fn2 }
-      const obj3 = { condition: vi.fn().mockReturnValue(true), render: fn3 }
+      const obj1 = { condition: vi.fn().mockReturnValue(true), render: fn1, evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn().mockReturnValue(true), render: fn2, evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn().mockReturnValue(true), render: fn3, evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([
         obj1,
@@ -238,33 +247,80 @@ describe('2d drawing operations', () => {
       expect(obj3.render).toHaveBeenCalledWith(context, data)
     })
 
-    test('should not call object render function when one condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
-      const condition2 = vi.fn().mockReturnValue(false)
+    test.each([
+      { firstReturnValue: true, returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { firstReturnValue: false, returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object render function when one condition returns $returnValue and condition evaluation is $evaluation', ({ firstReturnValue, returnValue, evaluation }: { firstReturnValue: boolean, returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(firstReturnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], render: vi.fn() }
+      const obj = { condition: [condition1, condition2], render: vi.fn(), evaluation }
 
       renderPipeline([obj]).run(context, data)
 
       expect(obj.render).not.toHaveBeenCalled()
     })
 
-    test('should call object render function when all conditions return true', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
+    test('should call object render function when one condition return true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(false)
       const condition2 = vi.fn().mockReturnValue(true)
 
-      const obj = { condition: [condition1, condition2], render: vi.fn() }
+      const obj = { condition: [condition1, condition2], render: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       renderPipeline([obj]).run(context, data)
 
       expect(obj.render).toHaveBeenCalled()
     })
 
-    test('should not call next condition when condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(false)
-      const condition2 = vi.fn().mockReturnValue(true)
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object render function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], render: vi.fn() }
+      const obj = { condition: [condition1, condition2], render: vi.fn(), evaluation }
+
+      renderPipeline([obj]).run(context, data)
+
+      expect(obj.render).toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object render function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
+
+      const obj = { condition: [condition1, condition2], render: vi.fn(), evaluation }
+
+      renderPipeline([obj]).run(context, data)
+
+      expect(obj.render).not.toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call next condition when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(!returnValue)
+
+      const obj = { condition: [condition1, condition2], render: vi.fn(), evaluation }
+
+      renderPipeline([obj]).run(context, data)
+
+      expect(condition2).not.toHaveBeenCalled()
+    })
+
+    test('should not call next condition anymore when condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(true)
+      const condition2 = vi.fn().mockReturnValue(false)
+
+      const obj = { condition: [condition1, condition2], render: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       renderPipeline([obj]).run(context, data)
 
@@ -277,7 +333,7 @@ describe('2d drawing operations', () => {
       const fn2 = vi.fn(() => expect(++callCount).toBe(2))
       const fn3 = vi.fn(() => expect(++callCount).toBe(3))
 
-      const obj = { condition: vi.fn().mockReturnValue(true), render: [fn1, fn2, fn3] }
+      const obj = { condition: vi.fn().mockReturnValue(true), render: [fn1, fn2, fn3], evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([obj]).run(context, data)
 
@@ -287,23 +343,31 @@ describe('2d drawing operations', () => {
     })
 
     test('should call object filter condition function', () => {
-      const obj = { condition: vi.fn(), filter: vi.fn() }
+      const obj = { condition: vi.fn(), filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
       expect(obj.condition).toHaveBeenCalledWith(data)
     })
 
-    test('should not call object filter function when condition returns false', () => {
-      const obj = { condition: vi.fn().mockReturnValue(false), filter: vi.fn() }
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false,evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object filter function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), filter: vi.fn(), evaluation }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
       expect(obj.filter).not.toHaveBeenCalled()
     })
 
-    test('should call object filter function when condition returns true', () => {
-      const obj = { condition: vi.fn().mockReturnValue(true), filter: vi.fn() }
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object filter function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), filter: vi.fn(), evaluation }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
@@ -316,9 +380,9 @@ describe('2d drawing operations', () => {
       const fn2 = vi.fn(() => expect(++callCount).toBe(2))
       const fn3 = vi.fn(() => expect(++callCount).toBe(3))
 
-      const obj1 = { condition: vi.fn().mockReturnValue(true), filter: fn1 }
-      const obj2 = { condition: vi.fn().mockReturnValue(true), filter: fn2 }
-      const obj3 = { condition: vi.fn().mockReturnValue(true), filter: fn3 }
+      const obj1 = { condition: vi.fn().mockReturnValue(true), filter: fn1, evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn().mockReturnValue(true), filter: fn2, evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn().mockReturnValue(true), filter: fn3, evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([vi.fn()]).run(context, data, [obj1, obj2, obj3])
 
@@ -330,33 +394,80 @@ describe('2d drawing operations', () => {
       expect(obj3.filter).toHaveBeenCalledWith(context)
     })
 
-    test('should not call object filter function when one condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
-      const condition2 = vi.fn().mockReturnValue(false)
+    test.each([
+      { firstReturnValue: true, returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { firstReturnValue: false, returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object filter function when one condition returns $returnValue and condition evaluation is $evaluation', ({ firstReturnValue, returnValue, evaluation }: { firstReturnValue: boolean, returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(firstReturnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
       expect(obj.filter).not.toHaveBeenCalled()
     })
 
-    test('should call object filter function when all conditions return true', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
+    test('should call object transform function when one condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(false)
       const condition2 = vi.fn().mockReturnValue(true)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
       expect(obj.filter).toHaveBeenCalled()
     })
 
-    test('should not call next condition when condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(false)
-      const condition2 = vi.fn().mockReturnValue(true)
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object filter function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
+
+      renderPipeline([vi.fn()]).run(context, data, [obj])
+
+      expect(obj.filter).toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object filter function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
+
+      renderPipeline([vi.fn()]).run(context, data, [obj])
+
+      expect(obj.filter).not.toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call next condition when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(!returnValue)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
+
+      renderPipeline([vi.fn()]).run(context, data, [obj])
+
+      expect(condition2).not.toHaveBeenCalled()
+    })
+
+    test('should not call next condition anymore when condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(true)
+      const condition2 = vi.fn().mockReturnValue(false)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
@@ -369,7 +480,7 @@ describe('2d drawing operations', () => {
       const fn2 = vi.fn(() => expect(++callCount).toBe(2))
       const fn3 = vi.fn(() => expect(++callCount).toBe(3))
 
-      const obj = { condition: vi.fn().mockReturnValue(true), filter: [fn1, fn2, fn3] }
+      const obj = { condition: vi.fn().mockReturnValue(true), filter: [fn1, fn2, fn3], evaluation: ConditionalEvaluationType.All }
 
       renderPipeline([vi.fn()]).run(context, data, [obj])
 
@@ -431,9 +542,9 @@ describe('2d drawing operations', () => {
     })
 
     test('should not immediately call object functions', () => {
-      const obj1 = { condition: vi.fn(), filter: vi.fn() }
-      const obj2 = { condition: vi.fn(), filter: vi.fn() }
-      const obj3 = { condition: vi.fn(), filter: vi.fn() }
+      const obj1 = { condition: vi.fn(), filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn(), filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn(), filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       filterPipeline([
         obj1,
@@ -450,23 +561,31 @@ describe('2d drawing operations', () => {
     })
 
     test('should call object condition function when run is called', () => {
-      const obj = { condition: vi.fn(), filter: vi.fn() }
+      const obj = { condition: vi.fn(), filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
 
       filterPipeline([obj]).run(context, data)
 
       expect(obj.condition).toHaveBeenCalledWith(data)
     })
 
-    test('should not call object filter function when condition returns false', () => {
-      const obj = { condition: vi.fn().mockReturnValue(false), filter: vi.fn() }
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false,evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object filter function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), filter: vi.fn(), evaluation }
 
       filterPipeline([obj]).run(context, data)
 
       expect(obj.filter).not.toHaveBeenCalled()
     })
 
-    test('should call object filter function when condition returns true', () => {
-      const obj = { condition: vi.fn().mockReturnValue(true), filter: vi.fn() }
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object filter function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const obj = { condition: vi.fn().mockReturnValue(returnValue), filter: vi.fn(), evaluation }
 
       filterPipeline([obj]).run(context, data)
 
@@ -479,9 +598,9 @@ describe('2d drawing operations', () => {
       const fn2 = vi.fn(() => expect(++callCount).toBe(2))
       const fn3 = vi.fn(() => expect(++callCount).toBe(3))
 
-      const obj1 = { condition: vi.fn().mockReturnValue(true), filter: fn1 }
-      const obj2 = { condition: vi.fn().mockReturnValue(true), filter: fn2 }
-      const obj3 = { condition: vi.fn().mockReturnValue(true), filter: fn3 }
+      const obj1 = { condition: vi.fn().mockReturnValue(true), filter: fn1, evaluation: ConditionalEvaluationType.All }
+      const obj2 = { condition: vi.fn().mockReturnValue(true), filter: fn2, evaluation: ConditionalEvaluationType.All }
+      const obj3 = { condition: vi.fn().mockReturnValue(true), filter: fn3, evaluation: ConditionalEvaluationType.All }
 
       filterPipeline([
         obj1,
@@ -497,33 +616,77 @@ describe('2d drawing operations', () => {
       expect(obj3.filter).toHaveBeenCalledWith(context)
     })
 
-    test('should not call object filter function when one condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
-      const condition2 = vi.fn().mockReturnValue(false)
+    test.each([
+      { firstReturnValue: true, returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { firstReturnValue: false, returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object filter function when one condition returns $returnValue and condition evaluation is $evaluation', ({ firstReturnValue, returnValue, evaluation }: { firstReturnValue: boolean, returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(firstReturnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
 
       filterPipeline([obj]).run(context, data)
 
       expect(obj.filter).not.toHaveBeenCalled()
     })
 
-    test('should call object filter function when all conditions return true', () => {
-      const condition1 = vi.fn().mockReturnValue(true)
+    test('should call object filter function when one condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(false)
       const condition2 = vi.fn().mockReturnValue(true)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       filterPipeline([obj]).run(context, data)
 
       expect(obj.filter).toHaveBeenCalled()
     })
 
+    test.each([
+      { returnValue: true, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.None }
+    ])('should call object filter function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).toHaveBeenCalled()
+    })
+
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: false, evaluation: ConditionalEvaluationType.Any },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call object transform function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(returnValue)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).not.toHaveBeenCalled()
+    })
+
     test('should not call next condition when condition returns false', () => {
       const condition1 = vi.fn().mockReturnValue(false)
       const condition2 = vi.fn().mockReturnValue(true)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn() }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
+
+      filterPipeline([obj]).run(context, data)
+
+      expect(condition2).not.toHaveBeenCalled()
+    })
+
+    test('should not call next condition anymore when condition returns true and condition evaluation is \'any\'', () => {
+      const condition1 = vi.fn().mockReturnValue(true)
+      const condition2 = vi.fn().mockReturnValue(false)
+
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation: ConditionalEvaluationType.Any }
 
       filterPipeline([obj]).run(context, data)
 
@@ -536,7 +699,7 @@ describe('2d drawing operations', () => {
       const fn2 = vi.fn(() => expect(++callCount).toBe(2))
       const fn3 = vi.fn(() => expect(++callCount).toBe(3))
 
-      const obj = { condition: vi.fn().mockReturnValue(true), filter: [fn1, fn2, fn3] }
+      const obj = { condition: vi.fn().mockReturnValue(true), filter: [fn1, fn2, fn3], evaluation: ConditionalEvaluationType.All }
 
       filterPipeline([obj]).run(context, data)
 

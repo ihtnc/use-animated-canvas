@@ -2,12 +2,12 @@ import { useRef, useEffect } from "react"
 import type {
   Use2DRenderLoopOptions,
   Use2DRenderLoopResponse,
-  FrameCounter,
-  DrawData
+  FrameCounter
 } from "@/types/use-2d-render-loop"
 import type {
   RenderDebugHandler,
-  RenderDebugConditionalHandler
+  RenderDebugConditionalHandler,
+  DrawData
 } from "@/types"
 import { getRenderEnvironmentLayerHandler, getRenderGridLayerHandler } from "@/utilities/layer-renderers"
 import { cancelAnimationFrame, getDevicePixelRatio, requestAnimationFrame } from "@/utilities/client-operations"
@@ -126,7 +126,11 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
       const renderData: DrawData = {
         frame: frameCounter.current.frameCount,
         fps: frameCounter.current.fps,
-        devicePixelRatio
+        clientHeight: canvas.clientHeight,
+        clientWidth: canvas.clientWidth,
+        height: canvas.height,
+        width: canvas.width,
+        pixelRatio: devicePixelRatio
       }
 
       if (onPreDraw) { onPreDraw(context, renderData) }
