@@ -13,6 +13,7 @@ import MultiFilter from './multi-filter/menu-item'
 import ConditionalFilter from './conditional-filter/menu-item'
 import MultiConditionalFilter from './multi-conditional-filter/menu-item'
 import ConditionalMultiFilter from './conditional-multi-filter/menu-item'
+import MultiTransform from './multi-transform/menu-item'
 
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
@@ -63,6 +64,7 @@ const getMenus = (): Array<MenuItem> => {
     ConditionalFilter,
     MultiConditionalFilter,
     ConditionalMultiFilter,
+    MultiTransform,
 
     Keyboard,
     Click,
