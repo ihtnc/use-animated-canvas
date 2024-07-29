@@ -1,11 +1,9 @@
 'use client'
 
 import {
-  type AnimatedCanvasConditionalRenderFunction,
-  type AnimatedCanvasRenderFunction,
+  type AnimatedCanvasConditionalFunction,
   Coordinates,
   filterWhen,
-  renderWhen,
   use2dAnimatedCanvas
 } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
@@ -31,7 +29,7 @@ export default function ConditionalMultiFilter() {
   }
   let coordinates: Coordinates | undefined
 
-  const isWithinBackground: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => {
+  const isWithinBackground: AnimatedCanvasConditionalFunction<PageData> = (data) => {
     const current = data?.data?.coordinates ?? null
     const startHeight = data?.data?.backgroundStartHeight ?? -1
     const endHeight = data?.data?.backgroundEndHeight ?? -1
@@ -41,7 +39,7 @@ export default function ConditionalMultiFilter() {
     return current.x >= 0 && current.x < width
       && current.y >= startHeight && current.y < endHeight
   }
-  const isWithinMain: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => {
+  const isWithinMain: AnimatedCanvasConditionalFunction<PageData> = (data) => {
     const current = data?.data?.coordinates ?? null
     const startHeight = data?.data?.mainStartHeight ?? -1
     const endHeight = data?.data?.mainEndHeight ?? -1
@@ -51,7 +49,7 @@ export default function ConditionalMultiFilter() {
     return current.x >= 0 && current.x < width
       && current.y >= startHeight && current.y < endHeight
   }
-  const isWithinForeground: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => {
+  const isWithinForeground: AnimatedCanvasConditionalFunction<PageData> = (data) => {
     const current = data?.data?.coordinates ?? null
     const startHeight = data?.data?.foregroundStartHeight ?? -1
     const endHeight = data?.data?.foregroundEndHeight ?? -1
@@ -100,14 +98,14 @@ export default function ConditionalMultiFilter() {
       data.data = {
         coordinates,
         backgroundStartHeight: 0,
-        backgroundEndHeight: data.context.canvas.height / 3,
-        backgroundWidth: data.context.canvas.width,
-        mainStartHeight: data.context.canvas.height / 3,
-        mainEndHeight: data.context.canvas.height * 2 / 3,
-        mainWidth: data.context.canvas.width,
-        foregroundStartHeight: data.context.canvas.height * 2 / 3,
-        foregroundEndHeight: data.context.canvas.height,
-        foregroundWidth: data.context.canvas.width,
+        backgroundEndHeight: data.drawData.height / 3,
+        backgroundWidth: data.drawData.width,
+        mainStartHeight: data.drawData.height / 3,
+        mainEndHeight: data.drawData.height * 2 / 3,
+        mainWidth: data.drawData.width,
+        foregroundStartHeight: data.drawData.height * 2 / 3,
+        foregroundEndHeight: data.drawData.height,
+        foregroundWidth: data.drawData.width,
       }
 
       return data
@@ -167,7 +165,7 @@ export default function ConditionalMultiFilter() {
       const renderBackground = (context, data) => {
         // render instructions
       }
-      const renderMain = (context, data) => {
+      const render = (context, data) => {
         // render instructions
       }
       const renderForeground = (context, data) => {

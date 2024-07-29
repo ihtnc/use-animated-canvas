@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  type AnimatedCanvasConditionalRenderFunction,
+  type AnimatedCanvasConditionalFunction,
   type AnimatedCanvasRenderFunction,
   renderWhen,
   use2dAnimatedCanvas
@@ -41,8 +41,8 @@ export default function ConditionalMultiRender() {
   }
   let clicked: boolean
 
-  const isClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked ?? false
-  const isNotClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked === false ?? true
+  const isClicked: AnimatedCanvasConditionalFunction<PageData> = (data) => data?.data?.isClicked ?? false
+  const isNotClicked: AnimatedCanvasConditionalFunction<PageData> = (data) => data?.data?.isClicked === false ?? true
 
   const renderBackground: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.fillStyle = '#808080'
@@ -113,7 +113,7 @@ export default function ConditionalMultiRender() {
     context.font = '16px Arial'
     context.textAlign = 'center'
     context.fillText(time, context.canvas.width / 2, context.canvas.height / 2)
-    context.restore
+    context.restore()
   }
 
   const renderDate: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
@@ -142,7 +142,7 @@ export default function ConditionalMultiRender() {
       renderWhen(isNotClicked, [renderDigitalClock]),
       renderWhen(isClicked, [renderHourHand, renderMinuteHand, renderSecondHand])
     ],
-    renderForeground: [renderWhen(isClicked, renderDate)]
+    renderForeground: renderWhen(isClicked, renderDate)
   })
 
   const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -220,11 +220,7 @@ export default function ConditionalMultiRender() {
           renderWhen(isClicked, [renderHourHand, renderMinuteHand, renderSecondHand])
         ],
 
-        // this is essentially the same as
-        //   renderForeground: renderWhen(isClicked, [renderDate])
-        renderForeground: [
-          renderWhen(isClicked, [renderDate])
-        ]
+        renderForeground: renderWhen(isClicked, [renderDate])
       })
 
       const onPointerEnterHandler = (event) => {

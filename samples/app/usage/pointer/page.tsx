@@ -53,7 +53,7 @@ export default function Pointer() {
     if (data?.data === undefined || data.data.length === 0) { return }
 
     const lastItem = data.data[data.data.length - 1]
-    if (lastItem.new == false || lastItem.display === false) { return }
+    if (lastItem.new === false || lastItem.display === false) { return }
 
     context.fillStyle = '#808080'
     context.font = '15px Arial'
@@ -76,7 +76,7 @@ export default function Pointer() {
     renderForeground,
     postRenderTransform: (data) => {
       if (data.data !== undefined) {
-        data.data = data.data.filter((item) => item.new == false)
+        data.data = data.data.filter((item) => item.new === false)
       }
 
       if (current !== null) { current.new = true }

@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  type AnimatedCanvasConditionalRenderFunction,
+  type AnimatedCanvasConditionalFunction,
   type AnimatedCanvasRenderFunction,
   renderWhen,
   use2dAnimatedCanvas
@@ -44,8 +44,8 @@ export default function MultiConditionalRender() {
   let withinBounds: boolean
   let buttonWidth = 20
 
-  const isClicked: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isClicked ?? false
-  const isWithinBounds: AnimatedCanvasConditionalRenderFunction<PageData> = (data) => data?.data?.isWithinBounds ?? false
+  const isClicked: AnimatedCanvasConditionalFunction<PageData> = (data) => data?.data?.isClicked ?? false
+  const isWithinBounds: AnimatedCanvasConditionalFunction<PageData> = (data) => data?.data?.isWithinBounds ?? false
 
   const renderBackground: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.fillStyle = '#808080'
@@ -139,7 +139,7 @@ export default function MultiConditionalRender() {
       renderMinuteHand,
       renderWhen([isClicked, isWithinBounds], renderSecondHand)
     ],
-    renderForeground: [renderWhen([isClicked, isWithinBounds], renderDate)]
+    renderForeground: renderWhen([isClicked, isWithinBounds], renderDate)
   })
 
   const onPointerEnterHandler: PointerEventHandler<HTMLCanvasElement> = (event) => {
@@ -220,11 +220,7 @@ export default function MultiConditionalRender() {
           renderWhen([isClicked, isWithinBounds], renderSecondHand)
         ],
 
-        // this is essentially the same as
-        //   renderForeground: renderWhen([isClicked, isWithinBounds], renderDate)
-        renderForeground: [
-          renderWhen([isClicked, isWithinBounds], renderDate)
-        ]
+        renderForeground: renderWhen([isClicked, isWithinBounds], renderDate)
       })
 
       const onPointerEnterHandler = (event) => {

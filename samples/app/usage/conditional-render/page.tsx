@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  type AnimatedCanvasConditionalRenderFunction,
+  type AnimatedCanvasConditionalFunction,
   type AnimatedCanvasRenderFunction,
   renderWhen,
   use2dAnimatedCanvas
@@ -34,7 +34,7 @@ const getDate = (date?: Date) => {
 export default function ConditionalRender() {
   const { isDarkMode } = useDarkMode()
 
-  const has5SecondsElapsed: AnimatedCanvasConditionalRenderFunction<Date> = (data) => {
+  const has5SecondsElapsed: AnimatedCanvasConditionalFunction<Date> = (data) => {
     return (data?.data?.getSeconds() ?? 0) % 10 < 5
   }
 
@@ -121,7 +121,7 @@ export default function ConditionalRender() {
       renderMinuteHand,
       renderWhen(has5SecondsElapsed, renderSecondHand)
     ],
-    renderForeground: [renderWhen(has5SecondsElapsed, renderDate)]
+    renderForeground: renderWhen(has5SecondsElapsed, renderDate)
   })
 
   const code = `
@@ -179,9 +179,13 @@ export default function ConditionalRender() {
           renderWhen(has5SecondsElapsed, renderSecondHand)
         ],
 
-        // this is essentially the same as
-        //   "renderForeground: renderWhen(has5SecondsElapsed, renderDate)"
-        renderForeground: [renderWhen(has5SecondsElapsed, renderDate)]
+        renderForeground: renderWhen(has5SecondsElapsed, renderDate)
+
+        // the library also exposes the following conditional functions
+        // renderWhenAny is for calling rendering functions when the condition is met
+        // renderWhenNot is for calling rendering functions when the condition is not met
+        // these functions are similar to the renderWhen function,
+        //   as they are essentially the same function but with different evaluation logic
       })
 
       return <Canvas />

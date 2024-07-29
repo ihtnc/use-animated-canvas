@@ -1,6 +1,6 @@
 'use client'
 
-import { type AnimatedCanvasRenderFilterFunction, type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
+import { type AnimatedCanvasRenderFilterFunction, use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'

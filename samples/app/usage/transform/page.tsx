@@ -29,7 +29,7 @@ export default function Transform() {
     postRenderTransform: (data) => {
       if (data.data !== undefined) {
         const radius = data.data
-        if (radius * 2 >= data.context.canvas.width || radius * 2 >= data.context.canvas.height) {
+        if (radius * 2 >= data.drawData.width || radius * 2 >= data.drawData.height) {
           data.data = 0
         }
       }

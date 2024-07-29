@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  type AnimatedCanvasConditionalRenderFunction,
+  type AnimatedCanvasConditionalFunction,
   filterWhen,
   use2dAnimatedCanvas
 } from '@ihtnc/use-animated-canvas'
@@ -24,19 +24,19 @@ export default function ConditionalFilter() {
     context.globalAlpha = 1
   }
 
-  const has1SecondElapsed: AnimatedCanvasConditionalRenderFunction<Date> = (data) => {
+  const has1SecondElapsed: AnimatedCanvasConditionalFunction<Date> = (data) => {
     const seconds = data?.data?.getSeconds() ?? 0
-    return seconds % 3 == 0
+    return seconds % 3 === 0
   }
 
-  const has2SecondsElapsed: AnimatedCanvasConditionalRenderFunction<Date> = (data) => {
+  const has2SecondsElapsed: AnimatedCanvasConditionalFunction<Date> = (data) => {
     const seconds = data?.data?.getSeconds() ?? 0
-    return seconds % 3 == 1
+    return seconds % 3 === 1
   }
 
-  const has3SecondsElapsed: AnimatedCanvasConditionalRenderFunction<Date> = (data) => {
+  const has3SecondsElapsed: AnimatedCanvasConditionalFunction<Date> = (data) => {
     const seconds = data?.data?.getSeconds() ?? 0
-    return seconds % 3 == 2
+    return seconds % 3 === 2
   }
 
   const renderBackground = (context: CanvasRenderingContext2D) => {
@@ -131,6 +131,12 @@ export default function ConditionalFilter() {
 
         renderForegroundFilter: filterWhen(has15SecondsElapsed, highlightFilter),
         renderForeground
+
+        // the library also exposes the following conditional functions
+        // filterWhenAny is for calling filter functions when the condition is met
+        // filterWhenNot is for calling filter functions when the condition is not met
+        // these functions are similar to the filterWhen function,
+        //   as they are essentially the same function but with different evaluation logic
       })
 
       return <Canvas />

@@ -5,6 +5,11 @@ import Filters from './filters/menu-item'
 import Data from './data/menu-item'
 import Transform from './transform/menu-item'
 
+import Keyboard from './keyboard/menu-item'
+import Click from './click/menu-item'
+import Pointer from './pointer/menu-item'
+import Resize from './resize/menu-item'
+
 import MultiRender from './multi-render/menu-item'
 import ConditionalRender from './conditional-render/menu-item'
 import MultiConditionalRender from './multi-conditional-render/menu-item'
@@ -14,11 +19,9 @@ import ConditionalFilter from './conditional-filter/menu-item'
 import MultiConditionalFilter from './multi-conditional-filter/menu-item'
 import ConditionalMultiFilter from './conditional-multi-filter/menu-item'
 import MultiTransform from './multi-transform/menu-item'
-
-import Keyboard from './keyboard/menu-item'
-import Click from './click/menu-item'
-import Pointer from './pointer/menu-item'
-import Resize from './resize/menu-item'
+import ConditionalTransform from './conditional-transform/menu-item'
+import MultiConditionalTransform from './multi-conditional-transform/menu-item'
+import ConditionalMultiTransform from './conditional-multi-transform/menu-item'
 
 import Grid from './grid/menu-item'
 import CustomGrid from './custom-grid/menu-item'
@@ -56,6 +59,11 @@ const getMenus = (): Array<MenuItem> => {
     Data,
     Transform,
 
+    Keyboard,
+    Click,
+    Pointer,
+    Resize,
+
     MultiRender,
     ConditionalRender,
     MultiConditionalRender,
@@ -65,11 +73,9 @@ const getMenus = (): Array<MenuItem> => {
     MultiConditionalFilter,
     ConditionalMultiFilter,
     MultiTransform,
-
-    Keyboard,
-    Click,
-    Pointer,
-    Resize,
+    ConditionalTransform,
+    MultiConditionalTransform,
+    ConditionalMultiTransform,
 
     Grid,
     CustomGrid,
