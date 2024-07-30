@@ -1,4 +1,5 @@
 import { MenuItem } from '@/app/usage'
+import Link from "next/link"
 
 type SeeAlsoProps = {
   references?: Array<MenuItem>
@@ -12,10 +13,10 @@ export default function SeeAlso({references}: SeeAlsoProps) {
     <div className='flex flex-row'>{
       references.map((item, i) =>
         <span key={i} className='flex px-1'>[
-          <a href={item.href}
+          <Link href={item.href}
             className='text-blue-500'>
             {item.label}
-          </a>
+          </Link>
         ]</span>
       )
     }</div>
