@@ -36,6 +36,8 @@ import FilterContext from './filter-context/menu-item'
 import UtilityContext from './utility-context/menu-item'
 import UtilityOrder from './utility-order/menu-item'
 
+import BouncyBall from './bouncy-ball/menu-item'
+
 export type MenuItem = {
   label: string,
   href: string,
@@ -88,7 +90,9 @@ const getMenus = (): Array<MenuItem> => {
     RenderContext,
     FilterContext,
     UtilityContext,
-    UtilityOrder
+    UtilityOrder,
+
+    BouncyBall
   ]
 }
 
