@@ -9,15 +9,15 @@ export default function SeeAlso({references}: SeeAlsoProps) {
 
   return (<>
     <h3 className='text-xl font-semibold mb-4'>See also</h3>
-    <ul className='flex'>{
+    <div className='flex flex-row'>{
       references.map((item, i) =>
-        <li key={i}>
+        <span key={i} className='flex px-1'>[
           <a href={item.href}
-            className='rounded-lg border border-transparent px-2 py-2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'>
+            className='text-blue-500'>
             {item.label}
           </a>
-        </li>
+        ]</span>
       )
-    }</ul>
+    }</div>
   </>)
 }
