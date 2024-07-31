@@ -1,7 +1,7 @@
 {
   "name": "@ihtnc/use-animated-canvas",
   "type": "module",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "React canvas element with a built-in render loop",
   "files": [ "dist" ],
   "main": "./dist/use-animated-canvas.umd.cjs",
