@@ -4,10 +4,9 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function UtilityContext() {
-  const { isDarkMode } = useDarkMode()
+  let isDarkMode: boolean = false
 
   const globalFilter = (context: CanvasRenderingContext2D) => {
     context.strokeStyle = isDarkMode ? '#B6391F' : '#FF0000'
@@ -15,6 +14,10 @@ export default function UtilityContext() {
   }
 
   const { Canvas } = use2dAnimatedCanvas({
+    preRenderTransform: (data) => {
+      isDarkMode = data.drawData.isDarkMode
+      return data
+    },
     globalFilter,
     renderBackground: (context) => {
       context.save()

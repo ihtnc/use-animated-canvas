@@ -4,11 +4,8 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function UtilityOrder() {
-  const { isDarkMode } = useDarkMode()
-
   const { Canvas } = use2dAnimatedCanvas({
     renderForeground: (context) => {
       context.fillStyle = '#7B3F00'
@@ -26,8 +23,8 @@ export default function UtilityOrder() {
       context.lineTo(context.canvas.width * 0.75, context.canvas.height * 0.25)
       context.fillRect(context.canvas.width * 0.3, context.canvas.height * 0.3, context.canvas.width * 0.7, context.canvas.height * 0.7)
     },
-    renderEnvironmentLayer: (context) => {
-      context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    renderEnvironmentLayer: (context, data) => {
+      context.fillStyle = data.isDarkMode ? '#E5E7EB' : '#000000'
       context.beginPath()
       context.arc(context.canvas.width * 0.5, context.canvas.height * 0.75, context.canvas.width / 4, 0, 2*Math.PI)
       context.fill()

@@ -4,7 +4,6 @@ import { type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/u
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 const getDate = (date?: Date) => {
   const month = date?.getMonth() ?? -1
@@ -41,8 +40,6 @@ const getWeekday = (date?: Date) => {
 }
 
 export default function MultiRender() {
-  const { isDarkMode } = useDarkMode()
-
   const renderClockBase: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     context.save()
     context.beginPath()
@@ -71,7 +68,7 @@ export default function MultiRender() {
     const minute = data?.data?.getMinutes() ?? 0
     const minuteDegree = (360 / 60 * minute) - 90
 
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.rotate(minuteDegree * Math.PI / 180)
     context.moveTo(-3, -3)
     context.lineTo(-3, 3)
@@ -99,7 +96,7 @@ export default function MultiRender() {
   const renderWeekday: AnimatedCanvasRenderFunction<Date> = (context, data) => {
     const day = getWeekday(data?.data)
 
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.font = '16px Arial'
     context.textAlign = 'center'
     context.textBaseline = 'top'

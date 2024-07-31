@@ -4,11 +4,8 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function CustomDetails() {
-  const { isDarkMode } = useDarkMode()
-
   const { Canvas } = use2dAnimatedCanvas({
     render: (context, data) => {
       const frame = data?.drawData?.frame ?? 0
@@ -18,7 +15,7 @@ export default function CustomDetails() {
       context.fill()
     },
     renderEnvironmentLayer: (context, data) => {
-      context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+      context.fillStyle = data.isDarkMode ? '#E5E7EB' : '#000000'
 
       const offset = 5
       context.fillText(`fps: ${data.fps}; frame: ${data.frame}`, offset, offset * 2)

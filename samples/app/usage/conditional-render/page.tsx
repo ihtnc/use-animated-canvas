@@ -9,7 +9,6 @@ import {
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 const getDate = (date?: Date) => {
   const month = date?.getMonth() ?? -1
@@ -32,8 +31,6 @@ const getDate = (date?: Date) => {
 }
 
 export default function ConditionalRender() {
-  const { isDarkMode } = useDarkMode()
-
   const has5SecondsElapsed: AnimatedCanvasConditionalFunction<Date> = (data) => {
     return (data?.data?.getSeconds() ?? 0) % 10 < 5
   }
@@ -73,7 +70,7 @@ export default function ConditionalRender() {
     const minute = data?.data?.getMinutes() ?? 0
     const minuteDegree = (360 / 60 * minute) - 90
 
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.rotate(minuteDegree * Math.PI / 180)
     context.moveTo(-3, -3)
     context.lineTo(-3, 3)
@@ -172,6 +169,8 @@ export default function ConditionalRender() {
         // the library exposes the renderWhen conditional render function
         //   which accepts the condition function and the actual render function
         //   to help facilitate the creation of the object
+        // the library also exposes the not function which can be used
+        //   to create a function that negates the result of a condition function when called
         render: [
           renderClockBase,
           renderHourHand,

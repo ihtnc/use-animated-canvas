@@ -8,7 +8,7 @@ const item: MenuItem = {
   href: '/usage/conditional-render',
   description: 'Run render functions when a condition is met',
   category: 'Advanced Usage',
-  tags: ['layers', 'condition', 'background', 'foreground', 'renderBackground', 'render', 'renderForeground', 'renderWhen', 'renderWhenAny', 'renderWhenNot'],
+  tags: ['layers', 'condition', 'background', 'foreground', 'renderBackground', 'render', 'renderForeground', 'renderWhen', 'renderWhenAny', 'renderWhenNot', 'not'],
   seeAlso: [Layers, Transform, MultiRender]
 }
 

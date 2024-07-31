@@ -9,7 +9,6 @@ import {
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 import { type PointerEventHandler } from 'react'
 
 const getDate = (date?: Date) => {
@@ -33,8 +32,6 @@ const getDate = (date?: Date) => {
 }
 
 export default function ConditionalMultiRender() {
-  const { isDarkMode } = useDarkMode()
-
   type PageData = {
     isClicked: boolean,
     date: Date
@@ -81,7 +78,7 @@ export default function ConditionalMultiRender() {
     const minute = data?.data?.date.getMinutes() ?? 0
     const minuteDegree = (360 / 60 * minute) - 90
 
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.rotate(minuteDegree * Math.PI / 180)
     context.moveTo(-3, -3)
     context.lineTo(-3, 3)

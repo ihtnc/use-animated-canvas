@@ -9,7 +9,7 @@ const item: MenuItem = {
   href: '/usage/conditional-filter',
   description: 'Run filter functions when a condition is met',
   category: 'Advanced Usage',
-  tags: ['filter', 'condition', 'renderBackgroundFilter', 'renderFilter', 'renderForegroundFilter', 'filterWhen', 'filterWhenAny', 'filterWhenNot'],
+  tags: ['filter', 'condition', 'renderBackgroundFilter', 'renderFilter', 'renderForegroundFilter', 'filterWhen', 'filterWhenAny', 'filterWhenNot', 'not'],
   seeAlso: [Filters, Layers, Transform, MultiFilter]
 }
 

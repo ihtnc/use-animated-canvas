@@ -4,10 +4,9 @@ import { type AnimatedCanvasRenderFilterFunction, use2dAnimatedCanvas } from '@i
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function MultiFilter() {
-  const { isDarkMode } = useDarkMode()
+  let isDarkMode: boolean = false
 
   const brownFill: AnimatedCanvasRenderFilterFunction = (context) => {
     context.fillStyle = '#7B3F00'
@@ -66,6 +65,10 @@ export default function MultiFilter() {
   }
 
   const { Canvas } = use2dAnimatedCanvas({
+    preRenderTransform: (data) => {
+      isDarkMode = data.drawData.isDarkMode
+      return data
+    },
     globalFilter: [brownFill, redLine],
     renderBackgroundFilter: opacity25,
     renderBackground: drawBackgroundTriangle,

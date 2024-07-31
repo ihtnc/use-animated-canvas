@@ -9,11 +9,8 @@ import {
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function MultiTransform() {
-  const { isDarkMode } = useDarkMode()
-
   type PageData = {
     gridWidth: number
     horizontalDashLength: number
@@ -22,6 +19,8 @@ export default function MultiTransform() {
     verticalDashLength: number
     verticalDashOffset: number
   }
+
+  let isDarkMode: boolean = false
 
   const setHorizontalDashOffset: AnimatedCanvasTransformFunction<PageData> = (data) => {
     if (data?.data === undefined) { return data }
@@ -104,7 +103,14 @@ export default function MultiTransform() {
       verticalDashOffset: 5
     }),
     globalFilter,
-    preRenderTransform: [setHorizontalDashOffset, setVerticalDashOffset],
+    preRenderTransform: [
+      (data) => {
+        isDarkMode = data.drawData.isDarkMode
+        return data
+      },
+      setHorizontalDashOffset,
+      setVerticalDashOffset
+    ],
     render,
     postRenderTransform: [setHorizontalWidth, setVerticalHeight]
   })

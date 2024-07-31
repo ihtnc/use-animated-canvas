@@ -11,12 +11,9 @@ import {
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 import { type PointerEventHandler } from 'react'
 
 export default function ConditionalTransform() {
-  const { isDarkMode } = useDarkMode()
-
   type PageData = {
     radius: number,
     coordinates: Coordinates,
@@ -72,7 +69,7 @@ export default function ConditionalTransform() {
 
   const render: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     const radius = data?.data?.radius ?? 20
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.beginPath()
     context.arc(context.canvas.width / 2, context.canvas.height / 2, radius, 0, 2*Math.PI)
     context.fill()
@@ -162,6 +159,8 @@ export default function ConditionalTransform() {
         // the library exposes the when conditional data transformation function
         //   which accepts the condition function and the actual data transformation function
         //   to help facilitate the creation of the object
+        // the library also exposes the not function which can be used
+        //   to create a function that negates the result of a condition function when called
         preRenderTransform: [
           setCurrentCoordinates,
           when(isWithinBounds, setRadius)

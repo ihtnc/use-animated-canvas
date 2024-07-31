@@ -4,14 +4,11 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function Layers() {
-  const { isDarkMode } = useDarkMode()
-
   const { Canvas } = use2dAnimatedCanvas({
     renderBackground: (context, data) => {
-      context.strokeStyle = isDarkMode ? '#B6391F' : '#FF0000'
+      context.strokeStyle = data.drawData.isDarkMode ? '#B6391F' : '#FF0000'
       for(let i = 10; i < context.canvas.height; i += 25) {
         context.beginPath()
         context.moveTo(0, i)
@@ -27,7 +24,7 @@ export default function Layers() {
       context.fill()
     },
     renderForeground: (context, data) => {
-      context.fillStyle = isDarkMode ? '#68CDFE' : '#0000FF'
+      context.fillStyle = data.drawData.isDarkMode ? '#68CDFE' : '#0000FF'
       context.font = '20px Arial'
       context.textAlign = 'center'
       context.fillText('Foreground', context.canvas.width / 2, context.canvas.height / 2)

@@ -5,14 +5,11 @@ import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 import { type MouseEventHandler } from 'react'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function Click() {
   type ClickData = { x: number, y: number, radius: number, opacity: number }
   let current: ClickData | null = null
   const opacityOffset = 0.02
-
-  const { isDarkMode } = useDarkMode()
 
   const initialiseData = () => []
 
@@ -27,7 +24,7 @@ export default function Click() {
     const current = data?.data ?? []
     if (current.length === 0) { return }
 
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
 
     for(let i = 0; current.length > i; i++) {
       context.save()

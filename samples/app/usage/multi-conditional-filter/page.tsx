@@ -2,6 +2,7 @@
 
 import {
   type AnimatedCanvasConditionalFunction,
+  type AnimatedCanvasRenderFunction,
   type Coordinates,
   filterWhen,
   use2dAnimatedCanvas
@@ -9,12 +10,9 @@ import {
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 import { type PointerEventHandler } from 'react'
 
 export default function MultiConditionalFilter() {
-  const { isDarkMode } = useDarkMode()
-
   type PageData = {
     isClicked: boolean,
     coordinates?: Coordinates,
@@ -28,6 +26,8 @@ export default function MultiConditionalFilter() {
     foregroundEndHeight: number,
     foregroundWidth: number
   }
+
+  let isDarkMode: boolean = false
   let clicked: boolean
   let coordinates: Coordinates | undefined
 
@@ -74,26 +74,28 @@ export default function MultiConditionalFilter() {
     context.scale(-1, 1)
   }
 
-  const renderBackground = (context: CanvasRenderingContext2D) => {
+  const renderBackground: AnimatedCanvasRenderFunction<PageData> = (context) => {
     context.fillStyle = '#7B3F00'
     context.fillRect(0, 0, context.canvas.width, context.canvas.height / 3)
     context.strokeText('Click', context.canvas.width / 2, 25)
   }
 
-  const render = (context: CanvasRenderingContext2D) => {
+  const render: AnimatedCanvasRenderFunction<PageData> = (context) => {
     context.fillStyle = '#68CDFE'
     context.fillRect(0, context.canvas.height / 3, context.canvas.width, context.canvas.height / 3)
     context.strokeText('To Reverse', context.canvas.width / 2, context.canvas.height / 2)
   }
 
-  const renderForeground = (context: CanvasRenderingContext2D) => {
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+  const renderForeground: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.fillRect(0, context.canvas.height * 2 / 3, context.canvas.width, context.canvas.height / 3)
     context.strokeText('Text', context.canvas.width / 2, context.canvas.height - 20)
   }
 
   const { Canvas } = use2dAnimatedCanvas<PageData>({
     preRenderTransform: (data) => {
+      isDarkMode = data.drawData.isDarkMode
+
       data.data = {
         isClicked: clicked,
         coordinates,

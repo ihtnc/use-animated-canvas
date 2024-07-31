@@ -2,18 +2,19 @@
 
 import {
   type AnimatedCanvasConditionalFunction,
+  type AnimatedCanvasRenderFilterFunction,
+  type AnimatedCanvasRenderFunction,
   filterWhen,
   use2dAnimatedCanvas
 } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function ConditionalFilter() {
-  const { isDarkMode } = useDarkMode()
+  let isDarkMode: boolean = false
 
-  const globalFilter = (context: CanvasRenderingContext2D) => {
+  const globalFilter: AnimatedCanvasRenderFilterFunction = (context) => {
     context.textAlign = 'center'
     context.globalAlpha = 0.5
     context.font = '20px Arial'
@@ -39,26 +40,27 @@ export default function ConditionalFilter() {
     return seconds % 3 === 2
   }
 
-  const renderBackground = (context: CanvasRenderingContext2D) => {
+  const renderBackground: AnimatedCanvasRenderFunction<Date> = (context) => {
     context.fillStyle = '#7B3F00'
     context.fillRect(0, 0, context.canvas.width, context.canvas.height / 3)
     context.strokeText('Background', context.canvas.width / 2, 25)
   }
 
-  const render = (context: CanvasRenderingContext2D) => {
+  const render: AnimatedCanvasRenderFunction<Date> = (context) => {
     context.fillStyle = '#68CDFE'
     context.fillRect(0, context.canvas.height / 3, context.canvas.width, context.canvas.height / 3)
     context.strokeText('Main', context.canvas.width / 2, context.canvas.height / 2)
   }
 
-  const renderForeground = (context: CanvasRenderingContext2D) => {
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+  const renderForeground: AnimatedCanvasRenderFunction<Date> = (context, data) => {
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.fillRect(0, context.canvas.height * 2 / 3, context.canvas.width, context.canvas.height / 3)
     context.strokeText('Foreground', context.canvas.width / 2, context.canvas.height - 20)
   }
 
   const { Canvas } = use2dAnimatedCanvas<Date>({
     preRenderTransform: (data) => {
+      isDarkMode = data.drawData.isDarkMode
       data.data = new Date()
       return data
     },
@@ -122,6 +124,8 @@ export default function ConditionalFilter() {
         // the library exposes the filterWhen conditional filter function
         //   which accepts the condition function and the actual filter function
         //   to help facilitate the creation of the object
+        // the library also exposes the not function which can be used
+        //   to create a function that negates the result of a condition function when called
 
         renderBackgroundFilter: filterWhen(has5SecondsElapsed, highlightFilter),
         renderBackground,

@@ -8,7 +8,8 @@ import {
   type Coordinates,
   use2dAnimatedCanvas,
   when,
-  whenAny
+  whenAny,
+  not
 } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
@@ -240,17 +241,6 @@ export default function BouncyBall() {
     return distance <= radius
   }
 
-  const isOutsideCircle: AnimatedCanvasConditionalFunction<PageData> = (data) => {
-    if (data?.data === undefined || data.data.circle.coordinates === undefined || data.data.client.coordinates === undefined) { return false }
-
-    const center = { x: data.data.circle.coordinates.x, y: data.data.circle.coordinates.y }
-    const coordinates = data.data.client.coordinates
-    const radius = data.data.circle.radius
-
-    const distance = Math.sqrt((coordinates.x - center.x)**2 + (coordinates.y - center.y)**2)
-    return distance > radius
-  }
-
   const renderInstructions: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.fillStyle = '#808080'
     context.font = '15px Arial'
@@ -316,7 +306,7 @@ export default function BouncyBall() {
       ]),
       when([
         isClicked,
-        isOutsideCircle
+        not(isInsideCircle)
       ], [
         addBlockItem
       ]),
@@ -553,9 +543,6 @@ export default function BouncyBall() {
       const isClicked = (data) => {
         // check if the canvas is clicked
       }
-      const isOutsideCircle = (data) => {
-        // check if the pointer coordinates are outside the circle
-      }
       const isInsideCircle = (data) => {
         // check if the pointer coordinates are inside the circle
       }
@@ -607,7 +594,7 @@ export default function BouncyBall() {
           // this adds a block in the canvas
           when([
             isClicked,
-            isOutsideCircle
+            not(isInsideCircle)
           ], [
             addBlockItem
           ]),

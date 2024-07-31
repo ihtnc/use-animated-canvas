@@ -5,13 +5,10 @@ import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 import { type PointerEventHandler } from 'react'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function Pointer() {
   type ClickData = { x: number, y: number, new: boolean, display: boolean }
   let current: ClickData | null = null
-
-  const { isDarkMode } = useDarkMode()
 
   const initialiseData = () => []
 
@@ -32,13 +29,13 @@ export default function Pointer() {
     let previous: ClickData | null = null
     for(let i = 0; current.length > i; i++) {
       const item = current[i]
-      context.strokeStyle = isDarkMode ? '#B6391F' : '#FF0000'
+      context.strokeStyle = data.drawData.isDarkMode ? '#B6391F' : '#FF0000'
       context.beginPath()
       context.arc(item.x, item.y, 3, 0, 2*Math.PI)
       context.stroke()
 
       if (previous !== null) {
-        context.strokeStyle = isDarkMode ? '#E5E7EB' : '#000000'
+        context.strokeStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
         context.beginPath()
         context.moveTo(previous.x, previous.y)
         context.lineTo(item.x, item.y)

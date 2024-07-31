@@ -9,7 +9,7 @@ const item: MenuItem = {
   href: '/usage/conditional-transform',
   description: 'Run data transformation functions when a condition is met',
   category: 'Advanced Usage',
-  tags: ['data', 'transform', 'condition', 'initialiseData', 'preRenderTransform', 'postRenderTransform', 'when', 'whenAny', 'whenNot'],
+  tags: ['data', 'transform', 'condition', 'initialiseData', 'preRenderTransform', 'postRenderTransform', 'when', 'whenAny', 'whenNot', 'not'],
   seeAlso: [Layers, Pointer, Transform, MultiTransform]
 }
 

@@ -4,11 +4,8 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function RenderContext() {
-  const { isDarkMode } = useDarkMode()
-
   const globalFilter = (context: CanvasRenderingContext2D) => {
     context.fillStyle = '#7B3F00'
     context.globalAlpha = 0.30
@@ -31,7 +28,7 @@ export default function RenderContext() {
       context.globalAlpha += 0.10
 
       context.save()
-      context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+      context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
       const frame = data?.drawData?.frame ?? 0
       const center = context.canvas.width / 2
       const radius = context.canvas.width / 4

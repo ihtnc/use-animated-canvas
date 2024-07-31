@@ -4,12 +4,9 @@ import { type AnimatedCanvasRenderFunction, use2dAnimatedCanvas } from '@ihtnc/u
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function BasicEvents() {
   let pressedKey: string
-
-  const { isDarkMode } = useDarkMode()
 
   const initialiseData = () => ''
 
@@ -26,7 +23,7 @@ export default function BasicEvents() {
     const current = data?.data ?? ''
     if (current.trim().length === 0) { return }
 
-    context.fillStyle = isDarkMode ? '#68CDFE' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#68CDFE' : '#000000'
     context.font = '20px Arial'
     context.textAlign = 'center'
     context.fillText(current, context.canvas.width / 2, context.canvas.height / 2)

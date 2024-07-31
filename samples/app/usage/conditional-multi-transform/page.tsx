@@ -12,11 +12,8 @@ import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 import { type PointerEventHandler } from 'react'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function ConditionalMultiTransform() {
-  const { isDarkMode } = useDarkMode()
-
   type PageData = {
     width: number,
     rotation: number,
@@ -92,7 +89,7 @@ export default function ConditionalMultiTransform() {
     const newWidth = 30 + (20 * Math.sin(width*0.05)**2)
     context.translate(data.drawData.width / 2, data.drawData.height / 2)
     context.rotate(data.data.rotation * Math.PI / 180)
-    context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+    context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
     context.fillRect(-newWidth/2, -newWidth/2, newWidth, newWidth)
 
     context.restore()

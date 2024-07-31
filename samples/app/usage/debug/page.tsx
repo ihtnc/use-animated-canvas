@@ -4,11 +4,8 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 
 export default function Debugging() {
-  const { isDarkMode } = useDarkMode()
-
   const { Canvas, debug } = use2dAnimatedCanvas({
     render: (context, data) => {
       const frame = data?.drawData?.frame ?? 0
@@ -17,8 +14,8 @@ export default function Debugging() {
       context.arc(context.canvas.width / 2, context.canvas.height / 2, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)
       context.fill()
     },
-    renderForeground: (context) => {
-      context.fillStyle = isDarkMode ? '#7B3F00' : '#000000'
+    renderForeground: (context, data) => {
+      context.fillStyle = data.drawData.isDarkMode ? '#7B3F00' : '#000000'
       context.font = '15px Arial'
       context.textBaseline = 'top'
       context.fillText('s = start render', 5, 5)

@@ -4,12 +4,9 @@ import { use2dAnimatedCanvas } from '@ihtnc/use-animated-canvas'
 import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
-import { useDarkMode } from 'usehooks-ts'
 import { type MouseEventHandler } from 'react'
 
 export default function ConditionalDebug() {
-  const { isDarkMode } = useDarkMode()
-
   const { Canvas, debug } = use2dAnimatedCanvas({
     preRenderTransform: (data) => {
       debug.renderBreakWhen(() => data.drawData.frame > 0 && data.drawData.frame % 180 === 0)
@@ -23,7 +20,7 @@ export default function ConditionalDebug() {
       context.fill()
     },
     renderEnvironmentLayer: (context, data) => {
-      context.fillStyle = isDarkMode ? '#E5E7EB' : '#000000'
+      context.fillStyle = data.isDarkMode ? '#E5E7EB' : '#000000'
       context.font = '15px Arial'
       context.fillText(`frame: ${data.frame}`, 5, context.canvas.height - 5)
     },
