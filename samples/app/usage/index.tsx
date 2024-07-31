@@ -37,6 +37,7 @@ import UtilityContext from './utility-context/menu-item'
 import UtilityOrder from './utility-order/menu-item'
 
 import BouncyBall from './bouncy-ball/menu-item'
+import KeepyUppy from './keepy-uppy/menu-item'
 
 export type MenuItem = {
   label: string,
@@ -92,7 +93,8 @@ const getMenus = (): Array<MenuItem> => {
     UtilityContext,
     UtilityOrder,
 
-    BouncyBall
+    BouncyBall,
+    KeepyUppy
   ]
 }
 
