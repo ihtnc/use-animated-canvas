@@ -31,7 +31,8 @@ describe('canvas layer renderers', () => {
         clientWidth: 301,
         clientHeight: 302,
         pixelRatio: 401,
-        frame: 501
+        frame: 501,
+        isDarkMode: true
       }
 
       context = {

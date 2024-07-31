@@ -12,11 +12,13 @@ import type {
 import { getRenderEnvironmentLayerHandler, getRenderGridLayerHandler } from "@/utilities/layer-renderers"
 import { cancelAnimationFrame, getDevicePixelRatio, requestAnimationFrame } from "@/utilities/client-operations"
 import { DEFAULT_OPTIONS } from "@/defaults"
+import { useDarkMode } from "usehooks-ts"
 
 const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopResponse => {
   options = Object.assign({}, DEFAULT_OPTIONS, options)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { isDarkMode } = useDarkMode()
   const { onInit, onPreDraw, onDraw, onPostDraw, renderEnvironmentLayer, renderGridLayer } = options
   const renderEnvironmentLayerHandler = getRenderEnvironmentLayerHandler(renderEnvironmentLayer)
   const renderGridLayerHandler = getRenderGridLayerHandler(renderGridLayer)
@@ -130,7 +132,8 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
         clientWidth: canvas.clientWidth,
         height: canvas.height,
         width: canvas.width,
-        pixelRatio: devicePixelRatio
+        pixelRatio: devicePixelRatio,
+        isDarkMode
       }
 
       if (onPreDraw) { onPreDraw(context, renderData) }
@@ -145,15 +148,7 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
 
       if (renderEnvironmentLayerHandler) {
         context.save()
-        renderEnvironmentLayerHandler(context, {
-          fps: frameCounter.current.fps,
-          width: canvas.width,
-          height: canvas.height,
-          clientWidth: canvas.clientWidth,
-          clientHeight: canvas.clientHeight,
-          pixelRatio: devicePixelRatio,
-          frame: frameCounter.current.frameCount
-        })
+        renderEnvironmentLayerHandler(context, renderData)
         context.restore()
       }
 

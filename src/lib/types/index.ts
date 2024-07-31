@@ -63,5 +63,6 @@ export type DrawData = {
   clientWidth: number,
   clientHeight: number,
   pixelRatio: number,
-  frame: number
+  frame: number,
+  isDarkMode: boolean
 }
