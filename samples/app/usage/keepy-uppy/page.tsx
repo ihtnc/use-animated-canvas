@@ -153,7 +153,7 @@ export default function KeepyUppy() {
 
       default:
         canvasState.blockSpeed = 1
-        break;
+        break
     }
 
     return data
@@ -379,7 +379,6 @@ export default function KeepyUppy() {
 
     const { radius } = data.data.ball
     const r = radius / 3
-    context
     context.fillStyle = '#FF7A00'
     context.beginPath()
     let x = 5
