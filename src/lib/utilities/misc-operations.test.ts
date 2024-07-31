@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from "vitest"
-import { ConditionalEvaluationType, deepCopy, transformPipeline } from "./misc-operations"
+import { ConditionalEvaluationType, deepCopy, transformPipeline, when, whenAny, whenNot, not } from "./misc-operations"
 
 describe('misc operations', () => {
 
@@ -331,5 +331,100 @@ describe('misc operations', () => {
 
       expect(finalValue).toBe(fn3Return)
     })
+  })
+
+  describe('when function', () => {
+    test('should create an object from parameters', () => {
+      const condition = vi.fn()
+      const transform = vi.fn()
+
+      const result = when(condition, transform)
+
+      expect(result.condition).toBe(condition)
+      expect(result.transform).toBe(transform)
+    })
+
+    test('should create an object with internal value', () => {
+      const result = when(vi.fn(), vi.fn())
+
+      expect(result.evaluation).toBe(ConditionalEvaluationType.All)
+    })
+  })
+
+  describe('whenAny function', () => {
+    test('should create an object from parameters', () => {
+      const condition = vi.fn()
+      const transform = vi.fn()
+
+      const result = whenAny(condition, transform)
+
+      expect(result.condition).toBe(condition)
+      expect(result.transform).toBe(transform)
+    })
+
+    test('should create an object with internal value', () => {
+      const result = whenAny(vi.fn(), vi.fn())
+
+      expect(result.evaluation).toBe(ConditionalEvaluationType.Any)
+    })
+  })
+
+  describe('whenNot function', () => {
+    test('should create an object from parameters', () => {
+      const condition = vi.fn()
+      const transform = vi.fn()
+
+      const result = whenNot(condition, transform)
+
+      expect(result.condition).toBe(condition)
+      expect(result.transform).toBe(transform)
+    })
+
+    test('should create an object with internal value', () => {
+      const result = whenNot(vi.fn(), vi.fn())
+
+      expect(result.evaluation).toBe(ConditionalEvaluationType.None)
+    })
+  })
+
+  describe('not function', () => {
+    test('should return a function', () => {
+      const condition = vi.fn()
+
+      const result = not(condition)
+
+      expect(result).toBeTypeOf('function')
+    })
+
+    test('should not call the supplied function immediately', () => {
+      const condition = vi.fn()
+
+      not(condition)
+
+      expect(condition).not.toHaveBeenCalled()
+    })
+
+    test('should call the supplied function when the resulting function is called', () => {
+      const condition = vi.fn()
+
+      const data = 1
+      const negatedFn = not(condition)
+      negatedFn(data)
+
+      expect(condition).toHaveBeenCalledWith(data)
+    })
+
+    test.each([
+      { returnValue: true, expected: false },
+      { returnValue: false, expected: true }
+    ])('should negate the result of the function when result is $returnValue', ({ returnValue, expected }: { returnValue: boolean, expected: boolean }) => {
+      const condition = vi.fn().mockReturnValue(returnValue)
+
+      const negatedFn = not(condition)
+      const actual = negatedFn(1)
+
+      expect(actual).toBe(expected)
+    })
+
   })
 })

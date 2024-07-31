@@ -137,3 +137,8 @@ export const whenNot: WhenTransformFunction = (condition, transform) => {
     transform
   }
 }
+
+type NotFunction = <T>(condition: ConditionalFunction<T>) => ConditionalFunction<T>
+export const not: NotFunction = (condition) => {
+  return (data) => !condition(data)
+}

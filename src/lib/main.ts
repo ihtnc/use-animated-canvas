@@ -32,7 +32,7 @@ import type {
 } from '@/types/use-2d-render-loop'
 import {
   type ConditionalEvaluationType,
-  when, whenAny, whenNot
+  when, whenAny, whenNot, not
 } from './utilities/misc-operations'
 
 export {
@@ -45,7 +45,8 @@ export {
   filterWhenNot,
   when,
   whenAny,
-  whenNot
+  whenNot,
+  not
 }
 
 export type {
