@@ -42,8 +42,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Copy LICENSE and README.md to output folder
-        run: cp LICENSE README.md dist
+      - name: Move LICENSE to output folder
+        run: mv LICENSE dist
       - name: Publish to npm
         run: npm publish --provenance --access public
         env:
