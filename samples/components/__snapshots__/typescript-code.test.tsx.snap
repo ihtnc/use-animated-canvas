@@ -2,26 +2,55 @@
 
 exports[`TypeScriptCode component > should render code with typescript styles 1`] = `
 <div>
-  <h3
-    class="text-xl font-semibold"
+  <span
+    class="pb-4"
+    data-headlessui-state="open"
+    data-open=""
   >
-    Code
-  </h3>
-  <pre>
-    <code>
+    <h3
+      aria-controls="headlessui-disclosure-panel-:r1:"
+      aria-expanded="true"
+      class="flex group text-xl font-semibold cursor-pointer"
+      data-headlessui-state="open"
+      data-open=""
+      id="headlessui-disclosure-button-:r0:"
+    >
+      Code 
       <span
-        class="hljs-keyword"
+        class="inline-block transition-transform motion-reduce:transform-none
+          group-data-[open]:-rotate-90
+          group-data-[open]:pl-1
+          group-data-[open]:pt-1
+          group-hover:group-data-[open]:-translate-y-1
+          group-hover:translate-y-1
+          rotate-90
+          pb-1"
       >
-        const
+        -&gt;
       </span>
-       message = 
-      <span
-        class="hljs-string"
-      >
-        "Hello, world!"
-      </span>
-      ;
-    </code>
-  </pre>
+    </h3>
+    <div
+      data-headlessui-state="open"
+      data-open=""
+      id="headlessui-disclosure-panel-:r1:"
+    >
+      <pre>
+        <code>
+          <span
+            class="hljs-keyword"
+          >
+            const
+          </span>
+           message = 
+          <span
+            class="hljs-string"
+          >
+            "Hello, world!"
+          </span>
+          ;
+        </code>
+      </pre>
+    </div>
+  </span>
 </div>
 `;

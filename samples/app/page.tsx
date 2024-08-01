@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { getMenus, type Menu, type MenuItem } from './usage'
 import Link from 'next/link'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
+import PageHeader from '@/components/page-header'
 
 export default function Home() {
   const [ menus, setMenus ] = useState<Array<MenuItem>>([])
@@ -49,41 +51,51 @@ export default function Home() {
   }, [filtered])
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="mb-4 text-3xl font-semibold">use2dAnimatedCanvas Examples</h1>
-      <span className="mb-4">
-        [<a href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas" className="text-blue-500">package</a>]
-        [<a href="https://github.com/ihtnc/use-animated-canvas" className="text-blue-500">repo</a>]
-      </span>
+    <main className="flex min-h-screen flex-col items-center p-24 caret-transparent">
+      <PageHeader />
       <input
         type="search"
         placeholder="Search examples..."
-        className="rounded-lg border border-gray-300 px-5 py-4 transition-colors hover:border-gray-400 focus:border-gray-400 focus:outline-none mb-4"
+        className="rounded-lg border border-gray-300 px-5 py-4 transition-colors hover:border-gray-400 focus:border-gray-400 focus:outline-none mb-4 caret-current"
         onInput={(event) => setFiltered(filter(event.currentTarget.value))}
         autoFocus
       />
       {display.map((group, index) => (
-        <div className="grid text-center lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left mb-8" key={index}>
-          <h3 className="col-span-4 text-xl font-semibold mb-3">{group.category}</h3>
-          {group.items.map((item, itemIndex) => (
-            <Link
-              href={item.href}
-              className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-              rel="noopener noreferrer"
-              key={`${index}_${itemIndex}`}
-            >
-              <h2 className="mb-3 text-2xl font-semibold">
-                {`${item.label} `}
-                <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                  -&gt;
-                </span>
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                {item.description}
-              </p>
-            </Link>
-          ))}
-        </div>
+        <Disclosure as="span" key={index} defaultOpen={true} className="w-full">
+          <DisclosureButton as="h3" className="flex group col-span-4 text-xl font-semibold mb-3 cursor-pointer">
+            {group.category}&nbsp;
+            <span className="inline-block transition-transform motion-reduce:transform-none
+              group-data-[open]:-rotate-90
+              group-data-[open]:pl-1
+              group-data-[open]:pt-1
+              group-hover:group-data-[open]:-translate-y-1
+              group-hover:translate-y-1
+              rotate-90
+              pb-1">
+              -&gt;
+            </span>
+          </DisclosureButton>
+          <DisclosurePanel className="grid text-center lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left mb-8">
+            {group.items.map((item, itemIndex) => (
+              <Link
+                href={item.href}
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                rel="noopener noreferrer"
+                key={`${index}_${itemIndex}`}
+              >
+                <h2 className="mb-3 text-2xl font-semibold">
+                  {`${item.label} `}
+                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                    -&gt;
+                  </span>
+                </h2>
+                <p className="m-0 max-w-[30ch] text-sm opacity-50">
+                  {item.description}
+                </p>
+              </Link>
+            ))}
+          </DisclosurePanel>
+        </Disclosure>
       ))}
     </main>
   )

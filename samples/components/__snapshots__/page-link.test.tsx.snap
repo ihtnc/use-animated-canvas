@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageLink component > should render correctly 1`] = `
+<div>
+  <span
+    class="flex hover:gap-x-1.5 hover:ml-0 hover:mr-0 group-hover:gap-x-1.5 group-hover:ml-0 group-hover:mr-0 ml-1.5 mr-1.5 cursor-pointer"
+  >
+    <span>
+      [
+    </span>
+    <a
+      class="text-blue-500"
+      href="/href"
+    >
+      label
+    </a>
+    <span>
+      ]
+    </span>
+  </span>
+</div>
+`;

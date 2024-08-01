@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SeeAlso component > should render correctly 1`] = `
+<div>
+  <h3
+    class="text-xl font-semibold mb-4"
+  >
+    See also
+  </h3>
+  <div
+    class="flex flex-row"
+  >
+    <span
+      class="flex hover:gap-x-1.5 hover:ml-0 hover:mr-0 group-hover:gap-x-1.5 group-hover:ml-0 group-hover:mr-0 ml-1.5 mr-1.5 cursor-pointer"
+    >
+      <span>
+        [
+      </span>
+      <a
+        class="text-blue-500"
+        href="/page1"
+      >
+        Page 1
+      </a>
+      <span>
+        ]
+      </span>
+    </span>
+  </div>
+</div>
+`;
