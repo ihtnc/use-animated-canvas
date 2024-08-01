@@ -369,7 +369,7 @@ export default function KeepyUppy() {
     if (data?.data === undefined) { return }
 
     context.fillStyle = '#7B3F00'
-    context.font = '15px Arial'
+    context.font = 'bold 15px Arial'
     context.textBaseline = 'bottom'
     context.fillText(`Score: ${data.data.canvasState.score}`, 5, data.drawData.height - 5)
   }
@@ -595,15 +595,18 @@ export default function KeepyUppy() {
       // the following variables are used to store the changes made by the client
       // this is used to separate them from the data used by the canvas
       // the idea is that the various events (keyboard events, etc) will update these variables
-      //   then the data transformation functions will take these variables to update the internal data it then will use
+      // then, the data transformation functions will take these variables
+      //   to update the internal data it will then use
       //   then the render functions will use these internal data to render objects in the canvas
       // this keeps the data flow more straightforward and easy to understand
       // basically this makes the rendering functions to just focus on the internal data,
-      //   and the event handlers to just focus on the storing their values in a separate set of variables
+      //   and the event handlers to just focus on the storing their values
+      //   in a separate set of variables
 
       // this variable is used as a flag to indicate whether the resize event has occurred
-      // since the canvas is set to fill the size of the parent container, the canvas will undergo a resize
-      //   this variable will then be updated after the resize event
+      // since the canvas is set to fill the size of the parent container,
+      //   the canvas will undergo a resize
+      // this variable will then be updated after the resize event
       let hasResized: boolean | undefined
 
       // this variable will store the current key that is pressed
@@ -771,7 +774,8 @@ export default function KeepyUppy() {
 
         // notice that the render function is just focused on rendering the circle
         //   given the values on the internal data
-        // the various data transformation functions are responsible for updating the internal data
+        // the various data transformation functions
+        //   are responsible for updating the internal data
       }
 
       const renderBlock = (context, data) => {
@@ -942,7 +946,7 @@ export default function KeepyUppy() {
 
   return (<>
     <h2 className='text-2xl font-semibold mb-4'>{menu.label}</h2>
-    <div className='w-[36rem] h-[24rem] ml-8 mb-8'>
+    <div className='max-w-[36rem] h-[24rem] mx-8 mb-8'>
       <Canvas className='w-full h-full border border-black dark:border-gray-300'
         onKeyDown={onKeyDownHandler}
         onKeyUp={onKeyUpHandler}

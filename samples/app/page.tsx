@@ -51,7 +51,7 @@ export default function Home() {
   }, [filtered])
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24 caret-transparent">
+    <main className="flex min-h-screen min-w-96 lg:w-full lg:max-w-5xl mx-auto flex-col items-center lg:px-18 px-2 py-16 caret-transparent">
       <PageHeader />
       <input
         type="search"
@@ -62,7 +62,7 @@ export default function Home() {
       />
       {display.map((group, index) => (
         <Disclosure as="span" key={index} defaultOpen={true} className="w-full">
-          <DisclosureButton as="h3" className="flex group col-span-4 text-xl font-semibold mb-3 cursor-pointer">
+          <DisclosureButton as="h3" className="flex group w-fit mx-auto col-span-4 text-xl font-semibold mb-3 cursor-pointer">
             {group.category}&nbsp;
             <span className="inline-block transition-transform motion-reduce:transform-none
               group-data-[open]:-rotate-90
@@ -75,25 +75,27 @@ export default function Home() {
               -&gt;
             </span>
           </DisclosureButton>
-          <DisclosurePanel className="grid text-center lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left mb-8">
-            {group.items.map((item, itemIndex) => (
-              <Link
-                href={item.href}
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                rel="noopener noreferrer"
-                key={`${index}_${itemIndex}`}
-              >
-                <h2 className="mb-3 text-2xl font-semibold">
-                  {`${item.label} `}
-                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                    -&gt;
-                  </span>
-                </h2>
-                <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                  {item.description}
-                </p>
-              </Link>
-            ))}
+          <DisclosurePanel className="lg:w-full lg:max-w-5xl rounded-lg p-2 mb-8 bg-gradient-to-b from-gray-300 dark:from-neutral-700 to-transparent">
+            <div className="grid text-center w-full lg:grid-cols-4 lg:text-left">
+              {group.items.map((item, itemIndex) => (
+                <Link
+                  href={item.href}
+                  className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                  rel="noopener noreferrer"
+                  key={`${index}_${itemIndex}`}
+                >
+                  <h2 className="mb-3 text-2xl font-semibold">
+                    {`${item.label} `}
+                    <span className="inline-block text-lg transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                      -&gt;
+                    </span>
+                  </h2>
+                  <p className="m-0 text-sm opacity-50">
+                    {item.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
           </DisclosurePanel>
         </Disclosure>
       ))}

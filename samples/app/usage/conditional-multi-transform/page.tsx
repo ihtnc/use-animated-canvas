@@ -137,7 +137,12 @@ export default function ConditionalMultiTransform() {
 
   const code = `
     export default function ConditionalMultiTransform() {
-      type PageData = { width: number, rotation: number, coordinates: Coordinates, clicked: boolean }
+      type PageData = {
+        width: number,
+        rotation: number,
+        coordinates: Coordinates,
+        clicked: boolean
+      }
 
       // will store the value for the current mouse position and clicked state
       let current: Coordinates | undefined

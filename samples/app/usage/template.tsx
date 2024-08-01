@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const Template = ({ children }: { children: JSX.Element }) => {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24 caret-transparent">
+    <main className="flex min-h-screen min-w-96 lg:w-full lg:max-w-5xl mx-auto flex-col items-center lg:px-18 px-2 py-16 caret-transparent">
       <PageHeader />
       <div className="grid place-self-start">
         <Link
@@ -19,7 +19,7 @@ const Template = ({ children }: { children: JSX.Element }) => {
           </h3>
         </Link>
       </div>
-      <div className="flex flex-col w-full h-full pl-16">
+      <div className="flex flex-col w-full h-full pl-16 pr-16">
         {children}
       </div>
     </main>

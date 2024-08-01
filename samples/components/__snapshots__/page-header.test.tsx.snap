@@ -3,7 +3,7 @@
 exports[`PageHeader component > should render correctly 1`] = `
 <div>
   <h1
-    class="mb-4 text-3xl font-semibold"
+    class="mb-4 ml-4 mr-4 text-3xl text-center font-semibold"
   >
     use2dAnimatedCanvas Examples
   </h1>
@@ -34,7 +34,7 @@ exports[`PageHeader component > should render correctly 1`] = `
       </span>
       <a
         class="text-blue-500"
-        href="hhttps://github.com/ihtnc/use-animated-canvas"
+        href="https://github.com/ihtnc/use-animated-canvas"
       >
         repo
       </a>

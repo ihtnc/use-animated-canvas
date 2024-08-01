@@ -130,7 +130,8 @@ export default function MultiRender() {
   const code = `
     export default function MultiRender() {
       // since an array of render functions can be used instead of a single render function,
-      //   render functions can then focus on just rendering a specific object in their respective layers
+      //   render functions can then focus on just rendering a specific object
+      //   in their respective layers
       const renderClockBase = (context, data) => {
         // render the base of the clock
       }
