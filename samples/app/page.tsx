@@ -56,7 +56,7 @@ export default function Home() {
       <input
         type="search"
         placeholder="Search examples..."
-        className="rounded-lg border border-gray-300 px-5 py-4 transition-colors hover:border-gray-400 focus:border-gray-400 focus:outline-none mb-4 caret-current"
+        className="rounded-lg border border-gray-300 text-gray-600 px-5 py-4 transition-colors hover:border-gray-400 focus:border-gray-400 focus:outline-none mb-4 caret-current"
         onInput={(event) => setFiltered(filter(event.currentTarget.value))}
         autoFocus
       />
