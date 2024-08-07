@@ -1,6 +1,8 @@
-[![build](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml/badge.svg)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml)
-[![publish](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml/badge.svg)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml)
-[![npm version](https://img.shields.io/npm/v/@ihtnc/use-animated-canvas)](https://www.npmjs.com/package/@ihtnc/use-animated-canvas)
+[![build](https://img.shields.io/github/actions/workflow/status/ihtnc/use-animated-canvas/build-package.yml?label=build&logo=github+actions&logoColor=white)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml)
+[![deploy](https://img.shields.io/github/actions/workflow/status/ihtnc/use-animated-canvas/publish-package.yml?label=deploy&logo=github+actions&logoColor=white)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml)
+[![npm](https://img.shields.io/npm/v/@ihtnc/use-animated-canvas?logo=npm)](https://www.npmjs.com/package/@ihtnc/use-animated-canvas)
+[![docs](https://img.shields.io/badge/docs-view-blue?logo=github)](https://ihtnc.github.io/use-animated-canvas/)
+[![release notes](https://img.shields.io/badge/release%20notes-view-blue?logo=github)](https://github.com/ihtnc/use-animated-canvas/releases)
 
 #### Release Notes (v1.0.9)
 * **FEATURE** TBD

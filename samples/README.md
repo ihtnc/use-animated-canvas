@@ -1,5 +1,5 @@
-[![deploy](https://github.com/ihtnc/use-animated-canvas/actions/workflows/deploy-samples.yml/badge.svg)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/deploy-samples.yml)
-[![usage examples](https://img.shields.io/website?url=https://ihtnc.github.io/use-animated-canvas/)](https://ihtnc.github.io/use-animated-canvas/)
+[![deploy](https://img.shields.io/github/actions/workflow/status/ihtnc/use-animated-canvas/deploy-samples.yml?label=deploy&logo=github+actions&logoColor=white)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/deploy-samples.yml)
+[![website](https://img.shields.io/badge/website-view-blue?logo=github)](https://ihtnc.github.io/use-animated-canvas/)
 
 ### Use Animated Canvas Usage Examples
 
