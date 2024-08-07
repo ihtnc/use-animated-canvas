@@ -7,14 +7,14 @@ import SeeAlso from '@/components/see-also'
 
 export default function RenderContext() {
   const globalFilter = (context: CanvasRenderingContext2D) => {
-    context.fillStyle = '#7B3F00'
-    context.globalAlpha = 0.30
+    context.strokeStyle = '#7B3F00'
+    context.lineWidth = 1
   }
 
   const { Canvas } = use2dAnimatedCanvas({
     globalFilter,
     renderBackground: (context, data) => {
-      context.globalAlpha += 0.10
+      context.lineWidth += 2
 
       const frame = data?.drawData?.frame ?? 0
       const center = context.canvas.width / 4
@@ -22,24 +22,24 @@ export default function RenderContext() {
       const current = (frame + radius * 0.5) % radius
       context.beginPath()
       context.arc(center, center, current, 0, 2*Math.PI)
-      context.fill()
+      context.stroke()
     },
     render: (context, data) => {
-      context.globalAlpha += 0.10
+      context.lineWidth += 2
 
       context.save()
-      context.fillStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
+      context.strokeStyle = data.drawData.isDarkMode ? '#E5E7EB' : '#000000'
       const frame = data?.drawData?.frame ?? 0
       const center = context.canvas.width / 2
       const radius = context.canvas.width / 4
       const current = (frame) % radius
       context.beginPath()
       context.arc(center, center, current, 0, 2*Math.PI)
-      context.fill()
+      context.stroke()
       context.restore()
     },
     renderForeground: (context, data) => {
-      context.globalAlpha += 0.10
+      context.lineWidth += 2
 
       const frame = data?.drawData?.frame ?? 0
       const center = context.canvas.width * 0.75
@@ -47,7 +47,7 @@ export default function RenderContext() {
       const current = (frame + radius * 1.75) % radius
       context.beginPath()
       context.arc(center, center, current, 0, 2*Math.PI)
-      context.fill()
+      context.stroke()
     },
     options: {
       autoResetContext: false
@@ -57,29 +57,29 @@ export default function RenderContext() {
   const code = `
     export default function RenderContext() {
       const globalFilter = (context) => {
-        // set the fill color and opacity for the entire canvas
+        // set the line color and line width for the entire canvas
       }
 
       const { Canvas } = use2dAnimatedCanvas({
         globalFilter,
         renderBackground: (context, data) => {
-          // increase the opacity of the canvas
+          // increase the line width of the canvas
           // render a circle in the top left of the canvas
           //   that grows a little bit every frame
         },
         render: (context, data) => {
-          // increase the opacity of the canvas
+          // increase the line width of the canvas
 
           // when the autoResetContext option is set to false,
           //   it is important to save and restore the context
           //   to prevent layer-specific context changes from persisting to other layers
 
           // save the current settings of the context so we can restore it later
-          // note that the increased opacity made by this layer
+          // note that the increased line width made by this layer
           //   will be included in the saved settings
           context.save()
 
-          // set the fill color for this layer
+          // set the line color for this layer
           // render a circle in the middle of the canvas
           //   that grows a little bit every frame
 
@@ -88,13 +88,13 @@ export default function RenderContext() {
         },
         renderForeground: (context, data) => {
           // because the main layer has saved the context
-          //   prior to making changes to the fill color,
+          //   prior to making changes to the line color,
           //   and since it has restored the context at the end,
-          //   the fill color defined from the global filter
+          //   the line color defined from the global filter
           //   will be reapplied to this layer
-          // also, the opacity changes defined by the main layer will not be reset
+          // also, the line width defined by the main layer will not be reset
 
-          // increase the opacity of the canvas
+          // increase the line width of the canvas
           // render a circle in the bottom right of the canvas
           //   that grows a little bit every frame
         },
@@ -104,9 +104,14 @@ export default function RenderContext() {
           // this is useful when you want changes from one layer
           //   to persist into other layers
           // if this was set to true, the resulting render would be that
-          //   each layer will have the same opacity
-          //   instead of the layers having progressively increasing opacity
+          //   each layer will have the same line width
+          //   instead of the layers having progressively increasing line width
           autoResetContext: false
+
+          // also, notice that even if autoResetContext is set to false,
+          //   changes to the context from any render function
+          //   did not persist on succeeding frames
+          // this is because the context is implicitly reset before the start of each frame
         }
       })
 

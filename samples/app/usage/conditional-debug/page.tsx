@@ -9,7 +9,7 @@ import { type MouseEventHandler } from 'react'
 export default function ConditionalDebug() {
   const { Canvas, debug } = use2dAnimatedCanvas({
     preRenderTransform: (data) => {
-      debug.renderBreakWhen(() => data.drawData.frame > 0 && data.drawData.frame % 180 === 0)
+      debug.renderBreakWhen((debugData) => debugData.drawData.frame > 0 && debugData.drawData.frame % 180 === 0)
       return data
     },
     render: (context, data) => {
@@ -34,8 +34,11 @@ export default function ConditionalDebug() {
     export default function ConditionalDebug() {
       const { Canvas, debug } = use2dAnimatedCanvas({
         preRenderTransform: (data) => {
-          // call debug.renderBreakWhen() to pause rendering when a condition is met
-          // condition is set to when the current frame is a multiple of 180
+          // call debug.renderBreakWhen(conditionFn) to pause rendering
+          //   when the specified condition function returns true
+          // the condition function is set to return true
+          //   when the current frame is a multiple of 180
+          // renderBreakWhen will be passed the same data as the render and filter functions
           return data
         },
         render: (context, data) => {

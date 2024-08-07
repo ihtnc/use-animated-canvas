@@ -89,8 +89,6 @@ export default function UtilityContext() {
           // this means that changes to the context made
           //   on either the grid or environment details layer
           //   are not persisted to any other layers
-          // however, changes to the context from the layer-specific render function
-          //   will persist into succeeding layers if autoResetContext is set to false
 
           // render a circle that grows/shrinks a little bit every frame
           // render fps

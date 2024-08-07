@@ -12,7 +12,7 @@ const item: MenuItem = {
     'mouse', 'pointer', 'events',
     'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mouseout',
     'pointerup', 'pointerdown', 'pointermove', 'pointerenter', 'pointerout',
-    'onPointerEnterHandler', 'onPointerOutHandler', 'onPointerMoveHandler', 'onPointerDownHandler', 'onPointerUpHandler'
+    'onPointerEnter', 'onPointerOut', 'onPointerMove', 'onPointerDown', 'onPointerUp'
   ],
   seeAlso: [Transform, Layers, Keyboard]
 }
