@@ -5,6 +5,7 @@ import Filters from './filters/menu-item'
 import Data from './data/menu-item'
 import Transform from './transform/menu-item'
 
+import Focus from './focus/menu-item'
 import Keyboard from './keyboard/menu-item'
 import Click from './click/menu-item'
 import Pointer from './pointer/menu-item'
@@ -61,6 +62,7 @@ const getMenus = (): Array<MenuItem> => {
     Data,
     Transform,
 
+    Focus,
     Keyboard,
     Click,
     Pointer,
