@@ -88,7 +88,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
       data: currentFrameData ?? undefined
     }
 
-    if (autoResetContext) { context.save() }
+    context.save()
     const globalFilters = globalFilter !== undefined ? (Array.isArray(globalFilter) ? globalFilter : [globalFilter]) : []
     filterPipeline(globalFilters).run(context, renderData)
 
@@ -113,7 +113,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderPipeline(foreground).run(context, renderData)
     if (autoResetContext) { context.restore() }
 
-    if (autoResetContext) { context.restore() }
+    context.restore()
   }
 
   const postDrawHandler: PostDrawHandler = (context, data) => {
