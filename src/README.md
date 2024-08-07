@@ -1,6 +1,11 @@
-![build](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml/badge.svg)
-![publish](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml/badge.svg)
-[![npm version](https://badge.fury.io/js/@ihtnc%2Fuse-animated-canvas.svg)](https://badge.fury.io/js/@ihtnc%2Fuse-animated-canvas)
+[![build](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml/badge.svg)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/build-package.yml)
+[![publish](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml/badge.svg)](https://github.com/ihtnc/use-animated-canvas/actions/workflows/publish-package.yml)
+[![npm version](https://img.shields.io/npm/v/@ihtnc/use-animated-canvas)](https://www.npmjs.com/package/@ihtnc/use-animated-canvas)
+
+#### Release Notes (v1.0.9)
+* **FEATURE** TBD
+
+Previous release notes are available [here](https://github.com/ihtnc/use-animated-canvas/releases).
 
 ### Use Animated Canvas
 
