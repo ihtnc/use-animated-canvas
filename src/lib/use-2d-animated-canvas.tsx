@@ -149,29 +149,23 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderGridLayer
   })
 
-  const breakWhen: AnimatedCanvasRenderDebugConditionalHandler<InferPropsType<typeof props>> = (condition) => {
-    internalDebug.renderBreakWhen((data) => {
-      const renderData: AnimatedCanvasData<InferPropsType<typeof props>> = {
-        drawData: data,
-        data: currentFrameData ?? undefined
-      }
-
-      return condition(renderData)
-    })
-  }
-
-  const debug: AnimatedCanvasDebugObject<InferPropsType<typeof props>> = {
-    renderBreak: () => internalDebug.renderBreak(),
-    renderBreakWhen: breakWhen,
-    renderContinue: () => internalDebug.renderContinue(),
-    renderStep: () => internalDebug.renderStep()
-  }
-
-  const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({ className, onKeyDown, onKeyUp, onCanvasResize, ...rest }) => {
+  const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({
+    className,
+    onKeyDown,
+    onKeyUp,
+    onCanvasResize,
+    onFocus,
+    onBlur,
+    ...rest
+   }) => {
     const onKeyDownHandler = onKeyDown ?? (() => {})
     const onKeyUpHandler = onKeyUp ?? (() => {})
+    const onFocusHandler = onFocus ?? (() => {})
+    const onBlurHandler = onBlur ?? (() => {})
     useEventListener("keydown", onKeyDownHandler, divRef)
     useEventListener("keyup", onKeyUpHandler, divRef)
+    useEventListener("focus", onFocusHandler, divRef)
+    useEventListener("blur", onBlurHandler, divRef)
 
     const resizeCallback: (size: { width?: number, height?: number }) => void = (size) => {
       const { width, height } = size
@@ -198,6 +192,24 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
         />
       </div>
     )
+  }
+
+  const breakWhen: AnimatedCanvasRenderDebugConditionalHandler<InferPropsType<typeof props>> = (condition) => {
+    internalDebug.renderBreakWhen((data) => {
+      const renderData: AnimatedCanvasData<InferPropsType<typeof props>> = {
+        drawData: data,
+        data: currentFrameData ?? undefined
+      }
+
+      return condition(renderData)
+    })
+  }
+
+  const debug: AnimatedCanvasDebugObject<InferPropsType<typeof props>> = {
+    renderBreak: () => internalDebug.renderBreak(),
+    renderBreakWhen: breakWhen,
+    renderContinue: () => internalDebug.renderContinue(),
+    renderStep: () => internalDebug.renderStep()
   }
 
   return {

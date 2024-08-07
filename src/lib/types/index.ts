@@ -29,7 +29,9 @@ export type AnimatedCanvasProps = {
   onPointerEnter?: PointerEventHandler<HTMLCanvasElement>,
   onKeyDown?: (event: KeyboardEvent) => void,
   onKeyUp?: (event: KeyboardEvent) => void,
-  onCanvasResize?: CanvasResizeHandler
+  onCanvasResize?: CanvasResizeHandler,
+  onFocus?: (event: FocusEvent) => void,
+  onBlur?: (event: FocusEvent) => void
 }
 
 export enum RenderLocation {
