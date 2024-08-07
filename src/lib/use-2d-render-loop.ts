@@ -2,11 +2,11 @@ import { useRef, useEffect } from "react"
 import type {
   Use2DRenderLoopOptions,
   Use2DRenderLoopResponse,
-  FrameCounter
+  FrameCounter,
+  RenderDebugHandler,
+  RenderDebugConditionalHandler
 } from "@/types/use-2d-render-loop"
 import type {
-  RenderDebugHandler,
-  RenderDebugConditionalHandler,
   DrawData
 } from "@/types"
 import { getRenderEnvironmentLayerHandler, getRenderGridLayerHandler } from "@/utilities/layer-renderers"
@@ -53,9 +53,23 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     requestOnce = false
   }
 
-  const renderBreakWhen: RenderDebugConditionalHandler = (condition) => {
+  const renderBreakWhen: RenderDebugConditionalHandler<DrawData> = (condition) => {
+    const canvas = canvasRef.current
+    if (canvas === null) { return }
+
+    const renderData: DrawData = {
+      frame: frameCounter.current.frameCount,
+      fps: frameCounter.current.fps,
+      clientHeight: canvas.clientHeight,
+      clientWidth: canvas.clientWidth,
+      height: canvas.height,
+      width: canvas.width,
+      pixelRatio: devicePixelRatio,
+      isDarkMode
+    }
+
     if (options.enableDebug !== true) { return }
-    if (condition() !== true) { return }
+    if (condition(renderData) !== true) { return }
     request = false
     requestOnce = false
   }

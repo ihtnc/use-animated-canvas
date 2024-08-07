@@ -5,6 +5,8 @@ import type {
   Use2dAnimatedCanvasResponse,
   AnimatedCanvasTransformFunction,
   AnimatedCanvasConditionalTransformObject,
+  AnimatedCanvasDebugObject,
+  AnimatedCanvasRenderDebugConditionalHandler,
 } from "@/types/use-2d-animated-canvas"
 import type {
   DrawHandler,
@@ -33,7 +35,7 @@ const DEFAULT_OPTIONS: UseAnimatedCanvasOptions = {
 
 type InferPropsType<C extends Use2dAnimatedCanvasProps<any>> = C extends Use2dAnimatedCanvasProps<infer T> ? T : unknown
 
-const use2dAnimatedCanvas: <T extends string | number | boolean | object | undefined>(props: Use2dAnimatedCanvasProps<T>, initialData?: T) => Use2dAnimatedCanvasResponse = (props, initialData) => {
+const use2dAnimatedCanvas: <T extends string | number | boolean | object | undefined>(props: Use2dAnimatedCanvasProps<T>, initialData?: T) => Use2dAnimatedCanvasResponse<T> = (props, initialData) => {
   const {
     initialiseData,
     preRenderTransform,
@@ -136,7 +138,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     dataRef.current = currentFrameData
   }
 
-  const { ref, utilities, debug } = use2DRenderLoop({
+  const { ref, utilities, debug: internalDebug } = use2DRenderLoop({
     autoStart,
     enableDebug,
     onInit: initHandler,
@@ -146,6 +148,24 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderEnvironmentLayer,
     renderGridLayer
   })
+
+  const breakWhen: AnimatedCanvasRenderDebugConditionalHandler<InferPropsType<typeof props>> = (condition) => {
+    internalDebug.renderBreakWhen((data) => {
+      const renderData: AnimatedCanvasData<InferPropsType<typeof props>> = {
+        drawData: data,
+        data: currentFrameData ?? undefined
+      }
+
+      return condition(renderData)
+    })
+  }
+
+  const debug: AnimatedCanvasDebugObject<InferPropsType<typeof props>> = {
+    renderBreak: () => internalDebug.renderBreak(),
+    renderBreakWhen: breakWhen,
+    renderContinue: () => internalDebug.renderContinue(),
+    renderStep: () => internalDebug.renderStep()
+  }
 
   const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({ className, onKeyDown, onKeyUp, onCanvasResize, ...rest }) => {
     const onKeyDownHandler = onKeyDown ?? (() => {})

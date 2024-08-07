@@ -6,17 +6,8 @@ import type {
 export type Coordinates = { x: number, y: number }
 export type Size = { width: number, height: number }
 
-export type RenderDebugHandler = () => void
-export type RenderDebugConditionalHandler = (condition: () => boolean) => void
-
 export type UtilitiesObject = {
   resize: (width: number, height: number) => void,
-}
-export type DebugObject = {
-  renderBreak: RenderDebugHandler,
-  renderBreakWhen: RenderDebugConditionalHandler,
-  renderContinue: RenderDebugHandler,
-  renderStep: RenderDebugHandler
 }
 
 export type CanvasResizeHandler = (width: number, height: number) => void

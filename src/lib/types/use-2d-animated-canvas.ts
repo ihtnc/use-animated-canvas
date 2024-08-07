@@ -1,7 +1,6 @@
 import type {
   UseAnimatedCanvasOptions,
   AnimatedCanvasProps,
-  DebugObject,
   DrawData
 } from "@/types"
 import type {
@@ -53,10 +52,20 @@ export type Use2dAnimatedCanvasProps<T> = {
   renderGridLayer?: RenderGridLayerValue
 }
 
-export type Use2dAnimatedCanvasResponse = {
+export type Use2dAnimatedCanvasResponse<T> = {
   Canvas: JSXElementConstructor<AnimatedCanvasProps>,
-  debug: DebugObject
+  debug: AnimatedCanvasDebugObject<T>
 }
 
 export type InitialiseDataHandler<T> = (canvas: HTMLCanvasElement, initData: InitData) => T
+
+export type AnimatedCanvasRenderDebugHandler = () => void
+export type AnimatedCanvasRenderDebugConditionalHandler<T> = (condition: AnimatedCanvasConditionalFunction<T>) => void
+
+export type AnimatedCanvasDebugObject<T> = {
+  renderBreak: AnimatedCanvasRenderDebugHandler,
+  renderBreakWhen: AnimatedCanvasRenderDebugConditionalHandler<T>,
+  renderContinue: AnimatedCanvasRenderDebugHandler,
+  renderStep: AnimatedCanvasRenderDebugHandler
+}
 

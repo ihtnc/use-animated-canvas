@@ -3,11 +3,11 @@ import type {
   Coordinates,
   Size,
   UtilitiesObject,
-  DebugObject,
   RenderLocation,
   RenderEnvironmentLayerOptions,
   DrawData
 } from "@/types"
+import { type ConditionalFunction } from "@/utilities/misc-operations"
 
 export type Use2DRenderLoopOptions = {
   autoStart?: boolean,
@@ -46,3 +46,13 @@ export type RenderGridLayerValue = boolean | string | number | Size | RenderGrid
 
 export type RenderEnvironmentLayerValue = boolean | string | RenderLocation | Coordinates | RenderEnvironmentLayerOptions | RenderEnvironmentLayerDrawHandler
 export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
+
+export type RenderDebugHandler = () => void
+export type RenderDebugConditionalHandler<T> = (condition: ConditionalFunction<T>) => void
+
+export type DebugObject = {
+  renderBreak: RenderDebugHandler,
+  renderBreakWhen: RenderDebugConditionalHandler<DrawData>,
+  renderContinue: RenderDebugHandler,
+  renderStep: RenderDebugHandler
+}
