@@ -90,7 +90,7 @@ export default function Filters() {
           // the context will be reset after the render function call
           //   however, the changes made on the globalFilter function will persist
 
-          // set the opacity of the background layer
+          // set the opacity of the main layer
         },
         render: drawTriangle,
 
@@ -101,7 +101,7 @@ export default function Filters() {
           // the context will be reset after the renderForeground function call
           //   however, the changes made on the globalFilter function will persist
 
-          // set the opacity of the background layer
+          // set the opacity of the foreground layer
         },
         renderForeground: drawForegroundTriangle
       })
