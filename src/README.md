@@ -5,7 +5,10 @@
 [![release notes](https://img.shields.io/badge/release%20notes-view-blue?logo=github)](https://github.com/ihtnc/use-animated-canvas/releases)
 
 #### Release Notes (v1.0.9)
-* **FEATURE** TBD
+* **FEATURE** Streamlined filter processing
+* **FEATURE** Added data parameter to renderBreakWhen function
+* **FEATURE** Ensured context is reset on each frame
+* **FEATURE** Added support for focus and blur events
 
 Previous release notes are available [here](https://github.com/ihtnc/use-animated-canvas/releases).
 
