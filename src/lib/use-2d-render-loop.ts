@@ -116,7 +116,7 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     const devicePixelRatio = getDevicePixelRatio()
     let animationFrameId: number
 
-    if (onInit) { onInit(canvas, { devicePixelRatio }) }
+    if (onInit) { onInit(canvas, { devicePixelRatio, isDarkMode }) }
 
     const needsNewFrame: () => boolean = () => {
       if (options.autoStart === true && request === null && requestOnce === null) { return true }

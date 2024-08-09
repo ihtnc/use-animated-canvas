@@ -28,7 +28,7 @@ export type Use2DRenderLoopResponse = {
 
 export type FrameCounter = { frameCount: number, fps: number, lastRender: number }
 
-export type InitData = { devicePixelRatio: number }
+export type InitData = { devicePixelRatio: number, isDarkMode: boolean }
 export type InitRenderHandler = (canvas: HTMLCanvasElement, data: InitData) => void
 
 export type DrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
