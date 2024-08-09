@@ -181,8 +181,8 @@ export default function ConditionalRender() {
         renderForeground: renderWhen(has5SecondsElapsed, renderDate)
 
         // the library also exposes the following conditional functions
-        // renderWhenAny is for calling rendering functions when the condition is met
-        // renderWhenNot is for calling rendering functions when the condition is not met
+        // renderWhenAny is for calling rendering functions when at least one condition is met
+        // renderWhenNot is for calling rendering functions when all conditions are not met
         // these functions are similar to the renderWhen function,
         //   as they are essentially the same function but with different evaluation logic
       })

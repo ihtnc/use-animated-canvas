@@ -46,6 +46,7 @@ export default function RenderContext() {
       const radius = context.canvas.width / 4
       const current = (frame + radius * 1.75) % radius
       context.beginPath()
+      context.setLineDash([current / 2])
       context.arc(center, center, current, 0, 2*Math.PI)
       context.stroke()
     },
@@ -79,7 +80,7 @@ export default function RenderContext() {
           //   will be included in the saved settings
           context.save()
 
-          // set the line color for this layer
+          // set the line color of the canvas
           // render a circle in the middle of the canvas
           //   that grows a little bit every frame
 
@@ -95,6 +96,7 @@ export default function RenderContext() {
           // also, the line width defined by the main layer will not be reset
 
           // increase the line width of the canvas
+          // set the line dash pattern of the canvas
           // render a circle in the bottom right of the canvas
           //   that grows a little bit every frame
         },
@@ -109,9 +111,11 @@ export default function RenderContext() {
           autoResetContext: false
 
           // also, notice that even if autoResetContext is set to false,
-          //   changes to the context from any render function
+          //   the line dash changes to the context from the last render function
           //   did not persist on succeeding frames
-          // this is because the context is implicitly reset before the start of each frame
+          // this is because the context is automatically reset before the start of each frame
+          // if it didn't, then the line dash pattern would have been applied to all layers
+          //   after the first frame
         }
       })
 

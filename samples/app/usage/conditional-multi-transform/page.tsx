@@ -196,6 +196,11 @@ export default function ConditionalMultiTransform() {
         preRenderTransform: [
           setCoordinates,
           setClicked,
+
+          // when functions can accept a single condition function
+          //   or an array of condition functions
+          //   as well as a single data transformation function
+          //   or an array of data transformation functions
           when([isClicked, isWithinBounds], [rotate, increaseWidth])
         ],
 

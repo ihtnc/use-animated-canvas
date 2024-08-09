@@ -204,14 +204,9 @@ export default function MultiConditionalFilter() {
 
         renderBackgroundFilter: filterWhen([isClicked, isWithinBackground], flipFilter),
         renderBackground,
-
         renderFilter: filterWhen([isClicked, isWithinMain], flipFilter),
         render,
-
-        // filterWhen functions can accept a single condition function
-        //   or an array of condition functions
-        //   as well as a single filter function or an array of filter functions
-        renderForegroundFilter: filterWhen([isClicked, isWithinForeground], [flipFilter]),
+        renderForegroundFilter: filterWhen([isClicked, isWithinForeground], flipFilter),
         renderForeground
       })
 

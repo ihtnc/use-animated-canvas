@@ -36,9 +36,11 @@ export default function ConditionalDebug() {
         preRenderTransform: (data) => {
           // call debug.renderBreakWhen(conditionFn) to pause rendering
           //   when the specified condition function returns true
+          // the condition function on renderBreakWhen will be passed the same data
+          //   as the render and filter functions
+
           // the condition function is set to return true
           //   when the current frame is a multiple of 180
-          // renderBreakWhen will be passed the same data as the render and filter functions
           return data
         },
         render: (context, data) => {
@@ -48,9 +50,11 @@ export default function ConditionalDebug() {
           // render frame count in the bottom left corner
         },
         options: {
-          // setting autoStart to false will prevent the animation
+          // setting this to false will prevent the animation
           //   from starting automatically
+          // autoStart is set to true by default
           autoStart: false,
+
           enableDebug: true
         }
       })

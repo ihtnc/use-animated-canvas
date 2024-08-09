@@ -54,6 +54,7 @@ export default function CustomGrid() {
           //   and gets called every frame
           //   after all other rendering functions
           //   but before the environment details layer render function
+
           // render a grid with user-defined divisions
         }
       })

@@ -152,6 +152,7 @@ export default function MultiTransform() {
       const render = (context, data) => {
         // render the horizontal and vertical grid lines
         //   with the specified spaces and dash offsets
+        //   as specified in the data
       }
 
       const { Canvas } = use2dAnimatedCanvas<PageData>({
@@ -165,7 +166,7 @@ export default function MultiTransform() {
         // the order in which they are specified in the array
         //   is the order in which they will be called
         // the idea here is to separate the transformation of values
-        //   in the same data structure
+        //   on the same data structure
         // this makes it easier to manage the transformation of the data
         //   and also makes the transformation logic more modular and more straightforward
         // the state of the data is persisted across all transformation functions

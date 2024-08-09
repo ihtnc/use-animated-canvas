@@ -10,7 +10,7 @@ exports[`TypeScriptCode component > should render code with typescript styles 1`
     <h3
       aria-controls="headlessui-disclosure-panel-:r1:"
       aria-expanded="true"
-      class="flex group text-xl font-semibold cursor-pointer"
+      class="flex w-fit group text-xl font-semibold cursor-pointer"
       data-headlessui-state="open"
       data-open=""
       id="headlessui-disclosure-button-:r0:"

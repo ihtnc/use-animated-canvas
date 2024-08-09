@@ -174,8 +174,10 @@ export default function ConditionalTransform() {
         postRenderTransform: when(isWithinBounds, setFrame)
 
         // the library also exposes the following conditional functions
-        // whenAny is for calling data transformation functions when the condition is met
-        // whenNot is for calling data transformation functions when the conditions is not met
+        // whenAny is for calling data transformation functions
+        //   when at least one condition is met
+        // whenNot is for calling data transformation functions
+        //   when all conditions are not met
         // these functions are similar to the when function,
         //   as they are essentially the same function but with different evaluation logic
       })

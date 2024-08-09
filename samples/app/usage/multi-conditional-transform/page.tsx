@@ -175,7 +175,7 @@ export default function MultiConditionalTransform() {
           setCurrentValues,
 
           // whenNot is another conditional function exposed by the library
-          //   it is meant for for calling data transformation functions
+          //   it is meant for calling data transformation functions
           //   when no conditions are met
           // like the when function, it can also accept an array of condition functions
           whenNot(isClicked, decreaseRadius),

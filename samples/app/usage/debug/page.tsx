@@ -40,6 +40,7 @@ export default function Debugging() {
         },
         options: {
           // functions in the debug object will only work when this is set to true
+          // enableDebug is set to false by default
           enableDebug: true
         }
       })

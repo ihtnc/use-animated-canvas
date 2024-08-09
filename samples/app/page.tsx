@@ -61,7 +61,7 @@ export default function Home() {
         autoFocus
       />
       {display.map((group, index) => (
-        <Disclosure as="span" key={index} defaultOpen={true} className="w-full">
+        <Disclosure as="span" key={index} defaultOpen={index <= 1} className="w-full">
           <DisclosureButton as="h3" className="flex group w-fit mx-auto col-span-4 text-xl font-semibold mb-3 cursor-pointer">
             {group.category}&nbsp;
             <span className="inline-block transition-transform motion-reduce:transform-none

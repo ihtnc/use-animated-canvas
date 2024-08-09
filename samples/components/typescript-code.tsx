@@ -14,7 +14,7 @@ export default function TypeScriptCode({code}: TypeScriptCodeProps) {
 
   return (<>
     <Disclosure as="div" defaultOpen={true} className="pb-4 w-full">
-      <DisclosureButton as="h3" className="flex group text-xl font-semibold cursor-pointer">
+      <DisclosureButton as="h3" className="flex w-fit group text-xl font-semibold cursor-pointer">
         Code&nbsp;
         <span className="inline-block transition-transform motion-reduce:transform-none
           group-data-[open]:-rotate-90

@@ -807,9 +807,12 @@ export default function KeepyUppy() {
       //   and finally the render functions will use these internal data
       //   to render objects in the canvas
       // this keeps the data flow more straightforward and easy to understand
-      // basically this makes the rendering functions to just focus on the internal data,
-      //   and the event handlers to just focus on the storing their values
-      //   in a separate set of variables
+      // basically this makes the event handlers
+      //   to just focus on communicating their changes,
+      //   the data transformation functions
+      //   to just focus on applying changes to the internal data,
+      //   and the rendering functions
+      //   to just focus on rendering based on the internal data
 
       // this variable is used as a flag to indicate whether the resize event has occurred
       // since the canvas is set to fill the size of the parent container,
@@ -826,7 +829,7 @@ export default function KeepyUppy() {
       let pointerCoordinates: Coordinates | undefined
 
       // this variable will store whether the pointer is being clicked
-      //   (updated by the pointer down and reset by the pointer up event)
+      //   (updated by the pointer down event and reset by the pointer up event)
       let pointerClick: boolean = false
 
       // the following functions are used for the initialisiation of the game
@@ -849,7 +852,7 @@ export default function KeepyUppy() {
       const setNewBall = (data) => {
         // this is intended to be called once per round to set the initial state of the ball
         // the initialisation function or the end of a round
-        //   will switch on the new ball flag
+        //   will switch on the new ball flag that activates this function
         // it will then set the initial values for the ball (coordinates, speed, etc)
         //   then switch off the new ball flag
       }
@@ -872,7 +875,7 @@ export default function KeepyUppy() {
       }
 
       const executeCommand = (data) => {
-        // modify internal data to respond to the current pressed key
+        // modify the internal data as response to the current pressed key
         // i.e.: if the pressed key is 'a', move the block coordinates to the left
       }
 
@@ -919,7 +922,7 @@ export default function KeepyUppy() {
         // force the direction of the ball to go right on the x-axis
       }
 
-      // the following function is used control the movement of the ball
+      // the following functions are used control the movement of the ball
 
       const getNextBallCoordinates = (data) => {
         // get the next coordinates of the ball based on the current step values
@@ -934,7 +937,7 @@ export default function KeepyUppy() {
       const requestNewBall = (data) => {
         // sets the flag to request a new ball
         // this is intended to be called when the ball touches the bottom edge
-        //   to start a new round
+        //   to start a new round or if a new game is starting
       }
 
       // the following function is used for scoring a point
@@ -1074,6 +1077,11 @@ export default function KeepyUppy() {
         // apply an opacity filter to the canvas
       }
 
+      // this is the hook that will accept all the functions defined above
+      //   as part of its configuration and returns an object
+      //   that represents the canvas with a built-in render loop
+      //   that will render objects on the canvas every frame
+      //   based on the supplied functions
       const { Canvas } = use2dAnimatedCanvas<Date>({
         initialiseData: () => {
           // set the initial values for the internal data
@@ -1179,7 +1187,7 @@ export default function KeepyUppy() {
           renderInstructions,
           renderLeftControl,
           renderRightControl
-        ],,
+        ],
 
         // the main layer will be blurred and slightly transparent when the game ends
         renderFilter: filterWhen([

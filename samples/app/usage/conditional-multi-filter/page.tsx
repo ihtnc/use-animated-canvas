@@ -191,6 +191,9 @@ export default function ConditionalMultiFilter() {
         // the idea of multiple filter functions in the filterWhen function
         //   is to further separate the actual filtering operation
         //   this makes the filter functions more modular and more straightforward
+        // filterWhen functions can accept a single condition function
+        //   or an array of condition functions
+        //   as well as a single filter function or an array of filter functions
 
         renderBackgroundFilter: filterWhen(isWithinBackground, [clearFilter, fontFilter]),
         renderBackground,

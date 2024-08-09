@@ -3,6 +3,7 @@
 import {
   type AnimatedCanvasConditionalFunction,
   type AnimatedCanvasRenderFunction,
+  not,
   renderWhen,
   use2dAnimatedCanvas
 } from '@ihtnc/use-animated-canvas'
@@ -39,7 +40,6 @@ export default function ConditionalMultiRender() {
   let clicked: boolean
 
   const isClicked: AnimatedCanvasConditionalFunction<PageData> = (data) => data?.data?.isClicked ?? false
-  const isNotClicked: AnimatedCanvasConditionalFunction<PageData> = (data) => data?.data?.isClicked === false ?? true
 
   const renderBackground: AnimatedCanvasRenderFunction<PageData> = (context, data) => {
     context.fillStyle = '#808080'
@@ -136,7 +136,7 @@ export default function ConditionalMultiRender() {
     renderBackground,
     render: [
       renderClockBase,
-      renderWhen(isNotClicked, [renderDigitalClock]),
+      renderWhen(not(isClicked), [renderDigitalClock]),
       renderWhen(isClicked, [renderHourHand, renderMinuteHand, renderSecondHand])
     ],
     renderForeground: renderWhen(isClicked, renderDate)
@@ -166,7 +166,6 @@ export default function ConditionalMultiRender() {
       let clicked: boolean
 
       const isClicked = (data) => data?.data?.isClicked ?? false
-      const isNotClicked = (data) => data?.data?.isClicked === false ?? true
 
       const renderBackground = (context, data) => {
         // render instructions
@@ -212,7 +211,9 @@ export default function ConditionalMultiRender() {
           // renderWhen functions can accept a single condition function
           //   or an array of condition functions
           //   as well as a single render function or an array of render functions
-          renderWhen([isNotClicked], [renderDigitalClock]),
+          // the not function can be used to negate
+          //   the result of a condition function when called
+          renderWhen([not(isClicked)], [renderDigitalClock]),
 
           renderWhen(isClicked, [renderHourHand, renderMinuteHand, renderSecondHand])
         ],

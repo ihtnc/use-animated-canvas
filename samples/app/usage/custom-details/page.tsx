@@ -36,6 +36,7 @@ export default function CustomDetails() {
           //   and gets called every frame
           //   after all other rendering functions
           //   including the grid layer render function
+
           // render environment details on a user-defined format
         }
       })

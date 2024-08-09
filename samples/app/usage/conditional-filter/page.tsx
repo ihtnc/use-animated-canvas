@@ -137,8 +137,8 @@ export default function ConditionalFilter() {
         renderForeground
 
         // the library also exposes the following conditional functions
-        // filterWhenAny is for calling filter functions when the condition is met
-        // filterWhenNot is for calling filter functions when the condition is not met
+        // filterWhenAny is for calling filter functions when at least one condition is met
+        // filterWhenNot is for calling filter functions when all conditions are not met
         // these functions are similar to the filterWhen function,
         //   as they are essentially the same function but with different evaluation logic
       })

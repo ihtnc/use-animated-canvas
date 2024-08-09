@@ -72,8 +72,8 @@ export default function UtilityContext() {
           //   did not persist to this layer
 
           // set the font for the main layer
+          // render text in the main layer
           // render a circle that grows/shrinks a little bit every frame
-          // render text in the foreground
         },
 
         // this value will end up being the line color for the grid layer
