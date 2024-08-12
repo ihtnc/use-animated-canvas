@@ -7,6 +7,7 @@ import type {
   AnimatedCanvasConditionalTransformObject,
   AnimatedCanvasDebugObject,
   AnimatedCanvasRenderDebugConditionalHandler,
+  AnimatedCanvasRenderDebugHandler,
 } from "@/types/use-2d-animated-canvas"
 import type {
   DrawHandler,
@@ -138,9 +139,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     dataRef.current = currentFrameData
   }
 
-  const { ref, utilities, debug: internalDebug } = use2DRenderLoop({
+  const { ref, utilities, control } = use2DRenderLoop({
     autoStart,
-    enableDebug,
     onInit: initHandler,
     onPreDraw: preDrawHandler,
     onDraw: drawHandler,
@@ -204,8 +204,16 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     )
   }
 
-  const breakWhen: AnimatedCanvasRenderDebugConditionalHandler<InferPropsType<typeof props>> = (condition) => {
-    internalDebug.renderBreakWhen((data) => {
+  const renderBreak: AnimatedCanvasRenderDebugHandler = () => {
+    if (enableDebug === false) { return }
+
+    control.renderBreak()
+  }
+
+  const renderBreakWhen: AnimatedCanvasRenderDebugConditionalHandler<InferPropsType<typeof props>> = (condition) => {
+    if (enableDebug === false) { return }
+
+    control.renderBreakWhen((data) => {
       const renderData: AnimatedCanvasData<InferPropsType<typeof props>> = {
         drawData: data,
         data: currentFrameData ?? undefined
@@ -215,11 +223,23 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     })
   }
 
+  const renderContinue: AnimatedCanvasRenderDebugHandler = () => {
+    if (enableDebug === false) { return }
+
+    control.renderContinue()
+  }
+
+  const renderStep: AnimatedCanvasRenderDebugHandler = () => {
+    if (enableDebug === false) { return }
+
+    control.renderStep()
+  }
+
   const debug: AnimatedCanvasDebugObject<InferPropsType<typeof props>> = {
-    renderBreak: () => internalDebug.renderBreak(),
-    renderBreakWhen: breakWhen,
-    renderContinue: () => internalDebug.renderContinue(),
-    renderStep: () => internalDebug.renderStep()
+    renderBreak,
+    renderBreakWhen,
+    renderContinue,
+    renderStep
   }
 
   return {

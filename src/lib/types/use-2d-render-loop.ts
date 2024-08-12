@@ -11,7 +11,6 @@ import { type ConditionalFunction } from "@/utilities/misc-operations"
 
 export type Use2DRenderLoopOptions = {
   autoStart?: boolean,
-  enableDebug?: boolean,
   onInit?: InitRenderHandler,
   onDraw?: DrawHandler,
   onPreDraw?: PreDrawHandler,
@@ -23,7 +22,7 @@ export type Use2DRenderLoopOptions = {
 export type Use2DRenderLoopResponse = {
   ref: RefObject<HTMLCanvasElement>,
   utilities: UtilitiesObject,
-  debug: DebugObject
+  control: RenderControlObject
 }
 
 export type FrameCounter = { frameCount: number, fps: number, lastRender: number }
@@ -47,12 +46,12 @@ export type RenderGridLayerValue = boolean | string | number | Size | RenderGrid
 export type RenderEnvironmentLayerValue = boolean | string | RenderLocation | Coordinates | RenderEnvironmentLayerOptions | RenderEnvironmentLayerDrawHandler
 export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
 
-export type RenderDebugHandler = () => void
-export type RenderDebugConditionalHandler<T> = (condition: ConditionalFunction<T>) => void
+export type RenderControlHandler = () => void
+export type RenderControlConditionalHandler<T> = (condition: ConditionalFunction<T>) => void
 
-export type DebugObject = {
-  renderBreak: RenderDebugHandler,
-  renderBreakWhen: RenderDebugConditionalHandler<DrawData>,
-  renderContinue: RenderDebugHandler,
-  renderStep: RenderDebugHandler
+export type RenderControlObject = {
+  renderBreak: RenderControlHandler,
+  renderBreakWhen: RenderControlConditionalHandler<DrawData>,
+  renderContinue: RenderControlHandler,
+  renderStep: RenderControlHandler
 }

@@ -3,8 +3,8 @@ import type {
   Use2DRenderLoopOptions,
   Use2DRenderLoopResponse,
   FrameCounter,
-  RenderDebugHandler,
-  RenderDebugConditionalHandler
+  RenderControlHandler,
+  RenderControlConditionalHandler
 } from "@/types/use-2d-render-loop"
 import type {
   DrawData
@@ -47,13 +47,12 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
   let request: boolean | null = null
   let requestOnce: boolean | null = null
 
-  const renderBreak: RenderDebugHandler = () => {
-    if (options.enableDebug !== true) { return }
+  const renderBreak: RenderControlHandler = () => {
     request = false
     requestOnce = false
   }
 
-  const renderBreakWhen: RenderDebugConditionalHandler<DrawData> = (condition) => {
+  const renderBreakWhen: RenderControlConditionalHandler<DrawData> = (condition) => {
     const canvas = canvasRef.current
     if (canvas === null) { return }
 
@@ -68,21 +67,17 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
       isDarkMode
     }
 
-    if (options.enableDebug !== true) { return }
     if (condition(renderData) !== true) { return }
     request = false
     requestOnce = false
   }
 
-  const renderContinue: RenderDebugHandler = () => {
-    if (options.enableDebug !== true) { return }
-
+  const renderContinue: RenderControlHandler = () => {
     request = true
     requestOnce = false
   }
 
-  const renderStep: RenderDebugHandler = () => {
-    if (options.enableDebug !== true) { return }
+  const renderStep: RenderControlHandler = () => {
     requestOnce = true
     request = false
   }
@@ -121,12 +116,12 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     const needsNewFrame: () => boolean = () => {
       if (options.autoStart === true && request === null && requestOnce === null) { return true }
       if (options.autoStart === false && request === null && requestOnce === null) { return false }
-      if (options.enableDebug && request === false && requestOnce === false) { return false }
+      if (request === false && requestOnce === false) { return false }
 
       // requestOnce is used to step through the render loop and is manually set
       //   so there's no need to preserve the value after each render
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      if (options.enableDebug && requestOnce) { requestOnce = false }
+      if (requestOnce) { requestOnce = false }
 
       return true
     }
@@ -182,7 +177,7 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     utilities: {
       resize
     },
-    debug: {
+    control: {
       renderBreak, renderBreakWhen, renderContinue, renderStep
     }
   }
