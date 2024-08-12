@@ -156,7 +156,12 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     onCanvasResize,
     onFocus,
     onBlur,
-    ...rest
+    onClick,
+    onPointerEnter,
+    onPointerMove,
+    onPointerDown,
+    onPointerUp,
+    onPointerOut
    }) => {
     const onKeyDownHandler = onKeyDown ?? (() => {})
     const onKeyUpHandler = onKeyUp ?? (() => {})
@@ -188,7 +193,12 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
         <canvas
           ref={ref}
           style={{ flexGrow: 1 }}
-          {...rest}
+          onClick={onClick}
+          onPointerEnter={onPointerEnter}
+          onPointerMove={onPointerMove}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          onPointerOut={onPointerOut}
         />
       </div>
     )
