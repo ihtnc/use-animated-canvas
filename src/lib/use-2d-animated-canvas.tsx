@@ -140,7 +140,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   }
 
   const { ref, utilities, control } = use2DRenderLoop({
-    autoStart,
+    autoStart: false,
     onInit: initHandler,
     onPreDraw: preDrawHandler,
     onDraw: drawHandler,
@@ -182,6 +182,9 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
         }
 
         resize(width, height)
+        if (autoStart) {
+          control.renderContinue()
+        }
       }
     }
     const debouncedOnResize = useDebounceCallback(resizeCallback, resizeDelayMs)
