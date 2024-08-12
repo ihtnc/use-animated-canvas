@@ -37,8 +37,10 @@
   },
   "homepage": "https://ihtnc.github.io/use-animated-canvas",
   "dependencies": {
-    "react": "^18.3.1",
     "usehooks-ts": "^3.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.6",
