@@ -27,6 +27,18 @@ export type Use2DRenderLoopResponse = {
 
 export type FrameCounter = { frameCount: number, fps: number, lastRender: number }
 
+export enum RenderControlType {
+  Render = 'render',
+  RenderOneFrame = 'one-frame',
+  RenderBreak = 'break'
+}
+
+export type LoopState = {
+  control: RenderControlType | null,
+  hasInitialised: boolean,
+  isPaused: boolean
+}
+
 export type InitData = { devicePixelRatio: number, isDarkMode: boolean }
 export type InitRenderHandler = (canvas: HTMLCanvasElement, data: InitData) => void
 
@@ -52,6 +64,7 @@ export type RenderControlConditionalHandler<T> = (condition: ConditionalFunction
 export type RenderControlObject = {
   renderBreak: RenderControlHandler,
   renderBreakWhen: RenderControlConditionalHandler<DrawData>,
-  renderContinue: RenderControlHandler,
-  renderStep: RenderControlHandler
+  renderStart: RenderControlHandler,
+  renderStep: RenderControlHandler,
+  renderReset: RenderControlHandler
 }

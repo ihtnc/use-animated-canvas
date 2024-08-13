@@ -8,6 +8,8 @@ export type Size = { width: number, height: number }
 
 export type UtilitiesObject = {
   resize: (width: number, height: number) => void,
+  pauseLoop: () => void,
+  startLoop: () => void,
 }
 
 export type CanvasResizeHandler = (width: number, height: number) => void

@@ -1,10 +1,12 @@
 import { useRef, useEffect } from "react"
-import type {
-  Use2DRenderLoopOptions,
-  Use2DRenderLoopResponse,
-  FrameCounter,
-  RenderControlHandler,
-  RenderControlConditionalHandler
+import {
+  type Use2DRenderLoopOptions,
+  type Use2DRenderLoopResponse,
+  type FrameCounter,
+  type RenderControlHandler,
+  type RenderControlConditionalHandler,
+  type LoopState,
+  RenderControlType
 } from "@/types/use-2d-render-loop"
 import type {
   DrawData
@@ -14,12 +16,19 @@ import { cancelAnimationFrame, getDevicePixelRatio, requestAnimationFrame } from
 import { DEFAULT_OPTIONS } from "@/defaults"
 import { useDarkMode } from "usehooks-ts"
 
-const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopResponse => {
-  options = Object.assign({}, DEFAULT_OPTIONS, options)
-
+const use2DRenderLoop = ({
+  autoStart = DEFAULT_OPTIONS.autoStart,
+  onInit,
+  onPreDraw,
+  onDraw,
+  onPostDraw,
+  renderEnvironmentLayer = DEFAULT_OPTIONS.renderEnvironmentLayer,
+  renderGridLayer = DEFAULT_OPTIONS.renderGridLayer,
+  maxFrame = DEFAULT_OPTIONS.maxFrame
+}: Use2DRenderLoopOptions): Use2DRenderLoopResponse => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { isDarkMode } = useDarkMode()
-  const { onInit, onPreDraw, onDraw, onPostDraw, renderEnvironmentLayer, renderGridLayer } = options
+
   const renderEnvironmentLayerHandler = getRenderEnvironmentLayerHandler(renderEnvironmentLayer)
   const renderGridLayerHandler = getRenderGridLayerHandler(renderGridLayer)
 
@@ -29,27 +38,19 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     lastRender: performance.now()
   })
 
-  const updateFrameCounter: () => number = () => {
-    const current = performance.now()
-    const frameLength = current - frameCounter.current.lastRender
-    const fps = Math.round(1000 / frameLength)
+  const state = useRef<LoopState>({
+    control: null,
+    hasInitialised: false,
+    isPaused: false
+  })
 
-    frameCounter.current.fps = fps
-    frameCounter.current.lastRender = current
-
-    let frame = frameCounter.current.frameCount
-    frame = (frame + 1 <= options.maxFrame!) ? frame + 1: 0
-    frameCounter.current.frameCount = frame
-
-    return fps
+  const renderReset: RenderControlHandler = () => {
+    state.current.control = null
+    state.current.hasInitialised = false
   }
 
-  let request: boolean | null = null
-  let requestOnce: boolean | null = null
-
   const renderBreak: RenderControlHandler = () => {
-    request = false
-    requestOnce = false
+    state.current.control = RenderControlType.RenderBreak
   }
 
   const renderBreakWhen: RenderControlConditionalHandler<DrawData> = (condition) => {
@@ -68,18 +69,15 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     }
 
     if (condition(renderData) !== true) { return }
-    request = false
-    requestOnce = false
+    state.current.control = RenderControlType.RenderBreak
   }
 
-  const renderContinue: RenderControlHandler = () => {
-    request = true
-    requestOnce = false
+  const renderStart: RenderControlHandler = () => {
+    state.current.control = RenderControlType.Render
   }
 
   const renderStep: RenderControlHandler = () => {
-    requestOnce = true
-    request = false
+    state.current.control = RenderControlType.RenderOneFrame
   }
 
   const resize = (width: number, height: number) => {
@@ -88,6 +86,14 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
 
     canvas.width = width
     canvas.height = height
+  }
+
+  const startLoop = () => {
+    state.current.isPaused = false
+  }
+
+  const pauseLoop = () => {
+    state.current.isPaused = true
   }
 
   const clearFrame = () => {
@@ -111,26 +117,45 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     const devicePixelRatio = getDevicePixelRatio()
     let animationFrameId: number
 
-    if (onInit) { onInit(canvas, { devicePixelRatio, isDarkMode }) }
+    const isLoopPaused: () => boolean = () => {
+      return state.current.isPaused
+    }
 
     const needsNewFrame: () => boolean = () => {
-      if (options.autoStart === true && request === null && requestOnce === null) { return true }
-      if (options.autoStart === false && request === null && requestOnce === null) { return false }
-      if (request === false && requestOnce === false) { return false }
-
-      // requestOnce is used to step through the render loop and is manually set
-      //   so there's no need to preserve the value after each render
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      if (requestOnce) { requestOnce = false }
+      if (autoStart === true && state.current.control === null) { return true }
+      if (autoStart === false && state.current.control === null) { return false }
+      if (state.current.control === RenderControlType.RenderBreak) { return false }
+      if (state.current.control === RenderControlType.RenderOneFrame) { state.current.control = RenderControlType.RenderBreak }
 
       return true
     }
 
+    const updateFrameCounter: () => number = () => {
+      const current = performance.now()
+      const frameLength = current - frameCounter.current.lastRender
+      const fps = Math.round(1000 / frameLength)
+
+      frameCounter.current.fps = fps
+      frameCounter.current.lastRender = current
+
+      let frame = frameCounter.current.frameCount
+      frame = (frame + 1 <= maxFrame!) ? frame + 1: 0
+      frameCounter.current.frameCount = frame
+
+      return fps
+    }
+
     const render = () => {
-      if (!context || needsNewFrame() === false) {
+      if (!context || isLoopPaused() || needsNewFrame() === false) {
         animationFrameId = requestAnimationFrame(render)
         return
       }
+
+      if (state.current.hasInitialised === false && onInit) {
+        onInit(canvas, { devicePixelRatio, isDarkMode })
+      }
+
+      state.current.hasInitialised = true
 
       clearFrame()
 
@@ -170,15 +195,21 @@ const use2DRenderLoop = (options: Use2DRenderLoopOptions): Use2DRenderLoopRespon
     return () => {
       cancelAnimationFrame(animationFrameId)
     }
-  }, [options])
+  })
 
   return {
     ref: canvasRef,
     utilities: {
-      resize
+      resize,
+      pauseLoop,
+      startLoop
     },
     control: {
-      renderBreak, renderBreakWhen, renderContinue, renderStep
+      renderBreak,
+      renderBreakWhen,
+      renderStart,
+      renderStep,
+      renderReset
     }
   }
 }

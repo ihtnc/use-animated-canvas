@@ -65,7 +65,7 @@ export type AnimatedCanvasRenderDebugConditionalHandler<T> = (condition: Animate
 export type AnimatedCanvasDebugObject<T> = {
   renderBreak: AnimatedCanvasRenderDebugHandler,
   renderBreakWhen: AnimatedCanvasRenderDebugConditionalHandler<T>,
-  renderContinue: AnimatedCanvasRenderDebugHandler,
+  renderStart: AnimatedCanvasRenderDebugHandler,
   renderStep: AnimatedCanvasRenderDebugHandler
 }
 

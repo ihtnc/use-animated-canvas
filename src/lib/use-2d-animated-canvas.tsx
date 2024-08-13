@@ -48,13 +48,17 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderForegroundFilter,
     renderForeground,
     postRenderTransform,
-    options,
+    options = {},
     renderEnvironmentLayer,
     renderGridLayer
   } = props
 
-  const canvasOptions = Object.assign({}, DEFAULT_OPTIONS, options)
-  const { autoStart, enableDebug, autoResetContext, resizeDelayMs } = canvasOptions
+  const {
+    autoStart = DEFAULT_OPTIONS.autoStart,
+    enableDebug = DEFAULT_OPTIONS.enableDebug,
+    autoResetContext = DEFAULT_OPTIONS.autoResetContext,
+    resizeDelayMs = DEFAULT_OPTIONS.resizeDelayMs
+  } = options
 
   const dataRef = useRef<InferPropsType<typeof props> | null>(initialData ?? null)
   const divRef = useRef<HTMLDivElement>(null)
@@ -140,7 +144,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   }
 
   const { ref, utilities, control } = use2DRenderLoop({
-    autoStart: false,
+    autoStart,
     onInit: initHandler,
     onPreDraw: preDrawHandler,
     onDraw: drawHandler,
@@ -148,6 +152,11 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderEnvironmentLayer,
     renderGridLayer
   })
+
+  // since the invernal canvas is set to fill the parent container,
+  //   we need to pause the loop until the canvas has been resized
+  //   to prevent render functions from running
+  utilities.pauseLoop()
 
   const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({
     className,
@@ -174,7 +183,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
 
     const resizeCallback: (size: { width?: number, height?: number }) => void = (size) => {
       const { width, height } = size
-      const { resize } = utilities
+      const { resize, startLoop } = utilities
 
       if (ref.current && width && height) {
         if (onCanvasResize) {
@@ -182,9 +191,9 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
         }
 
         resize(width, height)
-        if (autoStart) {
-          control.renderContinue()
-        }
+
+        // start the loop after the canvas has been resized
+        startLoop()
       }
     }
     const debouncedOnResize = useDebounceCallback(resizeCallback, resizeDelayMs)
@@ -226,10 +235,10 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     })
   }
 
-  const renderContinue: AnimatedCanvasRenderDebugHandler = () => {
+  const renderStart: AnimatedCanvasRenderDebugHandler = () => {
     if (enableDebug === false) { return }
 
-    control.renderContinue()
+    control.renderStart()
   }
 
   const renderStep: AnimatedCanvasRenderDebugHandler = () => {
@@ -241,7 +250,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   const debug: AnimatedCanvasDebugObject<InferPropsType<typeof props>> = {
     renderBreak,
     renderBreakWhen,
-    renderContinue,
+    renderStart,
     renderStep
   }
 

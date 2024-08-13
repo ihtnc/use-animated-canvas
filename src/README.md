@@ -4,11 +4,15 @@
 [![docs](https://img.shields.io/badge/docs-view-blue?logo=github)](https://ihtnc.github.io/use-animated-canvas/)
 [![releases](https://img.shields.io/badge/releases-view-blue?logo=github)](https://github.com/ihtnc/use-animated-canvas/releases)
 
-#### Release Notes (v1.0.9)
-* **FEATURE** Streamlined filter processing
-* **FEATURE** Added data parameter to renderBreakWhen function
-* **FEATURE** Ensured context is reset on each frame
-* **FEATURE** Added support for focus and blur events
+#### Release Notes (v1.0.10)
+* **BREAKING** Renamed renderContinue to renderStart
+* **FEATURE** Added isDarkMode to data parameter in initialiseData handler
+* **FEATURE** Updated internal render loop to call initialisation handlers only when loop is actually started
+* **FEATURE** Added separate internal controls for pausing the render loop
+* **FEATURE** Delayed initial render until a resize of the internal canvas has happened
+* **FIX** Handled invalid condition evaluation value on data transformation/render/filter conditional functions
+* **FIX** Made internal canvas event handlers assignment explicit
+* Various code refactoring / streamlining
 
 Previous release notes are available [here](https://github.com/ihtnc/use-animated-canvas/releases).
 
