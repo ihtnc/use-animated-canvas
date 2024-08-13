@@ -70,6 +70,16 @@ const runTransform: RunTransformFunction = <T>(data: T, fn: TransformFunction<T>
     const conditionalOperation = fn as ConditionalTransformObject<T>
     const { evaluation } = conditionalOperation
 
+    switch (evaluation) {
+      case ConditionalEvaluationType.All:
+      case ConditionalEvaluationType.Any:
+      case ConditionalEvaluationType.None:
+        break
+
+      default:
+        return data
+    }
+
     if (typeof conditionalOperation.condition === 'function') {
       const conditionalFn = conditionalOperation.condition as ConditionalFunction<T>
       const conditionToContinue = evaluation === ConditionalEvaluationType.None ? false : true

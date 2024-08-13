@@ -273,6 +273,34 @@ describe('2d drawing operations', () => {
       expect(fn2).toHaveBeenCalledWith(context, data)
       expect(fn3).toHaveBeenCalledWith(context, data)
     })
+
+    test('should not call condition function when condition evaluation is invalid', () => {
+      const condition = vi.fn()
+      const obj = {
+        condition,
+        render: vi.fn(),
+        evaluation: 'invalid'
+      }
+
+      // @ts-ignore
+      renderPipeline([obj]).run(context, data)
+
+      expect(obj.condition).not.toHaveBeenCalled()
+    })
+
+    test('should not call render function when condition evaluation is invalid', () => {
+      const condition = vi.fn()
+      const obj = {
+        condition,
+        render: vi.fn(),
+        evaluation: 'invalid'
+      }
+
+      // @ts-ignore
+      renderPipeline([obj]).run(context, data)
+
+      expect(obj.render).not.toHaveBeenCalled()
+    })
   })
 
   describe('filterPipeline function', () => {
@@ -355,7 +383,7 @@ describe('2d drawing operations', () => {
 
     test.each([
       { returnValue: false, evaluation: ConditionalEvaluationType.All },
-      { returnValue: false,evaluation: ConditionalEvaluationType.Any },
+      { returnValue: false, evaluation: ConditionalEvaluationType.Any },
       { returnValue: true, evaluation: ConditionalEvaluationType.None }
     ])('should not call object filter function when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
       const obj = { condition: vi.fn().mockReturnValue(returnValue), filter: vi.fn(), evaluation }
@@ -445,7 +473,7 @@ describe('2d drawing operations', () => {
       { returnValue: false, evaluation: ConditionalEvaluationType.All },
       { returnValue: false, evaluation: ConditionalEvaluationType.Any },
       { returnValue: true, evaluation: ConditionalEvaluationType.None }
-    ])('should not call object transform function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+    ])('should not call object filter function when all conditions return $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
       const condition1 = vi.fn().mockReturnValue(returnValue)
       const condition2 = vi.fn().mockReturnValue(returnValue)
 
@@ -456,11 +484,14 @@ describe('2d drawing operations', () => {
       expect(obj.filter).not.toHaveBeenCalled()
     })
 
-    test('should not call next condition when condition returns false', () => {
-      const condition1 = vi.fn().mockReturnValue(false)
-      const condition2 = vi.fn().mockReturnValue(true)
+    test.each([
+      { returnValue: false, evaluation: ConditionalEvaluationType.All },
+      { returnValue: true, evaluation: ConditionalEvaluationType.None }
+    ])('should not call next condition when condition returns $returnValue and condition evaluation is $evaluation', ({ returnValue, evaluation }: { returnValue: boolean, evaluation: ConditionalEvaluationType}) => {
+      const condition1 = vi.fn().mockReturnValue(returnValue)
+      const condition2 = vi.fn().mockReturnValue(!returnValue)
 
-      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation: ConditionalEvaluationType.All }
+      const obj = { condition: [condition1, condition2], filter: vi.fn(), evaluation }
 
       filterPipeline([obj]).run(context, data)
 
@@ -491,6 +522,34 @@ describe('2d drawing operations', () => {
       expect(fn1).toHaveBeenCalledWith(context)
       expect(fn2).toHaveBeenCalledWith(context)
       expect(fn3).toHaveBeenCalledWith(context)
+    })
+
+    test('should not call condition function when condition evaluation is invalid', () => {
+      const condition = vi.fn()
+      const obj = {
+        condition,
+        filter: vi.fn(),
+        evaluation: 'invalid'
+      }
+
+      // @ts-ignore
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.condition).not.toHaveBeenCalled()
+    })
+
+    test('should not call filter function when condition evaluation is invalid', () => {
+      const condition = vi.fn()
+      const obj = {
+        condition,
+        filter: vi.fn(),
+        evaluation: 'invalid'
+      }
+
+      // @ts-ignore
+      filterPipeline([obj]).run(context, data)
+
+      expect(obj.filter).not.toHaveBeenCalled()
     })
   })
 })

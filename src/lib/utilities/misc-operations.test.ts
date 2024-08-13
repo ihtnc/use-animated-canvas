@@ -331,6 +331,34 @@ describe('misc operations', () => {
 
       expect(finalValue).toBe(fn3Return)
     })
+
+    test('should not call condition function when condition evaluation is invalid', () => {
+      const condition = vi.fn()
+      const obj = {
+        condition,
+        transform: vi.fn(),
+        evaluation: 'invalid'
+      }
+
+      // @ts-ignore
+      transformPipeline([obj]).run([])
+
+      expect(obj.condition).not.toHaveBeenCalled()
+    })
+
+    test('should not call transform function when condition evaluation is invalid', () => {
+      const condition = vi.fn()
+      const obj = {
+        condition,
+        transform: vi.fn(),
+        evaluation: 'invalid'
+      }
+
+      // @ts-ignore
+      transformPipeline([obj]).run([])
+
+      expect(obj.transform).not.toHaveBeenCalled()
+    })
   })
 
   describe('when function', () => {

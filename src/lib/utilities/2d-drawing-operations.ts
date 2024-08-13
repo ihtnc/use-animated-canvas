@@ -61,6 +61,16 @@ const runFilter: RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: 
     const conditionalFilter = fn as ConditionalFilterObject<T>
     const { evaluation } = conditionalFilter
 
+    switch (evaluation) {
+      case ConditionalEvaluationType.All:
+      case ConditionalEvaluationType.Any:
+      case ConditionalEvaluationType.None:
+        break
+
+      default:
+        return
+    }
+
     if (typeof conditionalFilter.condition === 'function') {
       let conditionalFn = conditionalFilter.condition as ConditionalFunction<T>
       const conditionToContinue = evaluation === ConditionalEvaluationType.None ? false : true
@@ -109,6 +119,16 @@ const runRender: RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: 
   if (typeof fn === 'object' && 'render' in fn && 'condition' in fn && 'evaluation' in fn) {
     const conditionalRender = fn as ConditionalRenderObject<T>
     const { evaluation } = conditionalRender
+
+    switch (evaluation) {
+      case ConditionalEvaluationType.All:
+      case ConditionalEvaluationType.Any:
+      case ConditionalEvaluationType.None:
+        break
+
+      default:
+        return
+    }
 
     if (typeof conditionalRender.condition === 'function') {
       const conditionalFn = conditionalRender.condition as ConditionalFunction<T>
