@@ -47,7 +47,7 @@ export default function Debugging() {
 
       const onKeyUpHandler = (event) => {
         // check the pressed key and call the appropriate function from the debug object
-        // call debug.renderContinue() to continue rendering
+        // call debug.renderStart() to continue rendering
         // call debug.renderBreak() to pause rendering of the next frame
         // call debug.renderStep() to render a single frame then pause
         // because of the render loop, it can be hard to troubleshoot animations
@@ -61,7 +61,7 @@ export default function Debugging() {
   const onKeyUpHandler = (event: KeyboardEvent) => {
     switch (event.key.toLowerCase()) {
       case 's':
-        debug.renderContinue()
+        debug.renderStart()
         break
       case 'p':
         debug.renderBreak()

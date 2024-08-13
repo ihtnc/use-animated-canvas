@@ -60,7 +60,7 @@ export default function ConditionalDebug() {
       })
 
       const onClickHandler = (event) => {
-        debug.renderContinue()
+        debug.renderStart()
       }
 
       return <Canvas onClick={onClickHandler} />
@@ -68,7 +68,7 @@ export default function ConditionalDebug() {
   `
 
   const onClickHandler: MouseEventHandler = (event) => {
-    debug.renderContinue()
+    debug.renderStart()
   }
 
   return (<>
