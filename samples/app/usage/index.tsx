@@ -32,6 +32,7 @@ import CustomDetails from './custom-details/menu-item'
 import Debug from './debug/menu-item'
 import ConditionalDebug from './conditional-debug/menu-item'
 
+import LifeCycle from './lifecycle/menu-item'
 import RenderContext from './render-context/menu-item'
 import FilterContext from './filter-context/menu-item'
 import UtilityContext from './utility-context/menu-item'
@@ -89,6 +90,7 @@ const getMenus = (): Array<MenuItem> => {
     Debug,
     ConditionalDebug,
 
+    LifeCycle,
     RenderContext,
     FilterContext,
     UtilityContext,

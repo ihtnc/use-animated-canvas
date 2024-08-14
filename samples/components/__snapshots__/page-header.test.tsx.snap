@@ -17,7 +17,7 @@ exports[`PageHeader component > should render correctly 1`] = `
         [
       </span>
       <a
-        class="text-blue-500"
+        class="text-blue-500 text-nowrap"
         href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas"
       >
         package
@@ -33,7 +33,7 @@ exports[`PageHeader component > should render correctly 1`] = `
         [
       </span>
       <a
-        class="text-blue-500"
+        class="text-blue-500 text-nowrap"
         href="https://github.com/ihtnc/use-animated-canvas"
       >
         repo

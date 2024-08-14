@@ -10,7 +10,7 @@ export default function SeeAlso({references}: SeeAlsoProps) {
 
   return (<>
     <h3 className='text-xl font-semibold mb-4'>See also</h3>
-    <div className='flex flex-row'>{
+    <div className='flex flex-row flex-wrap'>{
       references.map((item, i) =>
         <PageLink href={item.href} label={item.label} key={i} />
       )
