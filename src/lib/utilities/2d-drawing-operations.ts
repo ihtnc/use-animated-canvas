@@ -8,9 +8,9 @@ export const getTextSize = (context: CanvasRenderingContext2D, text: string): Si
   return { width, height }
 }
 
-export type RenderFunction<T> = (context: CanvasRenderingContext2D, data: T) => void
-export type RenderPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data: T) => void
-export type FilterPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data: T) => void
+export type RenderFunction<T> = (context: CanvasRenderingContext2D, data: Readonly<T>) => void
+export type RenderPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data: Readonly<T>) => void
+export type FilterPipelineRunFunction<T> = (context: CanvasRenderingContext2D, data: Readonly<T>) => void
 export type ConditionalRenderObject<T> = {
   condition: ConditionalFunction<T> | Array<ConditionalFunction<T>>,
   evaluation: ConditionalEvaluationType,
@@ -49,8 +49,8 @@ export const filterPipeline:FilterPipelinFunction = (pipeline) => {
   }
 }
 
-type RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFilterFunction | ConditionalFilterObject<T>, data: T) => void
-const runFilter: RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFilterFunction | ConditionalFilterObject<T>, data: T) => {
+type RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFilterFunction | ConditionalFilterObject<T>, data: Readonly<T>) => void
+const runFilter: RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFilterFunction | ConditionalFilterObject<T>, data: Readonly<T>) => {
   if (typeof fn === 'function') {
     const filter = fn as RenderFilterFunction
     filter(context)
@@ -108,8 +108,8 @@ const runFilter: RunFilterFunction = <T>(context: CanvasRenderingContext2D, fn: 
   }
 }
 
-type RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFunction<T> | ConditionalRenderObject<T>, data: T) => void
-const runRender: RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFunction<T> | ConditionalRenderObject<T>, data: T) => {
+type RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFunction<T> | ConditionalRenderObject<T>, data: Readonly<T>) => void
+const runRender: RunRenderFunction = <T>(context: CanvasRenderingContext2D, fn: RenderFunction<T> | ConditionalRenderObject<T>, data: Readonly<T>) => {
   if (typeof fn === 'function') {
     const render = fn as RenderFunction<T>
     render(context, data)

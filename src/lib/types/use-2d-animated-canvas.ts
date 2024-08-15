@@ -24,7 +24,7 @@ import {
 } from "react"
 
 export type AnimatedCanvasData<T> = {
-  drawData: DrawData,
+  drawData: Readonly<DrawData>,
   data?: T
 }
 
@@ -57,7 +57,7 @@ export type Use2dAnimatedCanvasResponse<T> = {
   debug: AnimatedCanvasDebugObject<T>
 }
 
-export type InitialiseDataHandler<T> = (canvas: HTMLCanvasElement, initData: InitData) => T
+export type InitialiseDataHandler<T> = (canvas: Readonly<HTMLCanvasElement>, initData: Readonly<InitData>) => T
 
 export type AnimatedCanvasRenderDebugHandler = () => void
 export type AnimatedCanvasRenderDebugConditionalHandler<T> = (condition: AnimatedCanvasConditionalFunction<T>) => void

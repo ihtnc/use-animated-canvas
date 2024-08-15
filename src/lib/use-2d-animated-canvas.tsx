@@ -153,7 +153,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderGridLayer
   })
 
-  // since the invernal canvas is set to fill the parent container,
+  // since the internal canvas is set to fill the parent container,
   //   we need to pause the loop until the canvas has been resized
   //   to prevent render functions from running
   utilities.pauseLoop()

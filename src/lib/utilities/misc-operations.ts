@@ -31,7 +31,7 @@ export const deepCopy: <T>(value: T) => T = (value) => {
 }
 
 export type TransformFunction<T> = (data: T) => T
-export type ConditionalFunction<T> = (data: T) => boolean
+export type ConditionalFunction<T> = (data: Readonly<T>) => boolean
 
 export enum ConditionalEvaluationType {
   All = 'all',

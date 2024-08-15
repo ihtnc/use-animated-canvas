@@ -4,15 +4,8 @@
 [![website](https://img.shields.io/badge/website-view-blue?logo=github)](https://ihtnc.github.io/use-animated-canvas)
 [![releases](https://img.shields.io/badge/releases-view-blue?logo=github)](https://github.com/ihtnc/use-animated-canvas/releases)
 
-#### Release Notes (v1.0.10)
-* **BREAKING** Renamed renderContinue to renderStart
-* **FEATURE** Added isDarkMode to data parameter in initialiseData handler
-* **FEATURE** Updated internal render loop to call initialisation handlers only when loop is actually started
-* **FEATURE** Added separate internal controls for pausing the render loop
-* **FEATURE** Delayed initial render until a resize of the internal canvas has happened
-* **FIX** Handled invalid condition evaluation value on data transformation/render/filter conditional functions
-* **FIX** Made internal canvas event handlers assignment explicit
-* Various code refactoring / streamlining
+#### Release Notes (v1.0.11)
+* **FEATURE** Made the data parameters in handlers to be readonly
 
 Previous release notes are available [here](https://github.com/ihtnc/use-animated-canvas/releases).
 

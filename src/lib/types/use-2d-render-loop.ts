@@ -40,11 +40,11 @@ export type LoopState = {
 }
 
 export type InitData = { devicePixelRatio: number, isDarkMode: boolean }
-export type InitRenderHandler = (canvas: HTMLCanvasElement, data: InitData) => void
+export type InitRenderHandler = (canvas: Readonly<HTMLCanvasElement>, data: Readonly<InitData>) => void
 
-export type DrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
-export type PreDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
-export type PostDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
+export type DrawHandler = (context: CanvasRenderingContext2D, data: Readonly<DrawData>) => void
+export type PreDrawHandler = (context: CanvasRenderingContext2D, data: Readonly<DrawData>) => void
+export type PostDrawHandler = (context: CanvasRenderingContext2D, data: Readonly<DrawData>) => void
 export type RenderGridLayerDrawHandler = (context: CanvasRenderingContext2D) => void
 
 export type RenderGridLayerOptions = {
@@ -56,7 +56,7 @@ export type RenderGridLayerOptions = {
 export type RenderGridLayerValue = boolean | string | number | Size | RenderGridLayerOptions | RenderGridLayerDrawHandler
 
 export type RenderEnvironmentLayerValue = boolean | string | RenderLocation | Coordinates | RenderEnvironmentLayerOptions | RenderEnvironmentLayerDrawHandler
-export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: DrawData) => void
+export type RenderEnvironmentLayerDrawHandler = (context: CanvasRenderingContext2D, data: Readonly<DrawData>) => void
 
 export type RenderControlHandler = () => void
 export type RenderControlConditionalHandler<T> = (condition: ConditionalFunction<T>) => void
