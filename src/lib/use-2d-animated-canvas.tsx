@@ -65,7 +65,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
 
   const initHandler: InitRenderHandler = (canvas, data) => {
     if (initialiseData === undefined) { return }
-    dataRef.current = initialiseData(canvas, data)
+    dataRef.current = deepCopy(initialiseData(canvas, data))
   }
 
   let currentFrameData: InferPropsType<typeof props> | null = null
@@ -124,7 +124,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   const postDrawHandler: PostDrawHandler = (context, data) => {
     const canvasData: AnimatedCanvasData<InferPropsType<typeof props>> = {
       drawData: data,
-      data: currentFrameData !== null ? deepCopy(currentFrameData) : undefined
+      data: currentFrameData ?? undefined
     }
 
     let transforms: Array<AnimatedCanvasTransformFunction<InferPropsType<typeof props>> | AnimatedCanvasConditionalTransformObject<InferPropsType<typeof props>>> = []
@@ -140,7 +140,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
       currentFrameData = transformed
     }
 
-    dataRef.current = currentFrameData
+    dataRef.current = currentFrameData !== null ? deepCopy(currentFrameData) : null
   }
 
   const { ref, utilities, control } = use2DRenderLoop({
