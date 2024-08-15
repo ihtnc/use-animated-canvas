@@ -1,0 +1,67 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageHeader component > should render correctly 1`] = `
+<div>
+  <h1
+    class="ml-4 mr-4 text-3xl text-center font-semibold"
+  >
+    <a
+      href="/"
+    >
+      use-animated-canvas
+    </a>
+  </h1>
+  <span
+    class="flex row"
+  >
+    <span
+      class="flex hover:gap-x-1.5 hover:ml-0 hover:mr-0 group-hover:gap-x-1.5 group-hover:ml-0 group-hover:mr-0 ml-1.5 mr-1.5 cursor-pointer"
+    >
+      <span>
+        [
+      </span>
+      <a
+        class="text-blue-500 text-nowrap"
+        href="/"
+      >
+        home
+      </a>
+      <span>
+        ]
+      </span>
+    </span>
+    <span
+      class="flex hover:gap-x-1.5 hover:ml-0 hover:mr-0 group-hover:gap-x-1.5 group-hover:ml-0 group-hover:mr-0 ml-1.5 mr-1.5 cursor-pointer"
+    >
+      <span>
+        [
+      </span>
+      <a
+        class="text-blue-500 text-nowrap"
+        href="https://www.npmjs.com/package/@ihtnc/use-animated-canvas"
+      >
+        package
+      </a>
+      <span>
+        ]
+      </span>
+    </span>
+    <span
+      class="flex hover:gap-x-1.5 hover:ml-0 hover:mr-0 group-hover:gap-x-1.5 group-hover:ml-0 group-hover:mr-0 ml-1.5 mr-1.5 cursor-pointer"
+    >
+      <span>
+        [
+      </span>
+      <a
+        class="text-blue-500 text-nowrap"
+        href="https://github.com/ihtnc/use-animated-canvas"
+      >
+        repo
+      </a>
+      <span>
+        ]
+      </span>
+    </span>
+  </span>
+</div>
+`;

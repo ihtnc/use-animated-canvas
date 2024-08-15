@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TypeScriptCode component > should render CodeSnippet component 1`] = `
+<div>
+  <div
+    id="CodeSnippet"
+  />
+</div>
+`;

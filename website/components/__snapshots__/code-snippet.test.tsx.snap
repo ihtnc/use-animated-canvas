@@ -1,0 +1,144 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CodeSnippet component > should render code with typescript styles 1`] = `
+<div>
+  <div
+    class="rounded-lg w-full max-h-[75dvh] md:max-h-fit p-2 bg-gradient-to-b from-gray-300 dark:from-neutral-700 to-transparent overflow-auto"
+  >
+    <pre>
+      <code>
+        <span
+          class="hljs-keyword"
+        >
+          const
+        </span>
+         message = 
+        <span
+          class="hljs-string"
+        >
+          "Hello, world!"
+        </span>
+        ;
+      </code>
+    </pre>
+  </div>
+</div>
+`;
+
+exports[`CodeSnippet component > should render collapsible code with typescript styles 1`] = `
+<div>
+  <div
+    class="pb-4 w-full"
+    data-headlessui-state="open"
+    data-open=""
+  >
+    <h3
+      aria-controls="headlessui-disclosure-panel-:r3:"
+      aria-expanded="true"
+      class="flex w-fit group text-xl font-semibold cursor-pointer"
+      data-headlessui-state="open"
+      data-open=""
+      id="headlessui-disclosure-button-:r2:"
+    >
+      Code 
+      <span
+        class="inline-block transition-transform motion-reduce:transform-none
+          group-data-[open]:-rotate-90
+          group-data-[open]:pl-1
+          group-data-[open]:pt-1
+          group-hover:group-data-[open]:-translate-y-1
+          group-hover:translate-y-1
+          rotate-90
+          pb-1"
+      >
+        -&gt;
+      </span>
+    </h3>
+    <div
+      data-headlessui-state="open"
+      data-open=""
+      id="headlessui-disclosure-panel-:r3:"
+    >
+      <div
+        class="rounded-lg w-full max-h-[75dvh] md:max-h-fit p-2 bg-gradient-to-b from-gray-300 dark:from-neutral-700 to-transparent overflow-auto"
+      >
+        <pre>
+          <code>
+            <span
+              class="hljs-keyword"
+            >
+              const
+            </span>
+             message = 
+            <span
+              class="hljs-string"
+            >
+              "Hello, world!"
+            </span>
+            ;
+          </code>
+        </pre>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CodeSnippet component > should render collapsible code with typescript styles by default 1`] = `
+<div>
+  <div
+    class="pb-4 w-full"
+    data-headlessui-state="open"
+    data-open=""
+  >
+    <h3
+      aria-controls="headlessui-disclosure-panel-:r1:"
+      aria-expanded="true"
+      class="flex w-fit group text-xl font-semibold cursor-pointer"
+      data-headlessui-state="open"
+      data-open=""
+      id="headlessui-disclosure-button-:r0:"
+    >
+      Code 
+      <span
+        class="inline-block transition-transform motion-reduce:transform-none
+          group-data-[open]:-rotate-90
+          group-data-[open]:pl-1
+          group-data-[open]:pt-1
+          group-hover:group-data-[open]:-translate-y-1
+          group-hover:translate-y-1
+          rotate-90
+          pb-1"
+      >
+        -&gt;
+      </span>
+    </h3>
+    <div
+      data-headlessui-state="open"
+      data-open=""
+      id="headlessui-disclosure-panel-:r1:"
+    >
+      <div
+        class="rounded-lg w-full max-h-[75dvh] md:max-h-fit p-2 bg-gradient-to-b from-gray-300 dark:from-neutral-700 to-transparent overflow-auto"
+      >
+        <pre>
+          <code>
+            <span
+              class="hljs-keyword"
+            >
+              const
+            </span>
+             message = 
+            <span
+              class="hljs-string"
+            >
+              "Hello, world!"
+            </span>
+            ;
+          </code>
+        </pre>
+      </div>
+    </div>
+  </div>
+</div>
+`;

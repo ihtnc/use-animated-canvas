@@ -6,4 +6,4 @@ This is the repository for the @ihtnc/use-animated-canvas package, as well as th
 [Code](https://github.com/ihtnc/use-animated-canvas/tree/main/src)
 
 #### Examples
-[Code](https://github.com/ihtnc/use-animated-canvas/tree/main/samples)
+[Code](https://github.com/ihtnc/use-animated-canvas/tree/main/website)
