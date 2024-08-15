@@ -55,19 +55,9 @@ export default function KeepyUppy() {
     }
   }
 
-  let hasResized: boolean = false
   let command: string = ''
   let pointerCoordinates: Coordinates | undefined
   let pointerClick: boolean = false
-
-  const waitForCanvasResize: AnimatedCanvasTransformFunction<PageData> = (data) => {
-    if (data?.data === undefined || hasResized === false) { return data }
-
-    data.data.canvasState.resetGame = true
-    hasResized = false
-
-    return data
-  }
 
   const initialiseGame: AnimatedCanvasTransformFunction<PageData> = (data) => {
     if (data?.data === undefined) { return data }
@@ -584,10 +574,9 @@ export default function KeepyUppy() {
         balls: 3,
         controlRadius: 30,
         newBall: false,
-        resetGame: false,
+        resetGame: true,
         ballSpeed: 1,
         blockSpeed: 1,
-        canScore: false,
         sourceBounce: 'block'
       },
       block: {
@@ -599,7 +588,6 @@ export default function KeepyUppy() {
       }
     }),
     preRenderTransform: [
-      waitForCanvasResize,
       when(isGameReset, initialiseGame),
       when(isNewBall, setNewBall),
       setClientCommand,
@@ -701,10 +689,6 @@ export default function KeepyUppy() {
 
   const onKeyUpHandler = (event: KeyboardEvent) => {
     command = ''
-  }
-
-  const onCanvasResizeHandler: CanvasResizeHandler = (width, height) => {
-    hasResized = true
   }
 
   const onPointerEnterHandler: PointerEventHandler = (event) => {
@@ -814,12 +798,6 @@ export default function KeepyUppy() {
       //   and the rendering functions
       //   to just focus on rendering based on the internal data
 
-      // this variable is used as a flag to indicate whether the resize event has occurred
-      // since the canvas is set to fill the size of the parent container,
-      //   the canvas will undergo a resize
-      // this variable will then be updated after the resize event
-      let hasResized: boolean | undefined
-
       // this variable will store the current key that is pressed
       //   (updated by the key down event and reset by the key up event)
       let command: string = ''
@@ -834,24 +812,17 @@ export default function KeepyUppy() {
 
       // the following functions are used for the initialisiation of the game
 
-      const waitForCanvasResize = (data) => {
-        // this is intended to be called once to start the initialisation of the game
-        // the canvas resize event will switch on the flag that activates this function
-        // it will then switch on the flag for initialisation
-        //   then switch off it's own flag
-      }
-
       const initialiseGame = (data) => {
         // this is intended to be called once per game to set the initial state the game
-        // the previous function will switch on the initialisation flag
-        //   that activates this function
+        // the initialiseData function, or a game reset command
+        //   will switch on the initialisation flag that activates this function
         // it will then set the initial values for the game (number of balls, score, etc)
         //   then switch off the initialisation flag
       }
 
       const setNewBall = (data) => {
         // this is intended to be called once per round to set the initial state of the ball
-        // the initialisation function or the end of a round
+        // the start of the game or the end of a round
         //   will switch on the new ball flag that activates this function
         // it will then set the initial values for the ball (coordinates, speed, etc)
         //   then switch off the new ball flag
@@ -877,6 +848,7 @@ export default function KeepyUppy() {
       const executeCommand = (data) => {
         // modify the internal data as response to the current pressed key
         // i.e.: if the pressed key is 'a', move the block coordinates to the left
+        //   or, if the pressed key is 'enter' and the game is over, reset the game
       }
 
       // the following functions are used to ensure the ball doesn't bounce again
@@ -1091,10 +1063,7 @@ export default function KeepyUppy() {
         //   and easier to understand
         preRenderTransform: [
 
-          // will wait for the canvas to resize before setting the initialisation flag
-          waitForCanvasResize,
-
-          // initialisation flag will be set on canvas resize and on game end
+          // initialisation flag will be set on game end
           when(isGameReset, initialiseGame),
 
           // new ball flag will be set on on new round and on game end
@@ -1221,10 +1190,6 @@ export default function KeepyUppy() {
         // reset the pressed key value
       }
 
-      const onCanvasResizeHandler = (width, height) => {
-        // set the canvas resized flag
-      }
-
       const onPointerEnterHandler = (event) => {
         // reset pointer values
       }
@@ -1250,7 +1215,6 @@ export default function KeepyUppy() {
       return <Canvas
         onKeyDown={onKeyDownHandler}
         onKeyUp={onKeyUpHandler}
-        onCanvasResize={onCanvasResizeHandler}
         onPointerEnter={onPointerEnterHandler}
         onPointerMove={onPointerMoveHandler}
         onPointerDown={onPointerDownHandler}
@@ -1266,7 +1230,6 @@ export default function KeepyUppy() {
       <Canvas className='w-full h-full border border-black dark:border-gray-300'
         onKeyDown={onKeyDownHandler}
         onKeyUp={onKeyUpHandler}
-        onCanvasResize={onCanvasResizeHandler}
         onPointerEnter={onPointerEnterHandler}
         onPointerMove={onPointerMoveHandler}
         onPointerDown={onPointerDownHandler}

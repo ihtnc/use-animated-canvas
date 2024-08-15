@@ -15,7 +15,7 @@ export default function Debugging() {
       context.fill()
     },
     renderForeground: (context, data) => {
-      context.fillStyle = data.drawData.isDarkMode ? '#7B3F00' : '#000000'
+      context.fillStyle = '#808080'
       context.font = '15px Arial'
       context.textBaseline = 'top'
       context.fillText('s = start render', 5, 5)

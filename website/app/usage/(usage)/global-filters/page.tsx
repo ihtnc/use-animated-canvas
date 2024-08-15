@@ -9,6 +9,7 @@ export default function GlobalFilters() {
 
   const { Canvas } = use2dAnimatedCanvas({
     globalFilter: (context) => {
+      context.lineWidth = 2
       context.strokeStyle = '#7B3F00'
     },
     renderBackground: (context, data) => {

@@ -8,6 +8,7 @@ import SeeAlso from '@/components/see-also'
 export default function Layers() {
   const { Canvas } = use2dAnimatedCanvas({
     renderBackground: (context, data) => {
+      context.lineWidth = 2
       context.strokeStyle = data.drawData.isDarkMode ? '#B6391F' : '#FF0000'
       for(let i = 10; i < context.canvas.height; i += 25) {
         context.beginPath()
@@ -18,12 +19,14 @@ export default function Layers() {
     },
     render: (context, data) => {
       const frame = data?.drawData?.frame ?? 0
+      context.lineWidth = 2
       context.fillStyle = '#808080'
       context.beginPath()
       context.arc(context.canvas.width / 2, context.canvas.height / 2, 20*Math.sin(frame*0.05)**2, 0, 2*Math.PI)
       context.fill()
     },
     renderForeground: (context, data) => {
+      context.lineWidth = 2
       context.fillStyle = data.drawData.isDarkMode ? '#68CDFE' : '#0000FF'
       context.font = '20px Arial'
       context.textAlign = 'center'

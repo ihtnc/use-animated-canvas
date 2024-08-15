@@ -26,10 +26,12 @@ export default function Pointer() {
     const current = data?.data ?? []
     if (current.length === 0) { return }
 
+    context.lineWidth = 2
+    context.strokeStyle = data.drawData.isDarkMode ? '#B6391F' : '#FF0000'
+
     let previous: ClickData | null = null
     for(let i = 0; current.length > i; i++) {
       const item = current[i]
-      context.strokeStyle = data.drawData.isDarkMode ? '#B6391F' : '#FF0000'
       context.beginPath()
       context.arc(item.x, item.y, 3, 0, 2*Math.PI)
       context.stroke()
@@ -40,6 +42,7 @@ export default function Pointer() {
         context.moveTo(previous.x, previous.y)
         context.lineTo(item.x, item.y)
         context.stroke()
+        context.strokeStyle = data.drawData.isDarkMode ? '#B6391F' : '#FF0000'
       }
 
       previous = item

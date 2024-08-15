@@ -1,6 +1,7 @@
 import hljs from 'highlight.js/lib/core'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
-import 'highlight.js/styles/github.css'
+import 'highlight.js/styles/github-dark-dimmed.css'
+import './code-snippet.css'
 import { type LanguageFn } from 'highlight.js'
 
 export interface CodeSnippetComponent {
