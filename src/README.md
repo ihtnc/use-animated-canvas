@@ -4,8 +4,8 @@
 [![website](https://img.shields.io/badge/website-view-blue?logo=github)](https://ihtnc.github.io/use-animated-canvas)
 [![releases](https://img.shields.io/badge/releases-view-blue?logo=github)](https://github.com/ihtnc/use-animated-canvas/releases)
 
-#### Release Notes (v1.0.11)
-* **FEATURE** Made the data parameters in handlers to be readonly
+#### Release Notes (v1.0.12)
+* **FEATURE** Isolated the internal data used by the handlers from the actual internal data
 
 Previous release notes are available [here](https://github.com/ihtnc/use-animated-canvas/releases).
 
