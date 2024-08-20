@@ -31,7 +31,8 @@ const DEFAULT_OPTIONS: UseAnimatedCanvasOptions = {
   autoStart: true,
   enableDebug: false,
   autoResetContext: true,
-  resizeDelayMs: 200
+  resizeDelayMs: 200,
+  protectData: true
 }
 
 type InferPropsType<C extends Use2dAnimatedCanvasProps<any>> = C extends Use2dAnimatedCanvasProps<infer T> ? T : unknown
@@ -57,7 +58,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     autoStart = DEFAULT_OPTIONS.autoStart,
     enableDebug = DEFAULT_OPTIONS.enableDebug,
     autoResetContext = DEFAULT_OPTIONS.autoResetContext,
-    resizeDelayMs = DEFAULT_OPTIONS.resizeDelayMs
+    resizeDelayMs = DEFAULT_OPTIONS.resizeDelayMs,
+    protectData = DEFAULT_OPTIONS.protectData
   } = options
 
   const dataRef = useRef<InferPropsType<typeof props> | null>(initialData ?? null)
@@ -71,7 +73,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
   let currentFrameData: InferPropsType<typeof props> | null = null
 
   const preDrawHandler: PreDrawHandler = (context, data) => {
-    currentFrameData = dataRef.current !== null ? deepCopy(dataRef.current) : null
+    const preData = dataRef.current !== null && protectData ? deepCopy(dataRef.current) : dataRef.current
+    currentFrameData = preData
 
     if (preRenderTransform === undefined) { return }
 
@@ -140,7 +143,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
       currentFrameData = transformed
     }
 
-    dataRef.current = currentFrameData !== null ? deepCopy(currentFrameData) : null
+    const postData = currentFrameData !== null && protectData ? deepCopy(currentFrameData) : currentFrameData
+    dataRef.current = postData
   }
 
   const { ref, utilities, control } = use2DRenderLoop({

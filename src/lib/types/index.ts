@@ -18,7 +18,8 @@ export type UseAnimatedCanvasOptions = {
   autoStart?: boolean,
   enableDebug?: boolean,
   autoResetContext?: boolean,
-  resizeDelayMs?: number
+  resizeDelayMs?: number,
+  protectData?: boolean
 }
 
 export type AnimatedCanvasProps = {
