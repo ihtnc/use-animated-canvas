@@ -15,6 +15,7 @@ import type {
   RenderEnvironmentLayerOptions
 } from '@/types'
 import type {
+  InitialiseDataHandler,
   AnimatedCanvasConditionalFunction,
   AnimatedCanvasRenderFunction,
   AnimatedCanvasConditionalRenderObject,
@@ -50,6 +51,8 @@ export {
 }
 
 export type {
+  InitialiseDataHandler,
+
   AnimatedCanvasConditionalFunction,
   AnimatedCanvasRenderFunction,
   AnimatedCanvasConditionalRenderObject,
