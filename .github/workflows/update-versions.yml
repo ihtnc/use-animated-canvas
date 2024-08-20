@@ -1,0 +1,64 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: update-versions
+
+on:
+  workflow_run:
+    workflows: [publish-package]
+    types: [completed]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  update-website:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Update library reference
+        run: npm install @ihtnc/use-animated-canvas@latest
+      - name: Commit changes
+        id: commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'website/package.json website/package-lock.json'
+          commit_message: Automatic library reference update
+
+  update-library:
+    needs: update-website
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Update version for next release
+        run: npm version patch
+      - name: Commit changes
+        id: commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'src/package.json'
+          commit_message: Automatic library version update
