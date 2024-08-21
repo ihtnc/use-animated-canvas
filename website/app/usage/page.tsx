@@ -43,7 +43,7 @@ export default function Usage() {
 
   useEffect(() => {
     setFiltered(filter())
-  }, [menus])
+  }, [menus]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setDisplay(categorise(filtered))

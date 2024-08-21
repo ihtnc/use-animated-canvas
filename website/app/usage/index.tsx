@@ -34,6 +34,7 @@ import ConditionalDebug from './(usage)/conditional-debug/menu-item'
 
 import LifeCycle from './(usage)/lifecycle/menu-item'
 import DataIsolation from './(usage)/data-isolation/menu-item'
+import ManageData from './(usage)/manage-data/menu-item'
 import RenderContext from './(usage)/render-context/menu-item'
 import FilterContext from './(usage)/filter-context/menu-item'
 import UtilityContext from './(usage)/utility-context/menu-item'
@@ -93,6 +94,7 @@ const getMenus = (): Array<MenuItem> => {
 
     LifeCycle,
     DataIsolation,
+    ManageData,
     RenderContext,
     FilterContext,
     UtilityContext,

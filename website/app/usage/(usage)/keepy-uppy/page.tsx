@@ -4,7 +4,6 @@ import {
   type AnimatedCanvasConditionalFunction,
   type AnimatedCanvasRenderFunction,
   type AnimatedCanvasTransformFunction,
-  type CanvasResizeHandler,
   type Coordinates,
   type AnimatedCanvasRenderFilterFunction,
   use2dAnimatedCanvas,

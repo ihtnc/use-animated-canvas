@@ -5,7 +5,7 @@ import TypeScriptCode from '@/components/typescript-code'
 import menu from './menu-item'
 import SeeAlso from '@/components/see-also'
 
-export default function DataIsolation() {
+export default function ManageData() {
   type PageData = {
     isPreRenderSameAsInitial?: boolean,
     isCurrentSameAsPrevious?: boolean,
@@ -108,11 +108,14 @@ export default function DataIsolation() {
 
       previousFrameData = data.data
       return data
+    },
+    options: {
+      protectData: false
     }
   })
 
   const code = `
-    export default function DataIsolation() {
+    export default function ManageData() {
       type PageData = {
         // will store the comparison between the data received by each handler
         //   to both the initial data and the data in the current frame
@@ -142,12 +145,9 @@ export default function DataIsolation() {
           // render values from received data
           //   the data represents the result of the comparison from the last frame
 
-          // notice that the data received by each handler
-          //   is different from the initial data
-          //   and that the value received from preRenderTransform
-          //   is different from the previous frame
-          //   but succeeding handlers receive the same data
-          // this is because a new copy of the data is made each frame
+          // notice that the data received by each handler is different from the initial data
+          //   but the value received by each handler is the same every frame
+          // this is because the data is not copied each frame
 
           // assign received data to renderData
         },
@@ -158,6 +158,25 @@ export default function DataIsolation() {
           // compare the instances of the data collected so far
           // assign received data to previousFrameData
           return data
+        },
+        options: {
+          // by default, a new copy of the internal data is made each frame
+          // setting protectData to false will prevent a new copy from being made
+          // this is useful for optimisation when no changes are expected to the internal data
+          //   or if the data is a big object and copying it over and over each frame
+          //   is either unnecessary or will likely cause performance issues
+          // if this was set to true, the resulting render would be that
+          //   each handler will receive a new copy of the object each frame
+          protectData: false
+
+          // the idea is that the data transformation functions should be the only ones
+          //   to able to change the values in the internal data
+          // this is done to protect the internal data
+          //   and prevent any external changes in between frames
+          //   from persisting to the next frames
+          // setting protectData to false, in turn, makes the consumer responsible
+          //   for managing the integrity of the internal data
+          //   and for ensuring that the data is updated appropriately each frame
         }
       })
 
