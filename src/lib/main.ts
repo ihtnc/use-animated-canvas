@@ -12,10 +12,12 @@ import type {
   Size,
   Coordinates,
   RenderLocation,
-  RenderEnvironmentLayerOptions
+  RenderEnvironmentLayerOptions,
+  DrawData
 } from '@/types'
 import type {
   InitialiseDataHandler,
+  AnimatedCanvasData,
   AnimatedCanvasConditionalFunction,
   AnimatedCanvasRenderFunction,
   AnimatedCanvasConditionalRenderObject,
@@ -52,6 +54,9 @@ export {
 
 export type {
   InitialiseDataHandler,
+
+  AnimatedCanvasData,
+  DrawData,
 
   AnimatedCanvasConditionalFunction,
   AnimatedCanvasRenderFunction,
