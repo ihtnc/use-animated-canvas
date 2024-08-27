@@ -58,6 +58,8 @@ export type DrawData = {
   height: number,
   clientWidth: number,
   clientHeight: number,
+  offsetWidth: number,
+  offsetHeight: number,
   pixelRatio: number,
   frame: number,
   isDarkMode: boolean

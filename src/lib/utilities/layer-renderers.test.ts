@@ -30,8 +30,10 @@ describe('canvas layer renderers', () => {
         height: 202,
         clientWidth: 301,
         clientHeight: 302,
-        pixelRatio: 401,
-        frame: 501,
+        offsetWidth: 401,
+        offsetHeight: 402,
+        pixelRatio: 501,
+        frame: 601,
         isDarkMode: true
       }
 

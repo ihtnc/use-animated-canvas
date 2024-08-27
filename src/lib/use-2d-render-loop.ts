@@ -64,6 +64,8 @@ const use2DRenderLoop = ({
       clientWidth: canvas.clientWidth,
       height: canvas.height,
       width: canvas.width,
+      offsetHeight: canvas.offsetHeight,
+      offsetWidth: canvas.offsetWidth,
       pixelRatio: devicePixelRatio,
       isDarkMode
     }
@@ -166,6 +168,8 @@ const use2DRenderLoop = ({
         clientWidth: canvas.clientWidth,
         height: canvas.height,
         width: canvas.width,
+        offsetHeight: canvas.offsetHeight,
+        offsetWidth: canvas.offsetWidth,
         pixelRatio: devicePixelRatio,
         isDarkMode
       }
