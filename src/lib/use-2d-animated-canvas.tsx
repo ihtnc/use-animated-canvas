@@ -164,6 +164,9 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
 
   const CanvasElement: JSXElementConstructor<AnimatedCanvasProps> = ({
     className,
+    style,
+    tabIndex,
+    autoFocus,
     onKeyDown,
     onKeyUp,
     onCanvasResize,
@@ -204,8 +207,10 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     useResizeObserver({ ref: divRef, onResize: debouncedOnResize })
 
     return (
-      <div ref={divRef} tabIndex={0}
-        className={className}>
+      <div ref={divRef}
+        autoFocus={autoFocus} tabIndex={tabIndex ?? 0}
+        className={className} style={style}
+        >
         <canvas
           ref={ref}
           style={{ flexGrow: 1 }}

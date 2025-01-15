@@ -1,6 +1,7 @@
 import type {
   MouseEventHandler,
-  PointerEventHandler
+  PointerEventHandler,
+  CSSProperties
 } from "react"
 
 export type Coordinates = { x: number, y: number }
@@ -24,6 +25,9 @@ export type UseAnimatedCanvasOptions = {
 
 export type AnimatedCanvasProps = {
   className?: string,
+  style?: CSSProperties,
+  tabIndex?: number,
+  autoFocus?: boolean,
   onClick?: MouseEventHandler<HTMLCanvasElement>,
   onPointerDown?: PointerEventHandler<HTMLCanvasElement>,
   onPointerUp?: PointerEventHandler<HTMLCanvasElement>,
