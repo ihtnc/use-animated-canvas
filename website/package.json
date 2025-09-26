@@ -11,27 +11,27 @@
     "test:once": "vitest run"
   },
   "dependencies": {
-    "@headlessui/react": "^2.1.2",
+    "@headlessui/react": "^2.2.9",
     "@ihtnc/use-animated-canvas": "^1.0.16",
-    "highlight.js": "^11.10.0",
+    "highlight.js": "^11.11.1",
     "next": "^14.2.23",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.8",
-    "@testing-library/react": "^16.0.0",
-    "@types/node": "^20.16.1",
-    "@types/react": "^18.3.4",
-    "@types/react-dom": "^18.3.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^20.19.17",
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "eslint-config-react-app": "^7.0.1",
-    "jsdom": "^24.1.1",
+    "jsdom": "^24.1.3",
     "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^2.0.5"
+    "vitest": "^3.2.4"
   }
 }
