@@ -13,10 +13,12 @@ export default defineConfig(({ mode }) => ({
     },
     sourcemap: mode !== 'production',
     rollupOptions: {
-      external: ['react'],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
         globals: {
-          react: 'React'
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'ReactJsxRuntime'
         }
       }
     }
