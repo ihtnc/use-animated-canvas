@@ -42,7 +42,8 @@ describe('canvas layer renderers', () => {
         fillStyle: '',
         globalAlpha: 0,
         fillText: vi.fn(),
-        restore: vi.fn()
+        restore: vi.fn(),
+        clearRect: vi.fn()
       } as unknown as CanvasRenderingContext2D
 
       getTextSizeResponse = { width: 10, height: 20 }
@@ -100,6 +101,18 @@ describe('canvas layer renderers', () => {
       result(context, renderValue)
 
       expect(getTextSizeMock).toHaveBeenCalledWith(context, expectedText)
+    })
+
+    test('should call clearRect function when render function is called', () => {
+      const expectedX = 10
+      const expectedY = 20 - getTextSizeResponse.height
+      const expectedWidth = getTextSizeResponse.width
+      const expectedHeight = getTextSizeResponse.height
+
+      const result = getRenderEnvironmentLayerHandler(true)!
+      result(context, renderValue)
+
+      expect(context.clearRect).toHaveBeenCalledWith(expectedX, expectedY, expectedWidth, expectedHeight)
     })
 
     test('should set context.fillStyle with default value when render function is called', () => {

@@ -32,7 +32,8 @@ const DEFAULT_OPTIONS: UseAnimatedCanvasOptions = {
   enableDebug: false,
   autoResetContext: true,
   resizeDelayMs: 200,
-  protectData: true
+  protectData: true,
+  clearEveryFrame: true
 }
 
 type InferPropsType<C extends Use2dAnimatedCanvasProps<any>> = C extends Use2dAnimatedCanvasProps<infer T> ? T : unknown
@@ -49,7 +50,7 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     renderForegroundFilter,
     renderForeground,
     postRenderTransform,
-    options = {},
+    options,
     renderEnvironmentLayer,
     renderGridLayer
   } = props
@@ -59,8 +60,9 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     enableDebug = DEFAULT_OPTIONS.enableDebug,
     autoResetContext = DEFAULT_OPTIONS.autoResetContext,
     resizeDelayMs = DEFAULT_OPTIONS.resizeDelayMs,
-    protectData = DEFAULT_OPTIONS.protectData
-  } = options
+    protectData = DEFAULT_OPTIONS.protectData,
+    clearEveryFrame = DEFAULT_OPTIONS.clearEveryFrame
+  } = options || {}
 
   const dataRef = useRef<InferPropsType<typeof props> | null>(initialData ?? null)
   const divRef = useRef<HTMLDivElement>(null)
@@ -154,7 +156,8 @@ const use2dAnimatedCanvas: <T extends string | number | boolean | object | undef
     onDraw: drawHandler,
     onPostDraw: postDrawHandler,
     renderEnvironmentLayer,
-    renderGridLayer
+    renderGridLayer,
+    autoClear: clearEveryFrame
   })
 
   // since the internal canvas is set to fill the parent container,

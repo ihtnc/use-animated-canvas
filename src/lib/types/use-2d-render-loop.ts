@@ -17,7 +17,8 @@ export type Use2DRenderLoopOptions = {
   onPostDraw?: PostDrawHandler,
   renderEnvironmentLayer?: RenderEnvironmentLayerValue,
   renderGridLayer?: RenderGridLayerValue,
-  maxFrame?: number
+  maxFrame?: number,
+  autoClear?: boolean
 }
 export type Use2DRenderLoopResponse = {
   ref: RefObject<HTMLCanvasElement>,

@@ -29,5 +29,6 @@ export const DEFAULT_OPTIONS: Use2DRenderLoopOptions = {
   autoStart: true,
   renderEnvironmentLayer: false,
   renderGridLayer: false,
-  maxFrame: Number.MAX_SAFE_INTEGER
+  maxFrame: Number.MAX_SAFE_INTEGER,
+  autoClear: true
 }

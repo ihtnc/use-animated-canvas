@@ -67,7 +67,7 @@ export const getRenderEnvironmentLayerHandler: (value?: RenderEnvironmentLayerVa
     return renderer
   }
 
-  const getCoordinates: (value: string, debugValue: DrawData, context: CanvasRenderingContext2D) => Coordinates = (value, debugValue, context) => {
+  const getCoordinates: (textDimension: Size, debugValue: DrawData) => Coordinates = (textDimension, debugValue) => {
     let { x, y } = options.location as Coordinates
     if (x !== undefined && y !== undefined
       && x >= 0 && x <= debugValue.width
@@ -75,7 +75,7 @@ export const getRenderEnvironmentLayerHandler: (value?: RenderEnvironmentLayerVa
       return {x, y}
     }
 
-    const { width, height } = getTextSize(context, value)
+    const { width, height } = textDimension
     const offSet = 10
     const leftX = 0 + offSet
     const topY = 0 + offSet + offSet
@@ -132,7 +132,10 @@ export const getRenderEnvironmentLayerHandler: (value?: RenderEnvironmentLayerVa
     const ratioText = options.renderPixelRatio ? `ratio: ${data.pixelRatio}; ` : ''
     const frameText = options.renderFrameNumber ? `frame: ${data.frame};` : ''
     const debugText = `${fpsText}${sizeText}${clientText}${ratioText}${frameText}`.trim()
-    const { x, y } = getCoordinates(debugText, data, context)
+    const textDimension = getTextSize(context, debugText)
+    const { x, y } = getCoordinates(textDimension, data)
+    const { width, height } = textDimension
+    context.clearRect(x, y-height, width, height)
     context.fillStyle = options.color!
     context.globalAlpha = options.opacity!
     context.fillText(debugText, x, y)

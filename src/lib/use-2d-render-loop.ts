@@ -24,7 +24,8 @@ const use2DRenderLoop = ({
   onPostDraw,
   renderEnvironmentLayer = DEFAULT_OPTIONS.renderEnvironmentLayer,
   renderGridLayer = DEFAULT_OPTIONS.renderGridLayer,
-  maxFrame = DEFAULT_OPTIONS.maxFrame
+  maxFrame = DEFAULT_OPTIONS.maxFrame,
+  autoClear = DEFAULT_OPTIONS.autoClear
 }: Use2DRenderLoopOptions): Use2DRenderLoopResponse => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { isDarkMode } = useDarkMode()
@@ -159,7 +160,7 @@ const use2DRenderLoop = ({
 
       state.current.hasInitialised = true
 
-      clearFrame()
+      if (autoClear === true) { clearFrame() }
 
       const renderData: DrawData = {
         frame: frameCounter.current.frameCount,
