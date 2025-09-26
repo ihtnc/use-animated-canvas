@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
-    "@ihtnc/use-animated-canvas": "^1.0.16",
+    "@ihtnc/use-animated-canvas": "^1.0.17",
     "highlight.js": "^11.11.1",
     "next": "^14.2.23",
     "react": "^18.3.1",
