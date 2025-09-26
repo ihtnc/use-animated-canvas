@@ -4,6 +4,7 @@ import GlobalFilters from './(usage)/global-filters/menu-item'
 import Filters from './(usage)/filters/menu-item'
 import Data from './(usage)/data/menu-item'
 import Transform from './(usage)/transform/menu-item'
+import KeepFrames from './(usage)/keep-frames/menu-item'
 
 import Focus from './(usage)/focus/menu-item'
 import Keyboard from './(usage)/keyboard/menu-item'
@@ -64,6 +65,7 @@ const getMenus = (): Array<MenuItem> => {
     Filters,
     Data,
     Transform,
+    KeepFrames,
 
     Focus,
     Keyboard,
